@@ -5,7 +5,7 @@
 ** Login   <verrier_g@epitech.eu>
 **
 ** Started on  Tue Jun 20 12:24:50 2017 Guillaume Verrier
-** Last update Tue Jun 20 15:07:31 2017 Guillaume Verrier
+** Last update Tue Jun 20 15:20:46 2017 Guillaume Verrier
 */
 
 #include "zappy.h"
@@ -16,6 +16,8 @@ t_player *create_player(int id, enum e_dir dir)
   t_player *player;
 
   if ((player = malloc(sizeof(t_player)) == NULL))
+    return (NULL);
+  if ((player->client = malloc(sizeof(t_player)) == NULL))
     return (NULL);
   a = 1;
   player->resources[0] = 10;
