@@ -5,7 +5,7 @@
 ** Login   <orafrost@epitech.net>
 **
 ** Started on  Mon Jun  5 15:09:26 2017 guillame verrier
-** Last update Mon Jun  5 15:42:20 2017 guillame verrier
+** Last update Tue Jun 20 14:14:15 2017 Guillaume Verrier
 */
 
 # ifndef ZAPPY_H_
@@ -22,12 +22,21 @@ enum e_resources
     Sibur = 3, Mendiane = 4, Phiras = 5, Thystame = 6
   };
 
+typedef struct s_action
+{
+  time_t        start;
+  float         dure;
+}               t_action;
+
 typedef struct s_player
 {
   int resources[7];
   int id;
+  int x;
+  int y;
+  t_action   action;
   enum e_dir _dir;
-}		t_player;
+}		          t_player;
 
 typedef struct  s_team
 {
@@ -45,7 +54,7 @@ typedef struct s_teamRoot
 {
   char		*name;
   t_team	*players;
-}		t_teamRoot;
+}		           t_teamRoot;
 
 typedef struct s_zappy
 {
