@@ -5,7 +5,7 @@
 ** Login   <orafrost@epitech.net>
 **
 ** Started on  Mon Jun  5 15:09:26 2017 guillame verrier
-** Last update Tue Jun 20 14:39:29 2017 Guillaume Verrier
+** Last update Tue Jun 20 15:59:13 2017 kerma
 */
 
 # ifndef ZAPPY_H_
@@ -51,7 +51,7 @@ typedef struct	s_player
   int		id;
   int		x;
   int		y;
-  t_tcp client;
+  t_tcp		client;
   t_action	action;
   enum e_dir	_dir;
 }		t_player;
@@ -83,5 +83,14 @@ typedef struct	s_zappy
   t_teamRoot	**teams;
   t_tile	**map;
 }		t_zappy;
+
+typedef struct	s_args
+{
+  char		*arg[6];
+  void		(*func[6])(t_zappy *, char **, int *);
+}		t_args;
+
+void	args(t_zappy *zappy, int ac, char **av);
+void	puterr(char *err);
 
 #endif

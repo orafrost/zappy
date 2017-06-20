@@ -5,12 +5,14 @@
 ## Login   <kerma@epitech.net>
 ##
 ## Started on  Tue Jun 20 14:17:36 2017 kerma
-## Last update Tue Jun 20 14:37:02 2017 Guillaume Verrier
+## Last update Tue Jun 20 16:00:14 2017 kerma
 ##
 
 NAME	= zappy_server
 
-SRCS	= main.c
+SRCS	= main.c	\
+	error.c		\
+	args/args.c
 
 OBJS	= $(SRCS:.c=.o)
 
