@@ -5,7 +5,7 @@
 ** Login   <orafrost@epitech.net>
 **
 ** Started on  Mon Jun  5 15:09:26 2017 guillame verrier
-** Last update Tue Jun 20 14:37:28 2017 Guillaume Verrier
+** Last update Tue Jun 20 14:39:29 2017 Guillaume Verrier
 */
 
 # ifndef ZAPPY_H_
@@ -18,7 +18,7 @@
 
 # define ERROR	(84)
 
-# include "zappy.h"
+# include "sock.h"
 
 typedef enum	e_dir
   {

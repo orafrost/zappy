@@ -5,7 +5,7 @@
 ## Login   <kerma@epitech.net>
 ##
 ## Started on  Tue Jun 20 14:17:36 2017 kerma
-## Last update Tue Jun 20 14:22:06 2017 kerma
+## Last update Tue Jun 20 14:37:02 2017 Guillaume Verrier
 ##
 
 NAME	= zappy_server
@@ -14,12 +14,12 @@ SRCS	= main.c
 
 OBJS	= $(SRCS:.c=.o)
 
-CFLAGS	+= -W -Wall -Werror -Wextra -I../../include
+CFLAGS	+= -W -Wall -Werror -Wextra -I../../include -I../../lib/sock/
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	gcc -o $(NAME) $(OBJS)
+	gcc -o $(NAME) $(OBJS) -L../../lib -lsock
 
 clean:
 	rm -f $(OBJS)
