@@ -5,7 +5,7 @@
 ** Login   <orafrost@epitech.net>
 **
 ** Started on  Mon Jun  5 15:09:26 2017 guillame verrier
-** Last update Tue Jun 20 15:05:59 2017 Guillaume Verrier
+** Last update Tue Jun 20 15:34:31 2017 Guillaume Verrier
 */
 
 # ifndef ZAPPY_H_
@@ -78,6 +78,7 @@ typedef struct	s_zappy
 {
   unsigned int	width;
   unsigned int	height;
+  t_tcp         *server;
   int		nb_teams;
   int		frequency;
   t_teamRoot	**teams;
