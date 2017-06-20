@@ -5,7 +5,7 @@
 ** Login   <orafrost@epitech.net>
 **
 ** Started on  Mon Jun  5 15:09:26 2017 guillame verrier
-** Last update Tue Jun 20 14:39:29 2017 Guillaume Verrier
+** Last update Tue Jun 20 15:05:59 2017 Guillaume Verrier
 */
 
 # ifndef ZAPPY_H_
@@ -51,7 +51,7 @@ typedef struct	s_player
   int		id;
   int		x;
   int		y;
-  t_tcp client;
+  t_tcp *client;
   t_action	action;
   enum e_dir	_dir;
 }		t_player;
