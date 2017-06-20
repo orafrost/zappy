@@ -5,22 +5,23 @@
 ** Login   <verrier_g@epitech.eu>
 **
 ** Started on  Tue Jun 20 12:24:50 2017 Guillaume Verrier
-** Last update Tue Jun 20 12:38:59 2017 Guillaume Verrier
+** Last update Tue Jun 20 15:07:31 2017 Guillaume Verrier
 */
 
 #include "zappy.h"
 
-t_player *create_player(int resources[7], int id, enum e_dir dir)
+t_player *create_player(int id, enum e_dir dir)
 {
   int      a;
   t_player *player;
 
   if ((player = malloc(sizeof(t_player)) == NULL))
     return (NULL);
-  a = 0;
+  a = 1;
+  player->resources[0] = 10;
   while (a < 7)
   {
-    player->resources[a] = resources[a];
+    player->resources[a] = 0;
     a += 1;
   }
   player->id = id;

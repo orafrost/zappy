@@ -5,7 +5,7 @@
 ** Login   <orafrost@epitech.net>
 **
 ** Started on  Mon Jun  5 15:09:26 2017 guillame verrier
-** Last update Tue Jun 20 15:59:13 2017 kerma
+** Last update Wed Jun 21 00:08:43 2017 kerma
 */
 
 # ifndef ZAPPY_H_
@@ -70,6 +70,8 @@ typedef struct	s_tile
 
 typedef struct	s_teamRoot
 {
+  int		nb;
+  int		max;
   char		*name;
   t_team	*players;
 }		t_teamRoot;
@@ -78,6 +80,7 @@ typedef struct	s_zappy
 {
   unsigned int	width;
   unsigned int	height;
+  t_tcp		*server;
   int		nb_teams;
   int		frequency;
   t_teamRoot	**teams;
@@ -86,11 +89,20 @@ typedef struct	s_zappy
 
 typedef struct	s_args
 {
+  int		nb;
+  int		done[6];
   char		*arg[6];
-  void		(*func[6])(t_zappy *, char **, int *);
+  void		(*func[6])(t_zappy *, char **, int *, int *);
 }		t_args;
 
-void	args(t_zappy *zappy, int ac, char **av);
+int	is_num(char *str);
 void	puterr(char *err);
+void	args(t_zappy *zappy, int ac, char **av);
+void	arg_port(t_zappy *zappy, char **av, int *i, int *nb);
+void	arg_width(t_zappy *zappy, char **av, int *i, int *nb);
+void	arg_height(t_zappy *zappy, char **av, int *i, int *nb);
+void    arg_names(t_zappy *zappy, char **av, int *i, int *nb);
+void	arg_clients(t_zappy *zappy, char **av, int *i, int *nb);
+void	arg_freq(t_zappy *zappy, char **av, int *i, int *nb);
 
 #endif
