@@ -5,7 +5,7 @@
 ** Login   <orafrost@epitech.net>
 **
 ** Started on  Mon Jun  5 15:09:26 2017 guillame verrier
-** Last update Tue Jun 20 14:25:39 2017 kerma
+** Last update Tue Jun 20 14:37:28 2017 Guillaume Verrier
 */
 
 # ifndef ZAPPY_H_
@@ -17,6 +17,8 @@
 # include <time.h>
 
 # define ERROR	(84)
+
+# include "zappy.h"
 
 typedef enum	e_dir
   {
@@ -49,6 +51,7 @@ typedef struct	s_player
   int		id;
   int		x;
   int		y;
+  t_tcp client;
   t_action	action;
   enum e_dir	_dir;
 }		t_player;
