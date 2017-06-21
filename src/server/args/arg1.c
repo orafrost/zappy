@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 20 16:43:48 2017 kerma
-** Last update Wed Jun 21 11:07:05 2017 kerma
+** Last update Wed Jun 21 15:07:35 2017 Guillaume Verrier
 */
 
 #include "zappy.h"
@@ -13,22 +13,21 @@
 void	arg_port(t_zappy *zappy, char **av, int *i, int *nb)
 {
   int	j;
-  
+
   (void)nb;
   j = *i + 1;
   if (av[j] == NULL || is_num(av[j]) == 1)
     puterr("Invalid '-p' argument.");
   if ((zappy->server = malloc(sizeof(t_tcp))) == NULL)
     puterr("Function 'malloc' failed.");
-  zappy->server->port = atoi(av[j]);
-  zappy->server->socket = 0;
+  zappy->port = atoi(av[j]);
   *i += 1;
 }
 
 void	arg_width(t_zappy *zappy, char **av, int *i, int *nb)
 {
   int	j;
-  
+
   (void)nb;
   j = *i + 1;
   if (av[j] == NULL || is_num(av[j]) == 1)
@@ -40,7 +39,7 @@ void	arg_width(t_zappy *zappy, char **av, int *i, int *nb)
 void	arg_height(t_zappy *zappy, char **av, int *i, int *nb)
 {
   int	j;
-  
+
   (void)nb;
   j = *i + 1;
   if (av[j] == NULL || is_num(av[j]) == 1)

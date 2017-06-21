@@ -5,7 +5,7 @@
 ** Login   <verrier_g@epitech.eu>
 **
 ** Started on  Tue Jun 20 14:30:24 2017 Guillaume Verrier
-** Last update Tue Jun 20 17:05:53 2017 Guillaume Verrier
+** Last update Wed Jun 21 15:24:32 2017 Guillaume Verrier
 */
 
 #include "zappy.h"
@@ -34,14 +34,14 @@ t_teamRoot *place_team(char buff[], t_zappy *game)
   int  a;
 
   a = 0;
-  while (a < nb_teams)
+  while (a < game->nb_teams)
   {
-    if (strcmp(games->teams[a]->name, buff) == 0)
+    if (strcmp(game->teams[a]->name, buff) == 0)
     {
-      if (games->teams[a]->nb > games->teams[a]->max)
+      if (game->teams[a]->nb > game->teams[a]->max)
         return (NULL);
-      games->teams[a]->nb += 1;
-      return (games->teams[a]);
+      game->teams[a]->nb += 1;
+      return (game->teams[a]);
     }
     a += 1;
   }
@@ -52,23 +52,23 @@ int start_echange(t_zappy *game, t_player *new)
 {
   char buff[1024];
   t_teamRoot *team;
-  int  a;
 
-  if (send(new->cient, "WELCOME\n", 8, 0) < 0)
+  if (send(new->client->socket, "WELCOME\n", 8, 0) < 0)
     return (-1);
-  if (recv(new->client, buff, 1024, 0) < 0)
-    return (NULL);
+  if (recv(new->client->socket, buff, 1024, 0) < 0)
+    return (-1);
   place_end(buff);
-  if ((team = find_team(buff, game)) == NULL)
+  if ((team = place_team(buff, game)) == NULL)
   {
-    if (send(new->cient, "KO\n", 4, 0) < 0)
+    if (send(new->client->socket, "KO\n", 4, 0) < 0)
       return (-1);
   }
-  team->player = add_elem(team->player, create_team_node(team->player, new));
+  team->players = add_elem(team->players, create_team_node(new));
   sprintf(buff, "%d\n", new->id);
-  if (send(new->cient, buff, strlen(buff), 0) < 0)
+  if (send(new->client->socket, buff, strlen(buff), 0) < 0)
     return (-1);
-  sprintf(buff, "%d %d\n", games->width, games->height);
-  if (send(new->cient, buff, strlen(buff), 0) < 0)
+  sprintf(buff, "%d %d\n", game->width, game->height);
+  if (send(new->client->socket, buff, strlen(buff), 0) < 0)
     return (-1);
+  return (0);
 }

@@ -5,7 +5,7 @@
 ** Login   <verrier_g@epitech.eu>
 **
 ** Started on  Tue Jun 20 12:24:50 2017 Guillaume Verrier
-** Last update Tue Jun 20 15:20:46 2017 Guillaume Verrier
+** Last update Wed Jun 21 15:18:23 2017 Guillaume Verrier
 */
 
 #include "zappy.h"
@@ -15,9 +15,9 @@ t_player *create_player(int id, enum e_dir dir)
   int      a;
   t_player *player;
 
-  if ((player = malloc(sizeof(t_player)) == NULL))
+  if ((player = malloc(sizeof(t_player))) == NULL)
     return (NULL);
-  if ((player->client = malloc(sizeof(t_player)) == NULL))
+  if ((player->client = malloc(sizeof(t_player))) == NULL)
     return (NULL);
   a = 1;
   player->resources[0] = 10;
@@ -35,7 +35,7 @@ t_team *create_team_node(t_player *player)
 {
   t_team *node;
 
-  if ((node = malloc(sizeof(t_team)) == NULL))
+  if ((node = malloc(sizeof(t_team))) == NULL)
     return (NULL);
   node->player = player;
   node->next = NULL;
