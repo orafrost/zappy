@@ -5,21 +5,22 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 20 16:46:47 2017 kerma
-** Last update Wed Jun 21 00:42:31 2017 kerma
+** Last update Wed Jun 21 11:19:34 2017 kerma
 */
 
 #include "zappy.h"
 
-static t_teamRoot	*init_team(char *name)
+static t_teamRoot	*init_team(char *name, int max)
 {
   t_teamRoot		*team;
 
   if ((team = malloc(sizeof(t_team))) == NULL)
     puterr("Function 'malloc' failed.");
   team->nb = 0;
-  team->max = 0;
-  team->name = strdup(name);
+  team->max = max;
   team->players = NULL;
+  if ((team->name = strdup(name)) == NULL)
+    puterr("Function 'strdup' failed.");
   return (team);
 }
 
@@ -51,7 +52,7 @@ void	arg_names(t_zappy *zappy, char **av, int *i, int *nb)
     puterr("Function 'malloc' failed.");
   while (k < zappy->nb_teams)
     {
-      zappy->teams[k++] = init_team(av[j++]);
+      zappy->teams[k++] = init_team(av[j++], *nb);
       *i += 1;
     }
   zappy->teams[k] = NULL;

@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 20 16:43:48 2017 kerma
-** Last update Wed Jun 21 00:13:37 2017 kerma
+** Last update Wed Jun 21 11:07:05 2017 kerma
 */
 
 #include "zappy.h"
@@ -21,6 +21,7 @@ void	arg_port(t_zappy *zappy, char **av, int *i, int *nb)
   if ((zappy->server = malloc(sizeof(t_tcp))) == NULL)
     puterr("Function 'malloc' failed.");
   zappy->server->port = atoi(av[j]);
+  zappy->server->socket = 0;
   *i += 1;
 }
 

@@ -5,42 +5,32 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 20 14:30:23 2017 kerma
-** Last update Wed Jun 21 00:37:44 2017 kerma
+** Last update Wed Jun 21 11:29:45 2017 kerma
 */
 
 #include "zappy.h"
 
-void	usage(FILE *stream, int ret)
+void		init_map(t_zappy *zappy)
 {
-  fprintf(stream, "USAGE: ./zappy_server -p port -x width -y height -n name1");
-  fprintf(stream, " name2 ...  -c clientsNb -f freq\n");
-  fprintf(stream, "\tport\t\tis the port number\n");
-  fprintf(stream, "\twidth\t\tis the width of the world\n");
-  fprintf(stream, "\theight\t\tis the height of the world\n");
-  fprintf(stream, "\tnameX\t\tis the name of the team X\n");
-  fprintf(stream, "\tclientsNb\tis the number of authorized clients per");
-  fprintf(stream, " team\n");
-  fprintf(stream, "\tfreq\t\tis the reciprocal of time unit for execution of");
-  fprintf(stream, " actions\n");
-  exit(ret);
-}
+  size_t	i;
+  size_t	j;
 
-void	arg_init(t_args *args)
-{
-  args->nb = 0;
-  args->arg[0] = "-p";
-  args->arg[1] = "-x";
-  args->arg[2] = "-y";
-  args->arg[3] = "-n";
-  args->arg[4] = "-c";
-  args->arg[5] = "-f";
-  memset(args->done, 0, 6);
-  args->func[0] = &arg_port;
-  args->func[1] = &arg_width;
-  args->func[2] = &arg_height;
-  args->func[3] = &arg_names;
-  args->func[4] = &arg_clients;
-  args->func[5] = &arg_freq;
+  i = 0;
+  if ((zappy->map = malloc((8 * zappy->height) + 1)) == NULL)
+    puterr("Function 'malloc' failed.");
+  while (i < zappy->height)
+    {
+      j = 0;
+      if ((zappy->map[i] = malloc(sizeof(t_tile) * zappy->width)) == NULL)
+	puterr("Function 'malloc' failed.");
+      while (j < zappy->width)
+	{
+	  memset(zappy->map[i][j].resources, 0, 7);
+	  zappy->map[i][j++].player = NULL;
+	}
+      i++;
+    }
+  zappy->map[i] = NULL;
 }
 
 void	arg_pars(t_zappy *zappy, char **av, t_args *args, int *i)
@@ -70,6 +60,7 @@ void		args(t_zappy *zappy, int ac, char **av)
   arg_init(&args);
   zappy->map = NULL;
   zappy->teams = NULL;
+  zappy->server = NULL;
   if (ac < 2)
     usage(stderr, ERROR);
   while (i < ac)
@@ -80,7 +71,7 @@ void		args(t_zappy *zappy, int ac, char **av)
 	arg_pars(zappy, av, &args, &i);
       i++;
     }
-  // TODO test if all arg was set
-  // TODO test args->nb
-  // TODO test malloc zappy->map
+  if (is_set(args) == 1)
+    puterr("Missing argument.");
+  init_map(zappy);
 }
