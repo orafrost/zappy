@@ -5,7 +5,7 @@
 ** Login   <orafrost@epitech.net>
 **
 ** Started on  Mon Jun  5 15:09:26 2017 guillame verrier
-** Last update Wed Jun 21 13:40:42 2017 kerma
+** Last update Wed Jun 21 16:31:39 2017 kerma
 */
 
 # ifndef ZAPPY_H_
@@ -39,8 +39,26 @@ typedef enum	e_resources
     Thystame = 6
   }		e_resources;
 
+typedef enum	e_action
+  {
+    MOVE = 0,
+    TURN_RIGHT = 1,
+    TURN_LEFT = 2,
+    LOOK = 3,
+    INVENTORY = 4,
+    BROADCAST = 5,
+    NB_TEAMS = 6,
+    FORK = 7,
+    EJECT = 8,
+    DEATH = 9,
+    TAKE = 10,
+    SET = 11,
+    START = 12    
+  }		e_action;
+
 typedef struct	s_action
 {
+  e_action	action;
   time_t	start;
   float		dure;
 }		t_action;
