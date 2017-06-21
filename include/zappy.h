@@ -5,7 +5,7 @@
 ** Login   <orafrost@epitech.net>
 **
 ** Started on  Mon Jun  5 15:09:26 2017 guillame verrier
-** Last update Wed Jun 21 11:14:39 2017 kerma
+** Last update Wed Jun 21 13:40:42 2017 kerma
 */
 
 # ifndef ZAPPY_H_
@@ -94,6 +94,8 @@ typedef struct	s_args
   char		*arg[6];
   void		(*func[6])(t_zappy *, char **, int *, int *);
 }		t_args;
+
+void	clean(t_zappy *zappy);
 
 int	is_num(char *str);
 int	is_set(t_args args);

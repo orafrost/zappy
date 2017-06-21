@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 20 14:30:23 2017 kerma
-** Last update Wed Jun 21 11:29:45 2017 kerma
+** Last update Wed Jun 21 13:17:55 2017 kerma
 */
 
 #include "zappy.h"
@@ -16,7 +16,7 @@ void		init_map(t_zappy *zappy)
   size_t	j;
 
   i = 0;
-  if ((zappy->map = malloc((8 * zappy->height) + 1)) == NULL)
+  if ((zappy->map = malloc(8 * (zappy->height + 1))) == NULL)
     puterr("Function 'malloc' failed.");
   while (i < zappy->height)
     {

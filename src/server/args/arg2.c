@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 20 16:46:47 2017 kerma
-** Last update Wed Jun 21 11:19:34 2017 kerma
+** Last update Wed Jun 21 13:17:24 2017 kerma
 */
 
 #include "zappy.h"
@@ -14,7 +14,7 @@ static t_teamRoot	*init_team(char *name, int max)
 {
   t_teamRoot		*team;
 
-  if ((team = malloc(sizeof(t_team))) == NULL)
+  if ((team = malloc(sizeof(t_teamRoot))) == NULL)
     puterr("Function 'malloc' failed.");
   team->nb = 0;
   team->max = max;
@@ -48,7 +48,7 @@ void	arg_names(t_zappy *zappy, char **av, int *i, int *nb)
     puterr("Invalid '-n' argument.");
   k = 0;
   get_nb_teams(zappy, av, j);
-  if ((zappy->teams = malloc((8 * zappy->nb_teams) + 1)) == NULL)
+  if ((zappy->teams = malloc(8 * (zappy->nb_teams + 1))) == NULL)
     puterr("Function 'malloc' failed.");
   while (k < zappy->nb_teams)
     {

@@ -5,12 +5,13 @@
 ## Login   <kerma@epitech.net>
 ##
 ## Started on  Tue Jun 20 14:17:36 2017 kerma
-## Last update Wed Jun 21 00:08:56 2017 kerma
+## Last update Wed Jun 21 13:42:48 2017 kerma
 ##
 
 NAME	= zappy_server
 
 SRCS	= main.c	\
+	free.c		\
 	args/misc.c	\
 	args/args.c	\
 	args/arg1.c	\
@@ -18,7 +19,12 @@ SRCS	= main.c	\
 
 OBJS	= $(SRCS:.c=.o)
 
-CFLAGS	+= -W -Wall -Werror -Wextra -I../../include -I../../lib/sock/
+CFLAGS	+= -W			\
+	-Wall			\
+	-Werror			\
+	-Wextra			\
+	-I../../include		\
+	-I../../lib/sock/	\
 
 all: $(NAME)
 
