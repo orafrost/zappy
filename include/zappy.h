@@ -5,7 +5,7 @@
 ** Login   <orafrost@epitech.net>
 **
 ** Started on  Mon Jun  5 15:09:26 2017 guillame verrier
-** Last update Wed Jun 21 13:40:42 2017 kerma
+** Last update Wed Jun 21 15:18:38 2017 Guillaume Verrier
 */
 
 # ifndef ZAPPY_H_
@@ -14,6 +14,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <string.h>
 # include <time.h>
 
 # define ERROR	(84)
@@ -51,7 +52,7 @@ typedef struct	s_player
   int		id;
   int		x;
   int		y;
-  t_tcp		client;
+  t_tcp		*client;
   t_action	action;
   enum e_dir	_dir;
 }		t_player;
@@ -81,6 +82,7 @@ typedef struct	s_zappy
   unsigned int	width;
   unsigned int	height;
   t_tcp		*server;
+  int    port;
   int		nb_teams;
   int		frequency;
   t_teamRoot	**teams;
@@ -96,6 +98,16 @@ typedef struct	s_args
 }		t_args;
 
 void	clean(t_zappy *zappy);
+
+int main_loop(t_zappy *game);
+int hand_connection(t_tcp *server, t_player *player);
+int start_echange(t_zappy *game, t_player *);
+
+t_player *create_player(int id, enum e_dir dir);
+t_team *create_team_node(t_player *player);
+t_team *add_elem(t_team *start, t_team *node);
+void free_team(t_team *node);
+t_team *del_elem(t_team *start, t_team *elem);
 
 int	is_num(char *str);
 int	is_set(t_args args);
