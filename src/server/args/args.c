@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 20 14:30:23 2017 kerma
-** Last update Wed Jun 21 13:17:55 2017 kerma
+** Last update Wed Jun 21 15:03:04 2017 Guillaume Verrier
 */
 
 #include "zappy.h"
@@ -25,7 +25,7 @@ void		init_map(t_zappy *zappy)
 	puterr("Function 'malloc' failed.");
       while (j < zappy->width)
 	{
-	  memset(zappy->map[i][j].resources, 0, 7);
+	  memset(zappy->map[i][j].resources, 0, 7 * sizeof(int));
 	  zappy->map[i][j++].player = NULL;
 	}
       i++;

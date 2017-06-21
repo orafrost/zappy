@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 20 16:38:28 2017 kerma
-** Last update Wed Jun 21 11:15:49 2017 kerma
+** Last update Wed Jun 21 15:02:25 2017 Guillaume Verrier
 */
 
 #include "zappy.h"
@@ -43,7 +43,7 @@ int	is_set(t_args args)
   return (0);
 }
 
-void	usage(FILE *stream, int ret)  
+void	usage(FILE *stream, int ret)
 {
   fprintf(stream, "USAGE: ./zappy_server -p port -x width -y height -n name1");
   fprintf(stream, " name2 ...  -c clientsNb -f freq\n");
@@ -67,7 +67,7 @@ void	arg_init(t_args *args)
   args->arg[3] = "-n";
   args->arg[4] = "-c";
   args->arg[5] = "-f";
-  memset(args->done, 0, 6);
+  memset(args->done, 0, 6 * sizeof(int));
   args->func[0] = &arg_port;
   args->func[1] = &arg_width;
   args->func[2] = &arg_height;
