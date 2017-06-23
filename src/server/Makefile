@@ -5,7 +5,7 @@
 ## Login   <kerma@epitech.net>
 ##
 ## Started on  Tue Jun 20 14:17:36 2017 kerma
-## Last update Wed Jun 21 13:42:48 2017 kerma
+## Last update Fri Jun 23 16:06:43 2017 kerma
 ##
 
 NAME	= zappy_server
@@ -25,6 +25,7 @@ CFLAGS	+= -W			\
 	-Wextra			\
 	-I../../include		\
 	-I../../lib/sock/	\
+	-g3
 
 all: $(NAME)
 

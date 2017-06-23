@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 20 14:30:23 2017 kerma
-** Last update Wed Jun 21 15:03:04 2017 Guillaume Verrier
+** Last update Fri Jun 23 16:03:40 2017 kerma
 */
 
 #include "zappy.h"
@@ -33,6 +33,25 @@ void		init_map(t_zappy *zappy)
   zappy->map[i] = NULL;
 }
 
+void	init_default(t_zappy *zappy)
+{  
+  zappy->port = 4242;
+  zappy->width = 10;
+  zappy->height = 10;
+  zappy->nb_teams = 4;
+  zappy->frequency = 100;
+  init_map(zappy);
+  if ((zappy->server = malloc(sizeof(t_tcp))) == NULL)
+    puterr("Function 'malloc' failed.");
+  if ((zappy->teams = malloc(8 * (zappy->nb_teams + 1))) == NULL)
+    puterr("Function 'malloc' failed.");
+  zappy->teams[0] = init_team("Team1");
+  zappy->teams[1] = init_team("Team2");
+  zappy->teams[2] = init_team("Team3");
+  zappy->teams[3] = init_team("Team4");
+  zappy->teams[4] = NULL;
+}
+
 void	arg_pars(t_zappy *zappy, char **av, t_args *args, int *i)
 {
   int	k;
@@ -43,12 +62,28 @@ void	arg_pars(t_zappy *zappy, char **av, t_args *args, int *i)
       if (strcmp(av[*i], args->arg[k]) == 0)
 	{
 	  args->func[k](zappy, av, i, &args->nb);
-	  args->done[k] = 1;
 	  return ;
 	}
       k++;
     }
   puterr("Unknown argument.");
+}
+
+void	update_zappy(t_zappy *zappy, int nb)
+{
+  int	i;
+
+  if (zappy->width != 10 || zappy->height != 10)
+    {
+      free_map(zappy, 10);
+      init_map(zappy);
+    }
+  if (nb != -1)
+    {
+      i = 0;
+      while (zappy->teams[i] != NULL)
+	zappy->teams[i++]->max = nb;
+    }
 }
 
 void		args(t_zappy *zappy, int ac, char **av)
@@ -58,20 +93,14 @@ void		args(t_zappy *zappy, int ac, char **av)
 
   i = 1;
   arg_init(&args);
-  zappy->map = NULL;
-  zappy->teams = NULL;
-  zappy->server = NULL;
-  if (ac < 2)
-    usage(stderr, ERROR);
+  init_default(zappy);
   while (i < ac)
     {
       if (strcmp(av[i], "-help") == 0)
-	usage(stdin, 0);
+	usage();
       else
 	arg_pars(zappy, av, &args, &i);
       i++;
     }
-  if (is_set(args) == 1)
-    puterr("Missing argument.");
-  init_map(zappy);
+  update_zappy(zappy, args.nb);
 }
