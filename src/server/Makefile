@@ -5,16 +5,20 @@
 ## Login   <kerma@epitech.net>
 ##
 ## Started on  Tue Jun 20 14:17:36 2017 kerma
-## Last update Fri Jun 23 16:06:43 2017 kerma
+## Last update Sat Jun 24 17:08:02 2017 kerma
 ##
 
 NAME	= zappy_server
 
-SRCS	= main.c	\
-	free.c		\
-	args/misc.c	\
-	args/args.c	\
-	args/arg1.c	\
+SRCS	= main.c		\
+	list.c			\
+	free.c			\
+	main_loop.c		\
+	hand_connection.c	\
+	args/misc.c		\
+	args/init.c		\
+	args/args.c		\
+	args/arg1.c		\
 	args/arg2.c
 
 OBJS	= $(SRCS:.c=.o)

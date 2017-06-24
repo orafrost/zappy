@@ -5,17 +5,17 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Wed Jun 21 13:40:12 2017 kerma
-** Last update Fri Jun 23 15:56:34 2017 kerma
+** Last update Sat Jun 24 17:38:45 2017 kerma
 */
 
 #include "zappy.h"
 
-void	free_map(t_zappy *zappy, int height)
+void		free_map(t_zappy *zappy)
 {
-  int	i;
+  size_t	i;
 
   i = 0;
-  while (i < height)
+  while (i < zappy->height)
     {
       if (zappy->map[i] != NULL)
 	free(zappy->map[i]);
@@ -25,16 +25,26 @@ void	free_map(t_zappy *zappy, int height)
     free(zappy->map);
 }
 
-void	free_teams(t_zappy *zappy)
+void		free_teams(t_zappy *zappy)
 {
-  int	i;
+  t_team	*elem;
+  int		i;
 
   i = 0;
   while (i < zappy->nb_teams)
     {
+      // TODO
+      /* if (zappy->teams[i]->players) */
+      /* 	{ */
+      /* 	  while (zappy->teams[i]->players != NULL) */
+      /* 	    { */
+      /* 	      elem = zappy->teams[i]->players; */
+      /* 	      zappy->teams[i]->players = zappy->teams[i]->players->next; */
+      /* 	      free_team(elem); */
+      /* 	    } */
+      /* 	} */
       if (zappy->teams[i]->name != NULL)
 	free(zappy->teams[i]->name);
-      // TODO free_team(zappy->teams[i]->players)
       if (zappy->teams[i] != NULL)
 	free(zappy->teams[i]);
       i++;
@@ -50,5 +60,5 @@ void	clean(t_zappy *zappy)
   if (zappy->teams != NULL)
     free_teams(zappy);
   if (zappy->map != NULL)
-    free_map(zappy, zappy->height);
+    free_map(zappy);
 }
