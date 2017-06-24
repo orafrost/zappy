@@ -5,24 +5,10 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 20 16:46:47 2017 kerma
-** Last update Fri Jun 23 15:51:16 2017 kerma
+** Last update Sat Jun 24 16:37:12 2017 kerma
 */
 
 #include "zappy.h"
-
-t_teamRoot	*init_team(char *name)
-{
-  t_teamRoot	*team;
-
-  if ((team = malloc(sizeof(t_teamRoot))) == NULL)
-    puterr("Function 'malloc' failed.");
-  team->nb = 0;
-  team->max = 3;
-  team->players = NULL;
-  if ((team->name = strdup(name)) == NULL)
-    puterr("Function 'strdup' failed.");
-  return (team);
-}
 
 void	get_nb_teams(t_zappy *zappy, char **av, int i)
 {
@@ -37,24 +23,26 @@ void	get_nb_teams(t_zappy *zappy, char **av, int i)
   zappy->nb_teams = nb;
 }
 
-void	arg_names(t_zappy *zappy, char **av, int *i, int *nb)
+int	arg_names(t_zappy *zappy, char **av, int *i, int *nb)
 {
   int	j;
   int	k;
 
-  k = 0;
   (void)nb;
+  k = 0;
   j = *i + 1;
   if (av[j] == NULL)
-    puterr("Invalid '-n' argument.");
+    return (puterr("Invalid '-n' argument."));
   free_teams(zappy);
   get_nb_teams(zappy, av, j);
   if ((zappy->teams = malloc(8 * (zappy->nb_teams + 1))) == NULL)
-    puterr("Function 'malloc' failed.");
+    return (puterr("Function 'malloc' failed."));
   while (k < zappy->nb_teams)
     {
-      zappy->teams[k++] = init_team(av[j++]);
+      if ((zappy->teams[k++] = team_init(av[j++])) == NULL)
+	return (ERROR);
       *i += 1;
     }
   zappy->teams[k] = NULL;
+  return (0);
 }

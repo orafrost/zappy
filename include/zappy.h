@@ -5,7 +5,7 @@
 ** Login   <orafrost@epitech.net>
 **
 ** Started on  Mon Jun  5 15:09:26 2017 guillame verrier
-** Last update Fri Jun 23 16:13:21 2017 kerma
+** Last update Sat Jun 24 17:07:08 2017 kerma
 */
 
 # ifndef ZAPPY_H_
@@ -13,13 +13,18 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdio.h>
 # include <string.h>
+# include <signal.h>
+# include <stdio.h>
 # include <time.h>
 
 # include "sock.h"
 
 # define ERROR	(84)
+# define STOP   (1)
+# define RUN    (0)
+
+extern int      g_state;
 
 typedef enum	e_dir
   {
@@ -111,11 +116,11 @@ typedef struct	s_args
 {
   int		nb;
   char		*arg[6];
-  void		(*func[6])(t_zappy *, char **, int *, int *);
+  int		(*func[6])(t_zappy *, char **, int *, int *);
 }		t_args;
 
 void		clean(t_zappy *zappy);
-void		free_map(t_zappy *zappy, int height);
+void		free_map(t_zappy *zappy);
 void		free_teams(t_zappy *zappy);
 
 int		main_loop(t_zappy *game);
@@ -130,15 +135,18 @@ t_team		*del_elem(t_team *start, t_team *elem);
 
 void		usage();
 int		is_num(char *str);
-void		puterr(char *err);
-void		args(t_zappy *zappy, int ac, char **av);
+int		puterr(char *err);
+void		*pputerr(char *err);
+int		args(t_zappy *zappy, int ac, char **av);
+int		arg_port(t_zappy *zappy, char **av, int *i, int *nb);
+int		arg_width(t_zappy *zappy, char **av, int *i, int *nb);
+int		arg_height(t_zappy *zappy, char **av, int *i, int *nb);
+int		arg_names(t_zappy *zappy, char **av, int *i, int *nb);
+int		arg_clients(t_zappy *zappy, char **av, int *i, int *nb);
+int		arg_freq(t_zappy *zappy, char **av, int *i, int *nb);
 void		arg_init(t_args *args);
-void		arg_port(t_zappy *zappy, char **av, int *i, int *nb);
-void		arg_width(t_zappy *zappy, char **av, int *i, int *nb);
-void		arg_height(t_zappy *zappy, char **av, int *i, int *nb);
-void		arg_names(t_zappy *zappy, char **av, int *i, int *nb);
-void		arg_clients(t_zappy *zappy, char **av, int *i, int *nb);
-void		arg_freq(t_zappy *zappy, char **av, int *i, int *nb);
-t_teamRoot	*init_team(char *name);
+int		map_init(t_zappy *zappy);
+int		default_init(t_zappy *zappy);
+t_teamRoot	*team_init(char *name);
 
 #endif
