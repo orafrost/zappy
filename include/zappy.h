@@ -5,7 +5,7 @@
 ** Login   <orafrost@epitech.net>
 **
 ** Started on  Mon Jun  5 15:09:26 2017 guillame verrier
-** Last update Sat Jun 24 17:07:08 2017 kerma
+** Last update Mon Jun 26 15:06:51 2017 kerma
 */
 
 # ifndef ZAPPY_H_
@@ -112,6 +112,8 @@ typedef struct	s_zappy
   t_tile	**map;
 }		t_zappy;
 
+typedef int (*cmd_ptr)(t_zappy *, t_player *);
+
 typedef struct	s_args
 {
   int		nb;
@@ -148,5 +150,9 @@ void		arg_init(t_args *args);
 int		map_init(t_zappy *zappy);
 int		default_init(t_zappy *zappy);
 t_teamRoot	*team_init(char *name);
+
+int		intlen(int nb);
+int		nb_teams(t_zappy *zappy, t_player *player);
+t_teamRoot	*find_team(t_zappy *zappy, t_player *player);
 
 #endif

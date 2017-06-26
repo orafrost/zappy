@@ -5,7 +5,7 @@
 ** Login   <verrier_g@epitech.eu>
 **
 ** Started on  Tue Jun 20 15:22:04 2017 Guillaume Verrier
-** Last update Sat Jun 24 17:38:33 2017 kerma
+** Last update Mon Jun 26 14:38:16 2017 kerma
 */
 
 #include "zappy.h"
@@ -18,12 +18,20 @@ void	handler(int sig)
     g_state = STOP;
 }
 
+void	init_cmds(cmd_ptr cmds[])
+{
+  cmds[0] = &nb_teams;
+  cmds[1] = NULL;
+}
+
 int		main_loop(t_zappy *game)
 {
   t_player	*temp;
+  cmd_ptr	cmds[2];
   /* int		id; */
 
   /* id = 0; */
+  init_cmds(cmds);
   signal(SIGINT, &handler);
   /* temp = create_player(id, UP); */
   if (init_serveur_tcp(game->server, game->nb_teams * game->teams[0]->max,

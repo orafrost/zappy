@@ -5,7 +5,7 @@
 ** Login   <verrier_g@epitech.eu>
 **
 ** Started on  Tue Jun 20 12:24:50 2017 Guillaume Verrier
-** Last update Wed Jun 21 15:18:23 2017 Guillaume Verrier
+** Last update Mon Jun 26 15:47:34 2017 kerma
 */
 
 #include "zappy.h"
@@ -58,14 +58,14 @@ t_team *del_elem(t_team *start, t_team *elem)
 {
   t_team *temp;
 
+  if (start == NULL)
+    return (NULL);
   if (start == elem)
   {
     temp = start->next;
     free_team(start);
     return (temp);
   }
-  if (start == NULL)
-    return (NULL);
   while (start->next != elem && start->next != NULL)
   {
     start = start->next;

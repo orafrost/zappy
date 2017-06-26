@@ -1,0 +1,26 @@
+/*
+** nb_teams.c for zappy in /home/kerma/Projets/Epitech/PSU/zappy/src/server/cmd
+**
+** Made by kerma
+** Login   <kerma@epitech.net>
+**
+** Started on  Sun Jun 25 17:24:06 2017 kerma
+** Last update Mon Jun 26 14:34:44 2017 kerma
+*/
+
+#include "zappy.h"
+
+int	nb_teams(t_zappy *zappy, t_player *player)
+{
+  char	*msg;
+  int	size;
+
+  size = intlen(player->max);
+  if ((msg = malloc(size + 1)) == NULL)
+    return (puterr("Function 'malloc' failed."));
+  memset(msg, 0, size + 1);
+  sprintf(msg, "%d\n", player->max);
+  send(player->client->socket, msg, size, 0);
+  free(msg);
+  return (0);
+}

@@ -5,7 +5,7 @@
 ## Login   <kerma@epitech.net>
 ##
 ## Started on  Tue Jun 20 14:17:36 2017 kerma
-## Last update Sat Jun 24 17:08:02 2017 kerma
+## Last update Mon Jun 26 14:54:21 2017 kerma
 ##
 
 NAME	= zappy_server
@@ -15,6 +15,8 @@ SRCS	= main.c		\
 	free.c			\
 	main_loop.c		\
 	hand_connection.c	\
+	cmd/nb_teams.c		\
+	cmd/utils.c		\
 	args/misc.c		\
 	args/init.c		\
 	args/args.c		\
