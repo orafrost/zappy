@@ -5,7 +5,7 @@
 ** Login   <orafrost@epitech.net>
 **
 ** Started on  Mon Jun  5 15:09:26 2017 guillame verrier
-** Last update Sat Jun 24 17:07:08 2017 kerma
+** Last update Mon Jun 26 14:43:04 2017 Guillaume Verrier
 */
 
 # ifndef ZAPPY_H_
@@ -59,7 +59,7 @@ typedef enum	e_action
     DEATH	= 9,
     TAKE	= 10,
     SET		= 11,
-    START	= 12    
+    START	= 12
   }		e_action;
 
 typedef struct	s_action
@@ -73,6 +73,7 @@ typedef struct	s_player
 {
   int		resources[7];
   int		id;
+  int   level;
   int		x;
   int		y;
   t_tcp		*client;
@@ -133,6 +134,11 @@ t_team		*add_elem(t_team *start, t_team *node);
 void		free_team(t_team *node);
 t_team		*del_elem(t_team *start, t_team *elem);
 
+void get_vector(t_player *cur, int *vx, int *vy);
+void move_up(t_zappy *game, t_player *cur);
+void turn_right(t_zappy *game, t_player *cur);
+void turn_left(t_zappy *game, t_player *cur);
+t_tile *get_tile(t_zappy *game, int pos[2]);
 void		usage();
 int		is_num(char *str);
 int		puterr(char *err);
