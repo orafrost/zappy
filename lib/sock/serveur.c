@@ -5,7 +5,7 @@
 ** Login   <verrie_g@epitech.net>
 **
 ** Started on  Tue Jun 14 15:43:52 2016 guillaume verrier
-** Last update Mon May  8 13:16:51 2017 guillame verrier
+** Last update Mon Jun 26 17:03:06 2017 Guillaume Verrier
 */
 
 #include "sock.h"
@@ -38,13 +38,13 @@ int	init_serveur_tcp(t_tcp *serveur, int nb_co, int port)
   return (0);
 }
 
-int	connect_client(t_tcp *client, t_tcp *serveur)
+int	connect_client(t_tcp *client, t_tcp *serveur, int flags)
 {
   int	size;
 
   size = sizeof(client->sin);
-  client->socket = accept(serveur->socket,
-			  (struct sockaddr *)&client->sin, (socklen_t *)&size);
+  client->socket = accept4(serveur->socket,
+			  (struct sockaddr *)&client->sin, (socklen_t *)&size, flags);
   if (client->socket == -1)
     {
       write(2, "error connection to client\n", 27);

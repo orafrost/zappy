@@ -5,7 +5,7 @@
 ** Login   <verrie_g@epitech.net>
 **
 ** Started on  Wed Jun 15 15:54:01 2016 guillaume verrier
-** Last update Mon May  8 13:17:06 2017 guillame verrier
+** Last update Mon Jun 26 17:03:02 2017 Guillaume Verrier
 */
 
 #ifndef _SOCK_H_
@@ -33,6 +33,6 @@ void my_send(t_tcp *socket, char *msg);
 void close_socket(t_tcp *socket);
 int	connection_serveur_tcp(t_tcp *client, char *ip, int port);
 int	init_serveur_tcp(t_tcp *serveur, int nb_co, int port);
-int	connect_client(t_tcp *client, t_tcp *serveur);
+int	connect_client(t_tcp *client, t_tcp *serveur, int);
 
 #endif /* _SOCK_H_ */
