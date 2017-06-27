@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Wed Jun 21 13:40:12 2017 kerma
-** Last update Tue Jun 27 19:15:52 2017 kerma
+** Last update Tue Jun 27 20:25:27 2017 kerma
 */
 
 #include "zappy.h"
@@ -35,8 +35,8 @@ void		free_teams(t_zappy *zappy)
       if (zappy->teams[i]->players != NULL)
       	{
 	  while (zappy->teams[i]->players != NULL)
-	   zappy->teams[i]->players = del_elem(zappy->teams[i]->players,
-					       &zappy->teams[i]->players);
+	    zappy->teams[i]->players = del_elem(zappy->teams[i]->players,
+						&zappy->teams[i]->players);
       	}
       if (zappy->teams[i]->name != NULL)
 	free(zappy->teams[i]->name);

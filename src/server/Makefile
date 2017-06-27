@@ -5,7 +5,7 @@
 ## Login   <kerma@epitech.net>
 ##
 ## Started on  Tue Jun 20 14:17:36 2017 kerma
-## Last update Tue Jun 27 16:26:45 2017 kerma
+## Last update Tue Jun 27 21:07:55 2017 kerma
 ##
 
 NAME	= zappy_server
@@ -24,6 +24,7 @@ SRCS	= main.c		\
 	sock/wait.c		\
 	sock/buffer.c		\
 	sock/client.c		\
+	sock/graphic.c		\
 	cmd/utils.c		\
 	cmd/nb_teams.c
 

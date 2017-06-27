@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Mon Jun 26 22:13:34 2017 kerma
-** Last update Mon Jun 26 22:44:19 2017 kerma
+** Last update Tue Jun 27 20:27:08 2017 kerma
 */
 
 #include "zappy.h"
@@ -15,9 +15,9 @@ static t_buffer	*init_msg(char *msg)
   t_buffer	*new;
 
   if ((new = malloc(sizeof(t_buffer))) == NULL)
-    return (NULL);
+    return (pputerr("Function \'malloc\' failed."));
   if ((new->msg = strdup(msg)) == NULL)
-    return (NULL);
+    return (pputerr("Function \'strdup\' failed."));
   new->next = NULL;
   return (new);
 }
@@ -46,7 +46,7 @@ int		add_msg(t_buffer **buffer, char *msg)
   t_buffer	*new;
 
   if ((new = init_msg(msg)) == NULL)
-    return (puterr("Out of memory."));
+    return (ERROR);
   if (*buffer == NULL)
     {
       *buffer = new;

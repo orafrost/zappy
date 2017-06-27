@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Mon Jun 26 23:47:11 2017 kerma
-** Last update Tue Jun 27 19:12:00 2017 kerma
+** Last update Tue Jun 27 21:19:28 2017 kerma
 */
 
 #include "zappy.h"
@@ -44,35 +44,35 @@ int	cmd_parser(t_zappy *zappy, t_player *player, char buff[])
   return (0);
 }
 
-int	client_read(t_zappy *zappy, t_team **c, int team_id)
+int		client_read(t_zappy *zappy, t_team **player, int team_id)
 {
-  char	buff[1024];
+  char		buff[1024];
 
-  (void)zappy;
-  if (*c == NULL)
+  if (*player == NULL)
     return (0);
   memset(buff, 0, 1024);
-  if (recv((*c)->player->client->fd, buff, 1024, 0) <= 0)
+  if (recv((*player)->player->client->fd, buff, 1024, 0) <= 0)
     {
-      close((*c)->player->client->fd);
-      zappy->teams[team_id]->players = del_elem(zappy->teams[team_id]->players, c);
+      zappy->teams[team_id]->nb--;
+      close((*player)->player->client->fd);
+      zappy->teams[team_id]->players =
+	del_elem(zappy->teams[team_id]->players, player);
       return (0);
     }
   place_end(buff);
-  if (cmd_parser(zappy, (*c)->player, buff) == ERROR)
+  if (cmd_parser(zappy, (*player)->player, buff) == ERROR)
     return (ERROR);
   return (0);
 }
 
-int	client_write(t_zappy *zappy, t_team **c, int team_id)
+void		client_write(t_team *player)
 {
-  (void)zappy;
-  (void)team_id;
-  // TODO identify cmd with more than one line and send all necessary lines
-  if (*c != NULL && (*c)->player->client->out != NULL)
+  t_tcp		*conn;
+
+  conn = player->player->client;
+  if (player != NULL && conn->out != NULL)
     {
-      dprintf((*c)->player->client->fd, "%s\n", (*c)->player->client->out->msg);
-      del_msg(&(*c)->player->client->out);
+      dprintf(conn->fd, "%s\n", conn->out->msg);
+      del_msg(&conn->out);
     }
-  return (0);
 }

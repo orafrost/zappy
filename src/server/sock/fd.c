@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Mon Jun 26 21:10:38 2017 kerma
-** Last update Tue Jun 27 19:29:07 2017 kerma
+** Last update Tue Jun 27 21:07:33 2017 kerma
 */
 
 #include "zappy.h"
@@ -31,9 +31,9 @@ static int	set_fd_waiting(t_zappy *zappy)
   return (max);
 }
 
-static int		isset_fd_waiting(t_zappy *zappy)
+static int	isset_fd_waiting(t_zappy *zappy)
 {
-  int	i;
+  int		i;
 
   i = 0;
   while (i < MAX)
@@ -54,7 +54,7 @@ static int		isset_fd_waiting(t_zappy *zappy)
 
 int		isset_fd(t_zappy *zappy)
 {
-  t_team	*team;
+  t_team	*tmp;
   int		i;
 
   i = 0;
@@ -63,17 +63,16 @@ int		isset_fd(t_zappy *zappy)
     return (ERROR);
   while (i < zappy->nb_teams)
     {
-      team = zappy->teams[i]->players;
-      while (team != NULL)
+      tmp = zappy->teams[i]->players;
+      while (tmp != NULL)
 	{
-	  if (FD_ISSET(team->player->client->fd, &zappy->fd_write) &&
-	      team->player->client->fct_write(zappy, &team, i) == ERROR)
+	  if (FD_ISSET(tmp->player->client->fd, &zappy->fd_write))
+	    client_write(tmp);
+	  if (FD_ISSET(tmp->player->client->fd, &zappy->fd_read) &&
+	      client_read(zappy, &tmp, i) == ERROR)
 	    return (ERROR);
-	  if (FD_ISSET(team->player->client->fd, &zappy->fd_read) &&
-	      team->player->client->fct_read(zappy, &team, i) == ERROR)
-	    return (ERROR);
-	  if (team != NULL)
-	    team = team->next;
+	  if (tmp != NULL)
+	    tmp = tmp->next;
 	}
       i++;
     }
@@ -84,8 +83,8 @@ int		isset_fd(t_zappy *zappy)
 
 int		set_fd(t_zappy *zappy)
 {
-  t_team	*team;
-  int		tmp;
+  t_team	*tmp;
+  int		ret;
   int		max;
   int		i;
 
@@ -94,18 +93,18 @@ int		set_fd(t_zappy *zappy)
   FD_SET(zappy->server->fd, &zappy->fd_read);
   while (i < zappy->nb_teams)
     {
-      team = zappy->teams[i]->players;
-      while (team != NULL)
+      tmp = zappy->teams[i]->players;
+      while (tmp != NULL)
 	{
-	  if (team->player->client->fd > max)
-	    max = team->player->client->fd;
-	  FD_SET(team->player->client->fd, &zappy->fd_read);
-	  FD_SET(team->player->client->fd, &zappy->fd_write);
-	  team = team->next;
+	  if (tmp->player->client->fd > max)
+	    max = tmp->player->client->fd;
+	  FD_SET(tmp->player->client->fd, &zappy->fd_read);
+	  FD_SET(tmp->player->client->fd, &zappy->fd_write);
+	  tmp = tmp->next;
 	}
       i++;
     }
-  if ((tmp = set_fd_waiting(zappy)) > max)
-    max = tmp;
+  if ((ret = set_fd_waiting(zappy)) > max)
+    max = ret;
   return (max);
 }

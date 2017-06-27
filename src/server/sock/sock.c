@@ -5,31 +5,32 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Mon Jun 26 18:57:37 2017 kerma
-** Last update Tue Jun 27 15:15:06 2017 kerma
+** Last update Tue Jun 27 20:53:58 2017 kerma
 */
 
 #include "zappy.h"
 
-static int	close_leave(int fd)
+static int	close_leave(int fd, char *err)
 {
   close(fd);
-  return (ERROR);
+  return (puterr(err));
 }
 
 static int		init_socket(t_tcp *tcp, struct sockaddr_in *s_in,
-				    int port, char *ip)
+				    int port)
 {
   struct protoent	*pe;
 
   s_in->sin_family = AF_INET;
   s_in->sin_port = htons(port);
-  s_in->sin_addr.s_addr = (ip == NULL) ? INADDR_ANY : inet_addr(ip);
+  s_in->sin_addr.s_addr = INADDR_ANY;
   if ((pe = getprotobyname("TCP")) == NULL)
     return (ERROR);
   if ((tcp->fd = socket(PF_INET, SOCK_STREAM, pe->p_proto)) == -1)
     return (ERROR);
-  if (setsockopt(tcp->fd, SOL_SOCKET, SO_REUSEADDR, &(int){1}, sizeof(int)) == -1)
-    return (close_leave(tcp->fd));
+  if (setsockopt(tcp->fd, SOL_SOCKET, SO_REUSEADDR,
+		 &(int){1}, sizeof(int)) == -1)
+    return (close_leave(tcp->fd, "Function \'setsockopt\' failed."));
   return (0);
 }
 
@@ -49,9 +50,9 @@ int			add_client(t_zappy *zappy)
       close(fd);
       return (0);
     }
-  if ((zappy->waiting[fd] = init_tcp(zappy->waiting[fd], fd, WAITING)) == NULL)
+  if ((zappy->waiting[fd] = init_tcp(zappy->waiting[fd], fd)) == NULL)
     return (ERROR);
-  dprintf(fd, "WELCOME\n");
+  add_msg(&zappy->waiting[fd]->out, "WELCOME");
   return (0);
 }
 
@@ -59,14 +60,11 @@ int			init_server(t_tcp *tcp, int port)
 {
   struct sockaddr_in	s_in;
   
-  if (init_socket(tcp, &s_in, port, NULL) == ERROR)
+  if (init_socket(tcp, &s_in, port) == ERROR)
     return (ERROR);
   if (bind(tcp->fd, (const struct sockaddr *)&s_in, sizeof(s_in)) == -1)
-    return (close_leave(tcp->fd));
+    return (close_leave(tcp->fd, "Function \'bind\' failed."));
   if (listen(tcp->fd, MAX) == -1)
-    return (close_leave(tcp->fd));
-  tcp->out = NULL;
-  tcp->fct_read = NULL;
-  tcp->fct_write = NULL;
+    return (close_leave(tcp->fd, "Function \'list\' failed."));
   return (0);
 }

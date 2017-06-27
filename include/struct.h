@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Mon Jun 26 20:39:26 2017 kerma
-** Last update Tue Jun 27 18:48:36 2017 kerma
+** Last update Tue Jun 27 20:21:04 2017 kerma
 */
 
 #ifndef STRUCT_H_
@@ -16,16 +16,8 @@
 
 typedef struct	s_player	t_player;
 typedef struct	s_zappy		t_zappy;
-typedef struct	s_team		t_team;
 
 typedef int	(*cmds)(t_zappy *, t_player *);
-typedef int	(*fct)(t_zappy *, t_team **, int);
-
-typedef enum	e_state
-  {
-    WAITING	= 0,
-    PLAYING	= 0
-  }		e_state;
 
 typedef enum	e_dir
   {
@@ -72,8 +64,6 @@ typedef struct		s_buffer
 typedef struct	s_tcp
 {
   int		fd;
-  fct		fct_read;
-  fct		fct_write;
   t_buffer	*out;
 }		t_tcp;
 
