@@ -5,7 +5,7 @@
 ** Login   <verrier_g@epitech.eu>
 **
 ** Started on  Tue Jun 20 12:24:50 2017 Guillaume Verrier
-** Last update Tue Jun 27 21:12:34 2017 kerma
+** Last update Tue Jun 27 22:17:56 2017 kerma
 */
 
 #include "zappy.h"
@@ -19,9 +19,7 @@ static t_player	*create_player(int fd)
   if ((player = malloc(sizeof(t_player))) == NULL)
     return (pputerr("Function \'malloc\' failed."));
   if ((player->client = init_tcp(player->client, fd)) == NULL)
-    return (NULL);
-  
-  // TODO find default ressources values
+    return (NULL);  
   player->resources[i++] = 10;
   while (i < 7)
     player->resources[i++] = 0;

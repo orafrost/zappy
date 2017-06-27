@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 27 14:53:38 2017 kerma
-** Last update Tue Jun 27 21:05:45 2017 kerma
+** Last update Tue Jun 27 22:34:31 2017 kerma
 */
 
 #include "zappy.h"
@@ -20,12 +20,19 @@ void	clean_waiting(t_zappy *zappy, int fd)
 static int	add_to_team(t_zappy *zappy, int fd, int i)
 {
   t_team	*new;
+  char		msg1[4];
+  char		msg2[5];
 
   if ((new = add_player(&zappy->teams[i]->players, fd)) == NULL)
     return (ERROR);
   zappy->teams[i]->nb++;
   clean_waiting(zappy, fd);
-  add_msg(&new->player->client->out, "ok");
+  memset(msg1, 0, 4);
+  memset(msg2, 0, 5);
+  sprintf(msg1, "%d", zappy->teams[i]->max - zappy->teams[i]->nb);
+  sprintf(msg2, "%d %d", zappy->width, zappy->height);
+  add_msg(&new->player->client->out, msg1);
+  add_msg(&new->player->client->out, msg2);
   return (0);
 }
 

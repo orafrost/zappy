@@ -5,7 +5,7 @@
 ** Login   <verrier_g@epitech.eu>
 **
 ** Started on  Tue Jun 20 15:22:04 2017 Guillaume Verrier
-** Last update Tue Jun 27 21:08:21 2017 kerma
+** Last update Tue Jun 27 22:24:58 2017 kerma
 */
 
 #include "zappy.h"
@@ -47,20 +47,20 @@ int	main_loop(t_zappy *zappy)
   while (g_state == RUN)
     {
       // TODO delete
-      t_team *tmp;
-      int i = 0;
-      while (i < zappy->nb_teams)
-      	{
-      	  tmp = zappy->teams[i]->players;
-      	  printf("%s\n", zappy->teams[i]->name);
-      	  while (tmp != NULL)
-      	    {
-      	      printf("  %d\n", tmp->player->client->fd);
-      	      tmp = tmp->next;
-      	    }
-      	  i++;
-      	}
-      printf("------------------------\n\n");
+      /* t_team *tmp; */
+      /* int i = 0; */
+      /* while (i < zappy->nb_teams) */
+      /* 	{ */
+      /* 	  tmp = zappy->teams[i]->players; */
+      /* 	  printf("%s\n", zappy->teams[i]->name); */
+      /* 	  while (tmp != NULL) */
+      /* 	    { */
+      /* 	      printf("  %d\n", tmp->player->client->fd); */
+      /* 	      tmp = tmp->next; */
+      /* 	    } */
+      /* 	  i++; */
+      /* 	} */
+      /* printf("------------------------\n\n"); */
 
       FD_ZERO(&zappy->fd_read);
       FD_ZERO(&zappy->fd_write);
