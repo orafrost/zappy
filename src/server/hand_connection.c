@@ -5,14 +5,16 @@
 ** Login   <verrier_g@epitech.eu>
 **
 ** Started on  Tue Jun 20 14:30:24 2017 Guillaume Verrier
-** Last update Sat Jun 24 17:21:40 2017 kerma
+** Last update Mon Jun 26 17:42:33 2017 kerma
 */
 
 #include "zappy.h"
 
 int hand_connection(t_tcp *server, t_player *player)
 {
-  if (connect_client(player->client, server) == 1)
+  if (connect_client(player->client, server, 0) == 1)
+    return (-1);
+  if (send(player->client->socket, "WELCOME\n", 8, 0) < 0)
     return (-1);
   return (0);
 }
@@ -53,8 +55,6 @@ int start_echange(t_zappy *game, t_player *new)
   char buff[1024];
   t_teamRoot *team;
 
-  if (send(new->client->socket, "WELCOME\n", 8, 0) < 0)
-    return (-1);
   if (recv(new->client->socket, buff, 1024, 0) < 0)
     return (-1);
   place_end(buff);

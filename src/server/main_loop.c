@@ -5,45 +5,77 @@
 ** Login   <verrier_g@epitech.eu>
 **
 ** Started on  Tue Jun 20 15:22:04 2017 Guillaume Verrier
-** Last update Mon Jun 26 14:38:16 2017 kerma
+** Last update Tue Jun 27 19:37:02 2017 kerma
 */
 
 #include "zappy.h"
 
-int	g_state = RUN;
+int	g_state;
 
-void	handler(int sig)
+void		close_all(t_zappy *zappy)
 {
-  if (sig == SIGINT)
-    g_state = STOP;
+  t_team	*team;
+  int		i;
+
+  i = 0;
+  while (i < zappy->nb_teams)
+    {
+      team = zappy->teams[i]->players;
+      while (team != NULL)
+	{
+	  close(team->player->client->fd);
+	  team = team->next;
+	}
+      i++;
+    }
+  i = 0;
+  while (i < MAX)
+    {
+      if (zappy->waiting[i] != NULL)
+	close(zappy->waiting[i]->fd);
+      i++;
+    }
+  close(zappy->server->fd);
 }
 
-void	init_cmds(cmd_ptr cmds[])
+int	main_loop(t_zappy *zappy)
 {
-  cmds[0] = &nb_teams;
-  cmds[1] = NULL;
-}
+  int	max;
+  int	ret;
 
-int		main_loop(t_zappy *game)
-{
-  t_player	*temp;
-  cmd_ptr	cmds[2];
-  /* int		id; */
-
-  /* id = 0; */
-  init_cmds(cmds);
-  signal(SIGINT, &handler);
-  /* temp = create_player(id, UP); */
-  if (init_serveur_tcp(game->server, game->nb_teams * game->teams[0]->max,
-		       game->port) == 1)
-    return (ERROR);
+  ret = 0;
   while (g_state == RUN)
     {
-      (void)temp;
-      /* if (hand_connection(game->server, temp) == 0) */
-      /* 	if (start_echange(game, temp) != -1) */
-      /* 	  create_player(++id, UP); */
+      // TODO delete
+      /* t_team *tmp; */
+      /* int i = 0; */
+      /* while (i < zappy->nb_teams) */
+      /* 	{ */
+      /* 	  tmp = zappy->teams[i]->players; */
+      /* 	  printf("%s\n", zappy->teams[i]->name); */
+      /* 	  while (tmp != NULL) */
+      /* 	    { */
+      /* 	      printf("  %d\n", tmp->player->client->fd); */
+      /* 	      tmp = tmp->next; */
+      /* 	    } */
+      /* 	  i++; */
+      /* 	} */
+      /* printf("------------------------\n\n"); */
+
+      FD_ZERO(&zappy->fd_read);
+      FD_ZERO(&zappy->fd_write);
+      max = set_fd(zappy);
+      if (select(max + 1, &zappy->fd_read, &zappy->fd_write, NULL, NULL) == -1)
+	{
+	  ret = ERROR;
+	  g_state = STOP;
+	}
+      else if (isset_fd(zappy) == ERROR)
+	{
+	  ret = ERROR;
+	  g_state = STOP;
+	}
     }
-  close_socket(game->server);
-  return (0);
+  close_all(zappy);
+  return (ret);
 }

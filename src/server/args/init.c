@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Sat Jun 24 16:17:37 2017 kerma
-** Last update Mon Jun 26 14:23:07 2017 kerma
+** Last update Tue Jun 27 19:14:39 2017 kerma
 */
 
 #include "zappy.h"
@@ -27,6 +27,15 @@ void	arg_init(t_args *args)
   args->func[5] = &arg_freq;
 }
 
+void	waiting_init(t_zappy *zappy)
+{
+  int	i;
+
+  i = 0;
+  while (i < MAX)
+    zappy->waiting[i++] = NULL;
+}
+
 int     default_init(t_zappy *zappy)
 {
   zappy->port = 4242;
@@ -37,9 +46,9 @@ int     default_init(t_zappy *zappy)
   if (map_init(zappy) == ERROR)
     return (ERROR);
   if ((zappy->server = malloc(sizeof(t_tcp))) == NULL)
-    return (puterr("Function 'malloc' failed."));
+    return (puterr("Function \'malloc\' failed."));
   if ((zappy->teams = malloc(8 * (zappy->nb_teams + 1))) == NULL)
-    return (puterr("Function 'malloc' failed."));
+    return (puterr("Function \'malloc\' failed."));
   if ((zappy->teams[0] = team_init("Team1")) == NULL)
     return (ERROR);
   if ((zappy->teams[1] = team_init("Team2")) == NULL)
@@ -49,6 +58,7 @@ int     default_init(t_zappy *zappy)
   if ((zappy->teams[3] = team_init("Team4")) == NULL)
     return (ERROR);
   zappy->teams[4] = NULL;
+  waiting_init(zappy);
   return (0);
 }
 
@@ -59,12 +69,12 @@ int		map_init(t_zappy *zappy)
 
   i = 0;
   if ((zappy->map = malloc(8 * (zappy->height + 1))) == NULL)
-    return (puterr("Function 'malloc' failed."));
+    return (puterr("Function \'malloc\' failed."));
   while (i < zappy->height)
     {
       j = 0;
       if ((zappy->map[i] = malloc(sizeof(t_tile) * zappy->width)) == NULL)
-	return (puterr("Function 'malloc' failed."));
+	return (puterr("Function \'malloc\' failed."));
       while (j < zappy->width)
 	{
 	  memset(zappy->map[i][j].resources, 0, 7 * sizeof(int));
@@ -81,11 +91,11 @@ t_teamRoot	*team_init(char *name)
   t_teamRoot	*team;
 
   if ((team = malloc(sizeof(t_teamRoot))) == NULL)
-    return (pputerr("Function 'malloc' failed."));
+    return (pputerr("Function \'malloc\' failed."));
   team->nb = 0;
   team->max = 3;
   team->players = NULL;
   if ((team->name = strdup(name)) == NULL)
-    return (pputerr("Function 'strdup' failed."));
+    return (pputerr("Function \'strdup\' failed."));
   return (team);
 }
