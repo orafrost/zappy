@@ -5,7 +5,7 @@
 ## Login   <kerma@epitech.net>
 ##
 ## Started on  Tue Jun 20 14:17:36 2017 kerma
-## Last update Mon Jun 26 14:54:21 2017 kerma
+## Last update Tue Jun 27 21:07:55 2017 kerma
 ##
 
 NAME	= zappy_server
@@ -14,14 +14,19 @@ SRCS	= main.c		\
 	list.c			\
 	free.c			\
 	main_loop.c		\
-	hand_connection.c	\
-	cmd/nb_teams.c		\
-	cmd/utils.c		\
 	args/misc.c		\
 	args/init.c		\
 	args/args.c		\
 	args/arg1.c		\
-	args/arg2.c
+	args/arg2.c		\
+	sock/fd.c		\
+	sock/sock.c		\
+	sock/wait.c		\
+	sock/buffer.c		\
+	sock/client.c		\
+	sock/graphic.c		\
+	cmd/utils.c		\
+	cmd/nb_teams.c
 
 OBJS	= $(SRCS:.c=.o)
 
@@ -30,13 +35,12 @@ CFLAGS	+= -W			\
 	-Werror			\
 	-Wextra			\
 	-I../../include		\
-	-I../../lib/sock/	\
 	-g3
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	gcc -o $(NAME) $(OBJS) -L../../lib -lsock
+	gcc -o $(NAME) $(OBJS)
 
 clean:
 	rm -f $(OBJS)

@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 20 16:46:47 2017 kerma
-** Last update Mon Jun 26 15:52:07 2017 kerma
+** Last update Mon Jun 26 19:58:35 2017 kerma
 */
 
 #include "zappy.h"
@@ -46,7 +46,7 @@ static int	stock_names(t_zappy *zappy, char **av, int *i)
   while (k < len)
     {
       if (strcmp(av[*i + 1], "GRAPHIC") == 0)
-	return (puterr("Team name 'GRAPHIC' is reserved."));
+	return (puterr("Team name \'GRAPHIC\' is reserved."));
       if (is_validname(av, ref, *i + 1) == 1)
 	return (puterr("Team names must be unique."));
       if ((zappy->teams[k++] = team_init(av[*i + 1])) == NULL)
@@ -66,11 +66,11 @@ int	arg_names(t_zappy *zappy, char **av, int *i, int *nb)
   (void)nb;
   j = *i + 1;
   if (av[j] == NULL)
-    return (puterr("Invalid '-n' argument."));
+    return (puterr("Invalid \'-n\' argument."));
   free_teams(zappy);
   len = get_nb_teams(av, j);
   if ((zappy->teams = malloc(8 * (len + 1))) == NULL)
-    return (puterr("Function 'malloc' failed."));
+    return (puterr("Function \'malloc\' failed."));
   if (stock_names(zappy, av, i) == ERROR)
     {
       free_teams(zappy);

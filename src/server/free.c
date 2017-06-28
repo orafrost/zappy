@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Wed Jun 21 13:40:12 2017 kerma
-** Last update Mon Jun 26 15:47:22 2017 kerma
+** Last update Tue Jun 27 20:25:27 2017 kerma
 */
 
 #include "zappy.h"
@@ -27,7 +27,6 @@ void		free_map(t_zappy *zappy)
 
 void		free_teams(t_zappy *zappy)
 {
-  /* t_team	*elem; */
   int		i;
 
   i = 0;
@@ -37,7 +36,7 @@ void		free_teams(t_zappy *zappy)
       	{
 	  while (zappy->teams[i]->players != NULL)
 	    zappy->teams[i]->players = del_elem(zappy->teams[i]->players,
-						zappy->teams[i]->players);
+						&zappy->teams[i]->players);
       	}
       if (zappy->teams[i]->name != NULL)
 	free(zappy->teams[i]->name);
@@ -53,10 +52,22 @@ void		free_teams(t_zappy *zappy)
 
 void	clean(t_zappy *zappy)
 {
+  int	i;
+
+  i = 0;
   if (zappy->server != NULL)
     free(zappy->server);
   if (zappy->teams != NULL)
     free_teams(zappy);
   if (zappy->map != NULL)
     free_map(zappy);
+  while (i < MAX)
+    {
+      if (zappy->waiting[i] != NULL)
+	{
+	  free_buffer(zappy->waiting[i]->out);
+	  free(zappy->waiting[i]);
+	}
+      i++;
+    }
 }
