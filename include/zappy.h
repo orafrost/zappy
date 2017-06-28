@@ -5,12 +5,13 @@
 ** Login   <orafrost@epitech.net>
 **
 ** Started on  Mon Jun  5 15:09:26 2017 guillame verrier
-** Last update Wed Jun 28 15:52:11 2017 kerma
+** Last update Wed Jun 28 16:14:34 2017 kerma
 */
 
 #ifndef ZAPPY_H_
 # define ZAPPY_H_
 
+# include <math.h>
 # include <sys/socket.h>
 # include <netinet/in.h>
 # include <sys/types.h>
@@ -37,11 +38,10 @@ void		free_teams(t_zappy *zappy);
 
 void		free_buffer(t_buffer *buffer);
 void		del_msg(t_buffer **buffer);
-int		add_msg(t_buffer **buffer, char *msg);  
+int		add_msg(t_buffer **buffer, char *msg);
 
 int		graphic_read(t_zappy *zappy);
-void		graphic_write(t_zappy *zappy);
-  
+void		graphic_write(t_zappy *zappy);  
 int		add_graphic_client(t_zappy *zappy, int fd);
 
 void		place_end(char buff[]);
