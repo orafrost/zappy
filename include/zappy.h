@@ -15,6 +15,7 @@
 # ifndef ZAPPY_H_
 # define ZAPPY_H_
 
+# include <math.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <string.h>
@@ -69,6 +70,7 @@ typedef enum	e_action
 typedef struct	s_action
 {
   e_action	action;
+  char      *arg;
   time_t	start;
   float		dure;
 }		t_action;
