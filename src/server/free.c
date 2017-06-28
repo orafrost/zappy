@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Wed Jun 21 13:40:12 2017 kerma
-** Last update Tue Jun 27 20:25:27 2017 kerma
+** Last update Wed Jun 28 14:41:04 2017 kerma
 */
 
 #include "zappy.h"
@@ -61,6 +61,11 @@ void	clean(t_zappy *zappy)
     free_teams(zappy);
   if (zappy->map != NULL)
     free_map(zappy);
+  if (zappy->graphic != NULL)
+    {
+      free_buffer(zappy->graphic->out);
+      free(zappy->graphic);
+    }
   while (i < MAX)
     {
       if (zappy->waiting[i] != NULL)

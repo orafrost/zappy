@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Mon Jun 26 20:39:26 2017 kerma
-** Last update Tue Jun 27 22:25:20 2017 kerma
+** Last update Wed Jun 28 15:19:26 2017 kerma
 */
 
 #ifndef STRUCT_H_
@@ -18,6 +18,7 @@ typedef struct	s_player	t_player;
 typedef struct	s_zappy		t_zappy;
 
 typedef int	(*cmds)(t_zappy *, t_player *);
+typedef int	(*func_ptr)(t_zappy *, char **, int *, int *);
 
 typedef enum	e_dir
   {
@@ -64,6 +65,7 @@ typedef struct		s_buffer
 typedef struct	s_tcp
 {
   int		fd;
+  int		init;
   t_buffer	*out;
 }		t_tcp;
 
@@ -110,15 +112,16 @@ typedef struct	s_zappy
 {
   unsigned int	width;
   unsigned int	height;
-  t_tcp		*server;
-  fd_set	fd_read;
-  fd_set	fd_write;
   int		port;
   int		nb_teams;
   int		frequency;
   t_teamRoot	**teams;
   t_tile	**map;
+  t_tcp		*server;
+  t_tcp		*graphic;
   t_tcp		*waiting[MAX];
+  fd_set	fd_read;
+  fd_set	fd_write;
   cmds		cmd[NB_CMD];
   char		*cmd_name[NB_CMD];
 }		t_zappy;
@@ -127,7 +130,7 @@ typedef struct	s_args
 {
   int		nb;
   char		*arg[6];
-  int		(*func[6])(t_zappy *, char **, int *, int *);
+  func_ptr	func[6];
 }		t_args;
 
 #endif

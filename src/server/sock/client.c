@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Mon Jun 26 23:47:11 2017 kerma
-** Last update Tue Jun 27 21:19:28 2017 kerma
+** Last update Wed Jun 28 16:09:52 2017 kerma
 */
 
 #include "zappy.h"
@@ -51,6 +51,11 @@ int		client_read(t_zappy *zappy, t_team **player, int team_id)
   if (*player == NULL)
     return (0);
   memset(buff, 0, 1024);
+  if ((*player)->player->client->init == 0)
+    {
+      (*player)->player->client->init = 1;
+      return (0);
+    }
   if (recv((*player)->player->client->fd, buff, 1024, 0) <= 0)
     {
       zappy->teams[team_id]->nb--;

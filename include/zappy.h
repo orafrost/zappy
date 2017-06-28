@@ -5,7 +5,7 @@
 ** Login   <orafrost@epitech.net>
 **
 ** Started on  Mon Jun  5 15:09:26 2017 guillame verrier
-** Last update Tue Jun 27 21:06:44 2017 kerma
+** Last update Wed Jun 28 15:52:11 2017 kerma
 */
 
 #ifndef ZAPPY_H_
@@ -39,17 +39,23 @@ void		free_buffer(t_buffer *buffer);
 void		del_msg(t_buffer **buffer);
 int		add_msg(t_buffer **buffer, char *msg);  
 
-int		add_graphic_client(t_zappy *zappy);
+int		graphic_read(t_zappy *zappy);
+void		graphic_write(t_zappy *zappy);
+  
+int		add_graphic_client(t_zappy *zappy, int fd);
 
 void		place_end(char buff[]);
 int		client_read(t_zappy *zappy, t_team **player, int team_id);
 void		client_write(t_team *player);
 
+void		clean_waiting(t_zappy *zappy, int fd);
 int		read_waitings(t_zappy *zappy, int fd);
-int		write_waitings(t_zappy *zappy, int fd);
+void		write_waitings(t_zappy *zappy, int fd);
+
 
 int		set_fd(t_zappy *zappy);
 int		isset_fd(t_zappy *zappy);
+
 int		add_client(t_zappy *zappy);
 int		init_server(t_tcp *tcp, int port);
 

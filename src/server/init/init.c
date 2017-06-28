@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Sat Jun 24 16:17:37 2017 kerma
-** Last update Tue Jun 27 19:14:39 2017 kerma
+** Last update Wed Jun 28 14:24:55 2017 kerma
 */
 
 #include "zappy.h"
@@ -58,6 +58,7 @@ int     default_init(t_zappy *zappy)
   if ((zappy->teams[3] = team_init("Team4")) == NULL)
     return (ERROR);
   zappy->teams[4] = NULL;
+  zappy->graphic = NULL;
   waiting_init(zappy);
   return (0);
 }

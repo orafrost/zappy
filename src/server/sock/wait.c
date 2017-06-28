@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 27 14:53:38 2017 kerma
-** Last update Tue Jun 27 22:34:31 2017 kerma
+** Last update Wed Jun 28 16:09:19 2017 kerma
 */
 
 #include "zappy.h"
@@ -55,7 +55,7 @@ static int	new_player(t_zappy *zappy, char buff[], int fd)
     }
   if (strcmp("GRAPHIC", buff) == 0)
     {
-      if (add_graphic_client(zappy) == ERROR)
+      if (add_graphic_client(zappy, fd) == ERROR)
 	return (ERROR);
     }
   else
@@ -80,7 +80,7 @@ int	read_waitings(t_zappy *zappy, int fd)
   return (0);
 }
 
-int		write_waitings(t_zappy *zappy, int fd)
+void		write_waitings(t_zappy *zappy, int fd)
 {
   t_tcp		*conn;
 
@@ -90,5 +90,4 @@ int		write_waitings(t_zappy *zappy, int fd)
       dprintf(conn->fd, "%s\n", conn->out->msg);
       del_msg(&conn->out);
     }
-  return (0);
 }

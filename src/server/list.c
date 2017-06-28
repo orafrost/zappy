@@ -5,7 +5,7 @@
 ** Login   <verrier_g@epitech.eu>
 **
 ** Started on  Tue Jun 20 12:24:50 2017 Guillaume Verrier
-** Last update Tue Jun 27 22:17:56 2017 kerma
+** Last update Wed Jun 28 15:20:16 2017 kerma
 */
 
 #include "zappy.h"
@@ -32,6 +32,7 @@ t_tcp	*init_tcp(t_tcp *tcp, int fd)
   if ((tcp = malloc(sizeof(t_tcp))) == NULL)
     return (pputerr("Function \'malloc\' failed."));
   tcp->fd = fd;
+  tcp->init = 0;
   tcp->out = NULL;
   return (tcp);
 }
