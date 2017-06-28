@@ -5,28 +5,28 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:14:46 2017 Eric Amilhat
-// Last update Fri Jun 23 01:39:04 2017 Eric Amilhat
+// Last update Wed Jun 28 17:36:55 2017 kerma
 //
 
-#include "zappy_graphic.hpp"
+#include "graphic.hpp"
 
 Graphic::Graphic()
 {
   window.create(sf::VideoMode(WINDOW_SIZE + 500, WINDOW_SIZE), "zappy");
   assets.backgroundT.create(WINDOW_SIZE, WINDOW_SIZE);
-  assets.hoverT.loadFromFile("./hover.png");
-  assets.multipleT.loadFromFile("./pikachu.png");
+  assets.hoverT.loadFromFile("./assets/hover.png");
+  assets.multipleT.loadFromFile("./assets/pikachu.png");
   assets.background.setTexture(assets.backgroundT);
-  assets.font.loadFromFile("./font.ttf");
+  assets.font.loadFromFile("./assets/font.ttf");
   textures.resize(8);
-  textures[e_resources::Food].loadFromFile("./Food.png");
-  textures[e_resources::Linemate].loadFromFile("./Linemate.png");
-  textures[e_resources::Deraumere].loadFromFile("./Deraumere.png");
-  textures[e_resources::Sibur].loadFromFile("./Sibur.png");
-  textures[e_resources::Mendiane].loadFromFile("./Mendiane.png");
-  textures[e_resources::Phiras].loadFromFile("./Phiras.png");
-  textures[e_resources::Thystame].loadFromFile("./Thystame.png");
-  textures[e_resources::Empty].loadFromFile("./Grass.png");
+  textures[e_resources::Food].loadFromFile("./assets/Food.png");
+  textures[e_resources::Linemate].loadFromFile("./assets/Linemate.png");
+  textures[e_resources::Deraumere].loadFromFile("./assets/Deraumere.png");
+  textures[e_resources::Sibur].loadFromFile("./assets/Sibur.png");
+  textures[e_resources::Mendiane].loadFromFile("./assets/Mendiane.png");
+  textures[e_resources::Phiras].loadFromFile("./assets/Phiras.png");
+  textures[e_resources::Thystame].loadFromFile("./assets/Thystame.png");
+  textures[e_resources::Empty].loadFromFile("./assets/Grass.png");
 }
   
 Graphic::~Graphic()
@@ -229,18 +229,5 @@ void	Graphic::setMapDimensions(int width, int height)
 t_map const & Graphic::getMapInfo()
 {
   return (this->map);
-}
-
-int main()
-{
-  Graphic graph;
-  graph.setMapDimensions(30,30);
-  graph.randomlyFillMap();
-  //graph.receive();
-  //if (ac >= 3)
-    //graph.setMapDimensions(std::stoi(av[1]),std::stoi(av[2]));
-    //else
-  graph.loop();
-  exit (0);
 }
 

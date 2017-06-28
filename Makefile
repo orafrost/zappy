@@ -5,12 +5,12 @@
 ## Login   <kerma@epitech.net>
 ##
 ## Started on  Tue Jun 27 21:20:58 2017 kerma
-## Last update Tue Jun 27 21:25:54 2017 kerma
+## Last update Wed Jun 28 17:30:21 2017 kerma
 ##
 
-NAME1	= zappy_server
-NAME2	= zappy_ai
-NAME3	= zappy_graphic
+NAME1		= zappy_server
+NAME2		= zappy_ai
+NAME3		= zappy_graphic
 
 all: $(NAME1) $(NAME2) $(NAME3)
 
@@ -19,24 +19,24 @@ $(NAME1):
 	cp src/server/$(NAME1) ./
 
 $(NAME2):
-	# make -C path_ai/
-	# cp path_ai/$(NAME2) ./
+	make -C src/ai/
+	cp src/ai/$(NAME2) ./
 
 $(NAME3):
-	# make -C path_graphic/
-	# cp path_graphic/$(NAME3) ./
+	make -C src/graphic/
+	cp src/graphic/$(NAME3) ./
 
 clean:
 	make clean -C src/server/
-	# make clean -C path_ai
-	# make clean -C path_graphic
+	make clean -C src/ai
+	make clean -C src/graphic
 
 fclean: clean
 	rm -f $(NAME1)
-	# rm -f $(NAME2)
-	# rm -f $(NAME3)
+	rm -f $(NAME2)
+	rm -f $(NAME3)
 	make fclean -C src/server/
-	# make fclean -C path_ai
-	# make fclean -C path_graphic
+	make fclean -C src/ai
+	make fclean -C src/graphic
 
 re: fclean all

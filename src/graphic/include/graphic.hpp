@@ -5,11 +5,11 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:09:49 2017 Eric Amilhat
-// Last update Fri Jun 23 00:51:27 2017 Eric Amilhat
+// Last update Wed Jun 28 17:32:02 2017 kerma
 //
 
-#ifndef ZAPPY_GRAPHIC_HPP_
-# define ZAPPY_GRAPHIC_HPP_
+#ifndef GRAPHIC_HPP_
+# define GRAPHIC_HPP_
 
 #include <list>
 #include <iostream>

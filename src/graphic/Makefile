@@ -1,35 +1,36 @@
 ##
-## Makefile for zappy in /home/eric/tek2/zappy/graphic
-## 
-## Made by Eric Amilhat
-## Login   <eric.amilhat@epitech.eu>
-## 
-## Started on  Tue Jun 20 14:22:10 2017 Eric Amilhat
-## Last update Wed Jun 21 11:53:55 2017 Eric Amilhat
+## Makefile for zappy in /home/kerma/Projets/Epitech/PSU/zappy
+##
+## Made by kerma
+## Login   <kerma@epitech.net>
+##
+## Started on  Tue Jun 27 21:20:58 2017 kerma
+## Last update Wed Jun 28 17:34:18 2017 kerma
 ##
 
-NAME	= zappy_graphic
+NAME		= zappy_graphic
 
-SRC	= zappy_graphic.cpp
+SRCS		= main.cpp		\
+		 graphic.cpp
 
-OBJ	= $(SRC:.cpp=.o)
+OBJS		= $(SRCS:.cpp=.o)
 
-CXX	= g++
+CPPFLAGS	+= -W		\
+		-Wall		\
+		-Werror		\
+		-Wextra		\
+		-std=c++11	\
+		-I./include
 
-CXXFLAGS	=  -Wextra -std=c++11
+all: $(NAME)
 
-all:	$(OBJ)
-	g++ $(OBJ) -o$(NAME) -std=c++11 -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system 
-
-sfml:
-	g++ -std=c++11 -fPIC -c  -I/usr/include lib/sfml_entry.cpp -o lib/lib_arcade_sfml.o
-	g++ lib/lib_arcade_sfml.o -I/usr/include -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system -shared -ldl -ltinfo -Wl,--no-undefined  -o lib/lib_arcade_sfml.so
+$(NAME): $(OBJS)
+	g++ -o $(NAME) $(OBJS) -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
 
 clean:
-	rm -rf $(OBJ)
+	rm -f $(OBJS)
 
 fclean: clean
-	rm -rf $(NAME)
+	rm -f $(NAME)
 
 re: fclean all
-
