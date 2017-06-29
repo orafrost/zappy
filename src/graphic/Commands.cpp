@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Thu Jun 29 16:48:17 2017 kerma
+// Last update Thu Jun 29 17:21:29 2017 kerma
 //
 
 #include "Commands.hpp"
@@ -20,11 +20,17 @@ Commands::Commands() : _socket(NULL), _graphic(NULL)
   _cmd["ppo"] = &Commands::HandlerPPO;
   _cmd["plv"] = &Commands::HandlerPLV;
   _cmd["pbc"] = &Commands::HandlerPBC;  
+  _cmd["pdr"] = &Commands::HandlerPDR;  
+  _cmd["pgt"] = &Commands::HandlerPGT;  
+  _cmd["enw"] = &Commands::HandlerENW;
+  _cmd["eht"] = &Commands::HandlerEGT;
   _cmd["sgt"] = &Commands::HandlerSGT;
+  _cmd["seg"] = &Commands::HandlerSEG;
 
   _init["WELCOME"] = false;
   _init["msz"] = false;
   _init["sgt"] = false;
+  _init["seg"] = false;
 }
 
 Commands::~Commands() {}
@@ -232,6 +238,85 @@ void	Commands::HandlerPBC(const ARGS &arg)
   _graphic->playerBroadcast(id);
 }
 
+
+void	Commands::HandlerPDR(const ARGS &arg)
+{
+  if (_init["WELCOME"] == false)
+    return ;
+  if (arg.size() != 3) {
+    Bufferized(arg);
+    return ;
+  }
+
+  if (_utils.isNum(arg[1]) == false ||
+      _utils.isNum(arg[2]) == false)
+      return ;
+
+  int	id = _utils.StringToInt(arg[1]);		
+  int	ressource = _utils.StringToInt(arg[2]);		
+
+  _graphic->addResource(id, ressource);
+}
+
+void	Commands::HandlerPGT(const ARGS &arg)
+{
+  if (_init["WELCOME"] == false)
+    return ;
+  if (arg.size() != 3) {
+    Bufferized(arg);
+    return ;
+  }
+
+  if (_utils.isNum(arg[1]) == false ||
+      _utils.isNum(arg[2]) == false)
+      return ;
+
+  int	id = _utils.StringToInt(arg[1]);		
+  int	ressource = _utils.StringToInt(arg[2]);		
+
+  _graphic->removeResource(id, ressource);
+}
+
+void	Commands::HandlerENW(const ARGS &arg)
+{
+  if (_init["WELCOME"] == false)
+    return ;
+  if (arg.size() != 5) {
+    Bufferized(arg);
+    return ;
+  }
+
+  if (_utils.isNum(arg[1]) == false ||
+      _utils.isNum(arg[2]) == false ||
+      _utils.isNum(arg[3]) == false ||
+      _utils.isNum(arg[4]) == false)
+    return ;
+
+  int	id_egg = _utils.StringToInt(arg[1]);		
+  int	id_player = _utils.StringToInt(arg[2]);		
+  int	X = _utils.StringToInt(arg[3]);		
+  int	Y = _utils.StringToInt(arg[4]);		
+
+  _graphic->setEgg(id_egg, id_player, X, Y);
+}
+
+void	Commands::HandlerEHT(const ARGS &arg)
+{
+  if (_init["WELCOME"] == false)
+    return ;
+  if (arg.size() != 2) {
+    Bufferized(arg);
+    return ;
+  }
+
+  if (_utils.isNum(arg[1]) == false)
+    return ;
+
+  int	id = _utils.StringToInt(arg[1]);		
+
+  _graphic->hatchEgg(id);
+}
+
 void	Commands::HandlerSGT(const ARGS &arg)
 {
   if (_init["WELCOME"] == false)
@@ -248,4 +333,17 @@ void	Commands::HandlerSGT(const ARGS &arg)
 
   _graphic->setFrequence(frequence);
   _init["sgt"] = true;
+}
+
+void	Commands::HandlerSEG(const ARGS &arg)
+{
+  if (_init["WELCOME"] == false)
+    return ;
+  if (arg.size() != 2 || _init["seg"] == true) {
+    Bufferized(arg);
+    return ;
+  }
+
+  if (_graphic->endGame(agr[1]) == 0)
+    _init["seg"] = true;
 }
