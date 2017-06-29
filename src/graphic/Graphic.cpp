@@ -5,7 +5,7 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:14:46 2017 Eric Amilhat
-// Last update Thu Jun 29 17:19:31 2017 Eric Amilhat
+// Last update Thu Jun 29 17:33:32 2017 kerma
 //
 
 #include "Graphic.hpp"
@@ -204,7 +204,7 @@ void			Graphic::addTeam(std::string name)
 void                  Graphic::addPlayer(int id, int x, int y, int dir, int level,
 				std::string teamName)
 {
-  if (dir > 3)
+  if (dir > 3 || x > map.width || y > map.height)
     return;
   t_player	player;
 
@@ -223,8 +223,8 @@ void                  Graphic::addPlayer(int id, int x, int y, int dir, int leve
 
 void		Graphic::setPlayerPosition(int id, int x, int y, int dir)
 {
-  if (dir > 3)
-    return;  
+  if (dir > 3 || x > map.width || y > map.height)
+    return;
   if (x < map.width && y < map.height)
     {
       for (std::vector<t_team>::iterator it = teams.begin(); it != teams.end(); ++it)
@@ -283,6 +283,8 @@ void		Graphic::setFrequence(int f)
 
 void                  Graphic::addEgg(int egg_id, int player_id, int x, int y)
 {
+  if (x > map.width || y > map.height)
+    return;
   t_egg			egg;
 
   egg.id = egg_id;
@@ -311,6 +313,8 @@ void                  Graphic::hatchEgg(int id)
 
 void		Graphic::addResource(int player_id, int resourceType)
 {
+  if (resourceType > 6)
+    return;
   for (std::vector<t_team>::iterator it = teams.begin(); it != teams.end(); ++it)
     {
       for (std::vector<t_player>::iterator it2 = it->players.begin();
@@ -327,6 +331,8 @@ void		Graphic::addResource(int player_id, int resourceType)
 
 void		Graphic::removeResource(int player_id, int resourceType)
 {
+  if (resourceType > 6)
+    return;
   for (std::vector<t_team>::iterator it = teams.begin(); it != teams.end(); ++it)
     {
       for (std::vector<t_player>::iterator it2 = it->players.begin();

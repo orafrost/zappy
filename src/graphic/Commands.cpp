@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Thu Jun 29 17:21:29 2017 kerma
+// Last update Thu Jun 29 17:23:06 2017 kerma
 //
 
 #include "Commands.hpp"
@@ -23,7 +23,7 @@ Commands::Commands() : _socket(NULL), _graphic(NULL)
   _cmd["pdr"] = &Commands::HandlerPDR;  
   _cmd["pgt"] = &Commands::HandlerPGT;  
   _cmd["enw"] = &Commands::HandlerENW;
-  _cmd["eht"] = &Commands::HandlerEGT;
+  _cmd["eht"] = &Commands::HandlerEHT;
   _cmd["sgt"] = &Commands::HandlerSGT;
   _cmd["seg"] = &Commands::HandlerSEG;
 
@@ -297,7 +297,7 @@ void	Commands::HandlerENW(const ARGS &arg)
   int	X = _utils.StringToInt(arg[3]);		
   int	Y = _utils.StringToInt(arg[4]);		
 
-  _graphic->setEgg(id_egg, id_player, X, Y);
+  _graphic->addEgg(id_egg, id_player, X, Y);
 }
 
 void	Commands::HandlerEHT(const ARGS &arg)
@@ -344,6 +344,6 @@ void	Commands::HandlerSEG(const ARGS &arg)
     return ;
   }
 
-  if (_graphic->endGame(agr[1]) == 0)
+  if (_graphic->endGame(arg[1]) == 0)
     _init["seg"] = true;
 }
