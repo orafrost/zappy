@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:41:22 2017 kerma
-// Last update Thu Jun 29 11:54:11 2017 kerma
+// Last update Thu Jun 29 15:19:43 2017 kerma
 //
 
 #ifndef SOCKET_HPP_
@@ -23,6 +23,7 @@
 # include <iterator>
 # include <queue>
 
+# include "Graphic.hpp"
 # include "Commands.hpp"
 class Commands;
 
@@ -48,6 +49,7 @@ private:
 
 public:
   int	Connect(int port);
+  void	SetGraphicPtr(Graphic *graphic);  
   void	AddCommand(const std::string &cmd);
   void	ServerTalk();
 

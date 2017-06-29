@@ -5,7 +5,7 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:14:46 2017 Eric Amilhat
-// Last update Wed Jun 28 17:42:40 2017 kerma
+// Last update Thu Jun 29 15:27:54 2017 kerma
 //
 
 #include "Graphic.hpp"
@@ -26,7 +26,7 @@ Graphic::Graphic()
   textures[e_resources::Mendiane].loadFromFile("./assets/Mendiane.png");
   textures[e_resources::Phiras].loadFromFile("./assets/Phiras.png");
   textures[e_resources::Thystame].loadFromFile("./assets/Thystame.png");
-  textures[e_resources::Empty].loadFromFile("./assets/Grass.png");
+  textures[EMPTY].loadFromFile("./assets/Grass.png");
 }
   
 Graphic::~Graphic()
@@ -34,38 +34,10 @@ Graphic::~Graphic()
   window.close();
 }
 
-void	Graphic::randomlyFillMap()
+int	Graphic::Error(const std::string &err) const
 {
-  int	r;
-
-  for (int y = 0; y < map.height;y++)
-    {
-      for (int x = 0; x < map.width;x++)
-	{
-	  r = rand () % 2;
-	  if (r == 0)
-	    map.arr[x][y] = getRandomBlock(true);
-	  else
-	    {
-	      map.arr[x][y] = getRandomBlock(false);
-	    }
-	}
-    }
-}
-
-t_block               Graphic::getRandomBlock(bool empty)
-{
-  t_block	      block;
-
-  for (int i = 0; i < 7;i++)
-      block.resources[i] = 0;
-  if (!empty)
-    {
-      block.resources[rand() % 7] = 1;
-      if (rand() % 3 == 0)
-	block.resources[rand() % 7] = 1;
-    }
-  return (block);
+  std::cerr << "Error: " << err << std::endl;
+  exit(84);
 }
 
 void	Graphic::expandTile()
@@ -115,8 +87,10 @@ void	Graphic::eventManager()
 {
   while (window.pollEvent(event))
     {
-      if (event.type == sf::Event::Closed)
-	window.close();
+      if (event.type == sf::Event::Closed) {
+	  window.close();
+	  exit(0);
+	}
       if (event.type == sf::Event::MouseMoved)
 	{
 	  //expandTile(event.mouseMove.x, event.mouseMove.y);
@@ -124,9 +98,9 @@ void	Graphic::eventManager()
     }
 }
 
-void	Graphic::loop()
+void	Graphic::update()
 {
-  while (window.isOpen())
+  if (window.isOpen())
     {
       eventManager();
       window.clear();
@@ -136,7 +110,7 @@ void	Graphic::loop()
       window.display();      
     }
 }
-int	Graphic::sumOfBlock(int x, int y)
+int	Graphic::sumOfBlock(int x, int y) const
 {
   int	sum = 0;
   if (x >= map.width || y >= map.height || x < 0 || y < 0)
@@ -147,7 +121,7 @@ int	Graphic::sumOfBlock(int x, int y)
 }
 
 
-void	Graphic::drawSprite(e_resources resource, int x, int y)
+void	Graphic::drawSprite(int resource, int x, int y)
 {
   sf::RectangleShape	drawer;
 
@@ -168,12 +142,11 @@ void	Graphic::drawMultiple(int x , int y)
 			     
 void	Graphic::printMap()
 {
-  //randomlyFillMap();
   for (int y = 0; y < map.height; y++)
     {
       for (int x = 0; x < map.width;x++)
 	{
-	  drawSprite(e_resources::Empty, x, y);
+	  drawSprite(EMPTY, x, y);
 	  if (sumOfBlock(x, y) == 1)
 	    {
 	      for (int i = 0;i < 7;i++)
@@ -190,31 +163,6 @@ void	Graphic::printMap()
     }
 }
 
-void	Graphic::receive()
-{
-  std::string input;
-  getline(std::cin, input);
-  std::cout << "trying to compare : " << std::endl;
-  std::cout << input << std::endl;
-  std::cout << "and" << std::endl;
-  std::cout << "msz " << std::endl;
-  
-  if (input.substr(0,4).compare("msz ") == 0)
-    {
-      setMapDimensions(std::stoi(input.substr(4,5)),std::stoi(input.substr(6,7)));
-      std::cout << "you entered may X = " << std::stoi(input.substr(4,5)) << " and "
-		<< std::stoi(input.substr(6,7)) << std::endl;
-    }
-  else
-    {
-      setMapDimensions(100,100);
-      std::cout << "Failed to get Map Size " << std::endl;
-      
-    }
-  mapIsSized = true;
-
-}
-
 void	Graphic::setMapDimensions(int width, int height)
 {
   map.width = width;
@@ -224,10 +172,5 @@ void	Graphic::setMapDimensions(int width, int height)
     map.arr[i].resize(height);
   int max = (map.height > map.width) ? map.height : map.width;
   this->spriteSize = WINDOW_SIZE/max;
-}
-
-t_map const & Graphic::getMapInfo()
-{
-  return (this->map);
 }
 

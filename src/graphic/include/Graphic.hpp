@@ -5,7 +5,7 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:09:49 2017 Eric Amilhat
-// Last update Wed Jun 28 17:32:02 2017 kerma
+// Last update Thu Jun 29 15:28:04 2017 kerma
 //
 
 #ifndef GRAPHIC_HPP_
@@ -25,6 +25,15 @@
 #include <SFML/Audio.hpp>
 
 #define WINDOW_SIZE 1024
+#define EMPTY 7
+
+typedef enum    e_dir
+  {
+    UP          = 0,
+    RIGHT       = 1,
+    DOWN        = 2,
+    LEFT        = 3
+  }             e_dir;
 
 typedef enum    e_resources
   {
@@ -35,30 +44,29 @@ typedef enum    e_resources
     Mendiane = 4,
     Phiras = 5,
     Thystame = 6,
-    Empty = 7
   }             e_resources;
-
 
 typedef struct s_player
 {
   int           X;
   int		Y;
-  int		O;
+  e_dir		O;
   int		L;
-  int		teamNb;
-  int           resources[7];
+  int		id;
+  std::string	teamName;
+  e_resources	resources[7];
 }               t_player;
 
 typedef struct	s_team
 {
-  int			nbTeam;
   std::string		teamName;
   std::vector<t_player>	players;
 }		t_team;
 
 typedef struct s_block
 {
-  int           resources[7];
+  std::vector<t_player *>	players;
+  int				resources[7];
 }		t_block;
 
 typedef struct				s_map
@@ -89,21 +97,18 @@ private:
   sf::Mouse		mouse;
   t_assets		assets;
   int			spriteSize = 0;
+  int			Error(const std::string &err) const;
   void			eventManager();
-  t_block		getRandomBlock(bool empty);
-  int			sumOfBlock(int x, int y);
-  void			drawSprite(e_resources ressource, int x, int y);
+  int			sumOfBlock(int x, int y) const;
+  void			drawSprite(int ressource, int x, int y);
   void			drawMultiple(int x, int y);
   void			expandTile();
 public:
   Graphic();
   ~Graphic();
-  void			randomlyFillMap();
-  void			loop();
-  void			receive();
+  void		        update();
   void			printMap();
   void			setMapDimensions(int width, int height);
-  struct s_map const &	getMapInfo();
 };
 
 #endif 

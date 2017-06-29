@@ -5,14 +5,15 @@
 ** Login   <verrier_g@epitech.eu>
 **
 ** Started on  Tue Jun 20 12:24:50 2017 Guillaume Verrier
-** Last update Wed Jun 28 15:20:16 2017 kerma
+** Last update Thu Jun 29 14:02:57 2017 kerma
 */
 
 #include "zappy.h"
 
-static t_player	*create_player(int fd)
+static t_player	*create_player(t_zappy *zappy, int fd)
 {
   t_player	*player;
+  static int	id = 0;
   int		i;
 
   i = 0;
@@ -20,10 +21,16 @@ static t_player	*create_player(int fd)
     return (pputerr("Function \'malloc\' failed."));
   if ((player->client = init_tcp(player->client, fd)) == NULL)
     return (NULL);  
+  player->x = rand() % zappy->width;
+  player->y = rand() % zappy->height;
+  player->id = id++;
+  player->level = 1;
   player->resources[i++] = 10;
   while (i < 7)
     player->resources[i++] = 0;
   player->_dir = rand() % 3;
+  player->action.action = NONE;
+  player->action.arg = NULL;
   return (player);
 }
 
@@ -37,14 +44,14 @@ t_tcp	*init_tcp(t_tcp *tcp, int fd)
   return (tcp);
 }
 
-t_team		*add_player(t_team **team, int fd)
+t_team		*add_player(t_zappy *zappy, t_team **team, int fd)
 {
   t_team	*tmp;
   t_team	*new;
 
   if ((new = malloc(sizeof(t_team))) == NULL)
     return (NULL);
-  if ((new->player = create_player(fd)) == NULL)
+  if ((new->player = create_player(zappy, fd)) == NULL)
     return (NULL);
   new->next = NULL;
   if (*team == NULL)

@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Thu Jun 29 11:58:18 2017 kerma
+// Last update Thu Jun 29 15:20:19 2017 kerma
 //
 
 #include "Socket.hpp"
@@ -50,6 +50,8 @@ int	Socket::Connect(int port)
   _parser->SetSocket(this);
   return (0);
 }
+
+void	Socket::SetGraphicPtr(Graphic *graphic) { _parser->SetGraphic(graphic); }
 
 void	Socket::AddCommand(const std::string &cmd)
 {

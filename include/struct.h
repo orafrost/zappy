@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Mon Jun 26 20:39:26 2017 kerma
-** Last update Wed Jun 28 15:19:26 2017 kerma
+** Last update Thu Jun 29 13:57:00 2017 kerma
 */
 
 #ifndef STRUCT_H_
@@ -41,6 +41,7 @@ typedef enum	e_resources
 
 typedef enum	e_action
   {
+    NONE	= -1,
     MOVE	= 0,
     TURN_RIGHT	= 1,
     TURN_LEFT	= 2,
@@ -81,6 +82,7 @@ typedef struct	s_player
 {
   int		resources[7];
   int		level;
+  int		id;
   int		x;
   int		y;
   t_tcp		*client;

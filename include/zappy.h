@@ -5,7 +5,7 @@
 ** Login   <orafrost@epitech.net>
 **
 ** Started on  Mon Jun  5 15:09:26 2017 guillame verrier
-** Last update Thu Jun 29 10:18:59 2017 kerma
+** Last update Thu Jun 29 14:02:10 2017 kerma
 */
 
 #ifndef ZAPPY_H_
@@ -52,7 +52,6 @@ void		clean_waiting(t_zappy *zappy, int fd);
 int		read_waitings(t_zappy *zappy, int fd);
 void		write_waitings(t_zappy *zappy, int fd);
 
-
 int		set_fd(t_zappy *zappy);
 int		isset_fd(t_zappy *zappy);
 
@@ -62,7 +61,7 @@ int		init_server(t_tcp *tcp, int port);
 int		main_loop(t_zappy *game);
 
 t_tcp		*init_tcp(t_tcp *tcp, int fd);
-t_team		*add_player(t_team **team, int fd);
+t_team		*add_player(t_zappy *zappy, t_team **team, int fd);
 t_team		*del_elem(t_team *start, t_team **elem);
 
 void		get_vector(t_player *cur, int *vx, int *vy);

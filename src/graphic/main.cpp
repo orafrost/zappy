@@ -5,38 +5,26 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:27:22 2017 kerma
-// Last update Thu Jun 29 12:37:59 2017 kerma
+// Last update Thu Jun 29 15:30:59 2017 kerma
 //
 
 #include "Utils.hpp"
 #include "Socket.hpp"
 #include "Graphic.hpp"
 
-void	launchGraphics()
-{
-  Graphic graph;
-
-  graph.setMapDimensions(20,20);
-  graph.randomlyFillMap();
-  //graph.receive();
-  //if (ac >= 3)
-  //graph.setMapDimensions(std::stoi(av[1]),std::stoi(av[2]));
-  //else
-  graph.loop();  
-}
-
 int		main(int ac, char **av)
 {
+  Graphic	graph;
   Socket	socket;
   Utils		utils;
   int		port;
 
   port = utils.ParsArg(ac, av);
   socket.Connect(port);
-  
-  // launchGraphics();
+  socket.SetGraphicPtr(&graph);
   while ("ever") {
     socket.ServerTalk();
+    graph.update();
   }
   return (0);
 }
