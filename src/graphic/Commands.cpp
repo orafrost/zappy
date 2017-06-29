@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Thu Jun 29 16:04:10 2017 kerma
+// Last update Thu Jun 29 16:42:31 2017 kerma
 //
 
 #include "Commands.hpp"
@@ -19,8 +19,6 @@ Commands::Commands() : _socket(NULL), _graphic(NULL)
   _cmd["pnw"] = &Commands::HandlerPNW;
   _cmd["ppo"] = &Commands::HandlerPPO;
   _cmd["plv"] = &Commands::HandlerPLV;
-  _cmd["pin"] = &Commands::HandlerPIN;
-  _cmd["pex"] = &Commands::HandlerPEX;
   _cmd["pbc"] = &Commands::HandlerPBC;  
   _cmd["sgt"] = &Commands::HandlerSGT;
 
@@ -98,12 +96,14 @@ void	Commands::HandlerMSZ(const ARGS &arg)
     return ;
   }
 
-  int	width;
-  int	height;
+  if (_utils.isNum(arg[1]) == false ||
+      _utils.isNum(arg[2]) == false)
+    return ;
+  
+  int	width = _utils.StringToInt(arg[1]);
+  int	height = _utils.StringToInt(arg[2]);
 
-  width = _utils.StringToInt(arg[1]);
-  height = _utils.StringToInt(arg[2]);
-  graphic->setMapDimensions(width, height);
+  _graphic->setMapDimensions(width, height);
   _init["msz"] = true;
 }
 
@@ -116,12 +116,14 @@ void	Commands::HandlerBCT(const ARGS &arg)
     return ;
   }
 
-  int	X;
-  int	Y;
+  if (_utils.isNum(arg[1]) == false ||
+      _utils.isNum(arg[2]) == false)
+    return ;
+  
+  int	X = _utils.StringToInt(arg[1]);
+  int	Y = _utils.StringToInt(arg[2]);
   TILE	tile;
 
-  X = _utils.StringToInt(arg[1]);
-  Y = _utils.StringToInt(arg[2]);
   tile.push_back(_utils.StringToInt(*(arg.begin() + 3)));
   tile.push_back(_utils.StringToInt(*(arg.begin() + 4)));
   tile.push_back(_utils.StringToInt(*(arg.begin() + 5)));
@@ -129,7 +131,7 @@ void	Commands::HandlerBCT(const ARGS &arg)
   tile.push_back(_utils.StringToInt(*(arg.begin() + 7)));
   tile.push_back(_utils.StringToInt(*(arg.begin() + 8)));
   tile.push_back(_utils.StringToInt(*(arg.begin() + 9)));
-  graphic->setBlock(X, Y, tile);
+  _graphic->setBlock(X, Y, tile);
 }
 
 void	Commands::HandlerTNA(const ARGS &arg)
@@ -142,7 +144,7 @@ void	Commands::HandlerTNA(const ARGS &arg)
   }
 
   std::string name = ConcatARGS(arg, 1);
-  std::cout << "Team: " << name << std::endl;
+  _graphic->addTeam(name);
 }
 
 void	Commands::HandlerPNW(const ARGS &arg)
@@ -154,14 +156,21 @@ void	Commands::HandlerPNW(const ARGS &arg)
     return ;
   }
 
-  std::string name = ConcatARGS(arg, 6);
-  std::cout << "Player Connection: " << std::endl
-	    << "  Id:\t" << arg[1] << std::endl  
-	    << "  X:\t" << arg[2] << std::endl  
-	    << "  Y:\t" << arg[3] << std::endl  
-	    << "  Dir:\t" << arg[4] << std::endl  
-	    << "  Level:\t" << arg[5] << std::endl  
-	    << "  Team:\t" << name << std::endl;
+  if (_utils.isNum(arg[1]) == false ||
+      _utils.isNum(arg[2]) == false ||
+      _utils.isNum(arg[3]) == false ||
+      _utils.isNum(arg[4]) == false ||
+      _utils.isNum(arg[5]) == false)
+    return ;
+  
+  std::string	name = ConcatARGS(arg, 6);
+  int		id = _utils.StringToInt(arg[1]);		
+  int		X = _utils.StringToInt(arg[2]);		
+  int		Y = _utils.StringToInt(arg[3]);		
+  int		dir = _utils.StringToInt(arg[4]);		
+  int		level = _utils.StringToInt(arg[5]);		
+
+  _graphic->addPayer(id, X, Y, dir, level, name);
 }
 
 void	Commands::HandlerPPO(const ARGS &arg)
@@ -172,11 +181,19 @@ void	Commands::HandlerPPO(const ARGS &arg)
     Bufferized(arg);
     return ;
   }
-  std::cout << "Player Position: " << std::endl
-	    << "  Id:\t" << arg[1] << std::endl  
-	    << "  X:\t" << arg[2] << std::endl  
-	    << "  Y:\t" << arg[3] << std::endl  
-	    << "  Dir:\t" << arg[4] << std::endl;
+
+  if (_utils.isNum(arg[1]) == false ||
+      _utils.isNum(arg[2]) == false ||
+      _utils.isNum(arg[3]) == false ||
+      _utils.isNum(arg[4]) == false)
+    return ;
+
+  int	id = _utils.StringToInt(arg[1]);		
+  int	X = _utils.StringToInt(arg[2]);		
+  int	Y = _utils.StringToInt(arg[3]);		
+  int	dir = _utils.StringToInt(arg[4]);		
+
+  _graphic->setPlayerPostion(id, X, Y, dir);
 }
 
 void	Commands::HandlerPLV(const ARGS &arg)
@@ -187,55 +204,32 @@ void	Commands::HandlerPLV(const ARGS &arg)
     Bufferized(arg);
     return ;
   }
-  std::cout << "Player Level: " << std::endl
-	    << "  Id:\t" << arg[1] << std::endl  
-	    << "  Level:\t" << arg[2] << std::endl;
-}
 
-void	Commands::HandlerPIN(const ARGS &arg)
-{
-  if (_init["WELCOME"] == false)
+  if (_utils.isNum(arg[1]) == false ||
+      _utils.isNum(arg[2]) == false)
     return ;
-  if (arg.size() != 11 ) {
-    Bufferized(arg);
-    return ;
-  }
-  std::cout << "Player Inventory: " << std::endl
-	    << "  Id:\t" << arg[1] << std::endl  
-	    << "  X:\t" << arg[2] << std::endl
-	    << "  Y:\t" << arg[3] << std::endl
-	    << "  Food:\t" << arg[4] << std::endl
-    	    << "  Linemate:\t" << arg[5] << std::endl
-    	    << "  Deraumere:\t" << arg[6] << std::endl
-	    << "  Sibur:\t" << arg[7] << std::endl
-	    << "  Mendiane:\t" << arg[8] << std::endl
-	    << "  Phiras:\t" << arg[9] << std::endl
-	    << "  Thystame:\t" << arg[10] << std::endl;
-}
 
-void	Commands::HandlerPEX(const ARGS &arg)
-{
-  if (_init["WELCOME"] == false)
-    return ;
-  if (arg.size() != 2) {
-    Bufferized(arg);
-    return ;
-  }
-  std::cout << "Player " << arg[1] << " eject's" << std::endl;
+  int	id = _utils.StringToInt(arg[1]);		
+  int	level = _utils.StringToInt(arg[2]);		
+
+  _graphic->setLevel(id, level);
 }
 
 void	Commands::HandlerPBC(const ARGS &arg)
 {
   if (_init["WELCOME"] == false)
     return ;
-  if (arg.size() != 3) {
+  if (arg.size() < 3) {
     Bufferized(arg);
     return ;
   }
 
-  std::string message = ConcatARGS(arg, 2);
-  std::cout << "Player " << arg[1] << " broadcast: "
-	    << message << std::endl;
+  if (_utils.isNum(arg[1]) == false)
+    return ;
+
+  int	id = _utils.StringToInt(arg[1]);		
+
+  _graphic->playerBroadcast(id);
 }
 
 void	Commands::HandlerSGT(const ARGS &arg)
@@ -246,6 +240,12 @@ void	Commands::HandlerSGT(const ARGS &arg)
     Bufferized(arg);
     return ;
   }
-  std::cout << "Frequency: " << arg[1] << std::endl;  
+
+  if (_utils.isNum(arg[1]) == false)
+    return ;
+
+  int	frequence = _utils.StringToInt(arg[1]);		
+
+  _graphic->setFrequence(frequence);
   _init["sgt"] = true;
 }

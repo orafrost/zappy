@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:41:22 2017 kerma
-// Last update Thu Jun 29 15:58:45 2017 kerma
+// Last update Thu Jun 29 16:13:12 2017 kerma
 //
 
 #ifndef COMMANDS_HPP_
@@ -17,8 +17,9 @@
 # include <vector>
 # include <map>
 
-# include <Graphic.hpp>
-# include <Socket.hpp>
+# include "Utils.hpp"
+# include "Graphic.hpp"
+# include "Socket.hpp"
 class	Socket;
 
 class	Commands
