@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 27 20:46:14 2017 kerma
-** Last update Wed Jun 28 15:28:40 2017 kerma
+** Last update Thu Jun 29 10:22:00 2017 kerma
 */
 
 #include "zappy.h"
@@ -117,8 +117,12 @@ int	graphic_read(t_zappy *zappy)
       zappy->graphic = NULL;
       return (0);
     }
-  place_end(buff);
-  // TODO cmd parser
-  printf("GRAPHIC: %s\n", buff);
+  if (place_end(buff) == 1)
+    add_msg(&zappy->graphic->out, "ko");    
+  else
+    {
+      // TODO cmd parser
+      printf("GRAPHIC: %s\n", buff);
+    }
   return (0);
 }

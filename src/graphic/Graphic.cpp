@@ -5,10 +5,10 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:14:46 2017 Eric Amilhat
-// Last update Wed Jun 28 17:36:55 2017 kerma
+// Last update Wed Jun 28 17:42:40 2017 kerma
 //
 
-#include "graphic.hpp"
+#include "Graphic.hpp"
 
 Graphic::Graphic()
 {

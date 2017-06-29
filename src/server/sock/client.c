@@ -5,19 +5,22 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Mon Jun 26 23:47:11 2017 kerma
-** Last update Wed Jun 28 16:09:52 2017 kerma
+** Last update Thu Jun 29 10:22:55 2017 kerma
 */
 
 #include "zappy.h"
 
-void	place_end(char buff[])
+int	place_end(char buff[])
 {
   int  a;
 
   a = 0;
-  while (buff[a] != '\n' && a < 1024)
+  while (buff[a] != '\n' && buff[a] != '\0' && a < 1024)
     a += 1;
+  if (buff[a] != '\n')
+    return (1);
   buff[a] = '\0';
+  return (0);
 }
 
 int	cmd_parser(t_zappy *zappy, t_player *player, char buff[])
@@ -64,8 +67,9 @@ int		client_read(t_zappy *zappy, t_team **player, int team_id)
 	del_elem(zappy->teams[team_id]->players, player);
       return (0);
     }
-  place_end(buff);
-  if (cmd_parser(zappy, (*player)->player, buff) == ERROR)
+  if (place_end(buff) == 1)
+    add_msg(&(*player)->player->client->out, "ko");
+  else if (cmd_parser(zappy, (*player)->player, buff) == ERROR)
     return (ERROR);
   return (0);
 }

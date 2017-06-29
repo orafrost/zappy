@@ -5,7 +5,7 @@
 ** Login   <orafrost@epitech.net>
 **
 ** Started on  Mon Jun  5 15:09:26 2017 guillame verrier
-** Last update Wed Jun 28 16:14:34 2017 kerma
+** Last update Thu Jun 29 10:18:59 2017 kerma
 */
 
 #ifndef ZAPPY_H_
@@ -44,7 +44,7 @@ int		graphic_read(t_zappy *zappy);
 void		graphic_write(t_zappy *zappy);  
 int		add_graphic_client(t_zappy *zappy, int fd);
 
-void		place_end(char buff[]);
+int		place_end(char buff[]);
 int		client_read(t_zappy *zappy, t_team **player, int team_id);
 void		client_write(t_team *player);
 

@@ -5,13 +5,16 @@
 ## Login   <kerma@epitech.net>
 ##
 ## Started on  Tue Jun 27 21:20:58 2017 kerma
-## Last update Wed Jun 28 17:34:18 2017 kerma
+## Last update Thu Jun 29 11:16:30 2017 kerma
 ##
 
 NAME		= zappy_graphic
 
 SRCS		= main.cpp		\
-		 graphic.cpp
+		Utils.cpp		\
+		Socket.cpp		\
+		Graphic.cpp		\
+		Commands.cpp
 
 OBJS		= $(SRCS:.cpp=.o)
 

@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 27 14:53:38 2017 kerma
-** Last update Wed Jun 28 16:09:19 2017 kerma
+** Last update Thu Jun 29 10:20:57 2017 kerma
 */
 
 #include "zappy.h"
@@ -74,8 +74,9 @@ int	read_waitings(t_zappy *zappy, int fd)
       close(fd);
       return (0);
     }
-  place_end(buff);
-  if (new_player(zappy, buff, fd) == ERROR)
+  if (place_end(buff) == 1)
+    add_msg(&zappy->waiting[fd]->out, "ko");
+  else if (new_player(zappy, buff, fd) == ERROR)
     return (ERROR);
   return (0);
 }
