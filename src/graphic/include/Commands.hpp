@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:41:22 2017 kerma
-// Last update Thu Jun 29 15:21:00 2017 kerma
+// Last update Thu Jun 29 15:58:45 2017 kerma
 //
 
 #ifndef COMMANDS_HPP_
@@ -23,6 +23,7 @@ class	Socket;
 
 class	Commands
 {
+  typedef std::vector<int>								TILE;
   typedef std::vector<std::string>							ARGS;
   typedef std::map<std::string, bool>							INIT;
   typedef std::map<std::string, void (Commands::*)(const ARGS &)>			CMDS;
@@ -34,6 +35,7 @@ private:
   CMDS		_cmd;
   ARGS		_tmp;
   INIT		_init;
+  Utils		_utils;
   Socket	*_socket;
   Graphic	*_graphic;
 

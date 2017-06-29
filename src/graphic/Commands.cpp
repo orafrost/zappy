@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Thu Jun 29 15:29:57 2017 kerma
+// Last update Thu Jun 29 16:04:10 2017 kerma
 //
 
 #include "Commands.hpp"
@@ -97,8 +97,13 @@ void	Commands::HandlerMSZ(const ARGS &arg)
     Bufferized(arg);
     return ;
   }
-  std::cout << "Width: " << arg[1] << " - "
-	    << "Height: " << arg[2] << std::endl;
+
+  int	width;
+  int	height;
+
+  width = _utils.StringToInt(arg[1]);
+  height = _utils.StringToInt(arg[2]);
+  graphic->setMapDimensions(width, height);
   _init["msz"] = true;
 }
 
@@ -110,17 +115,21 @@ void	Commands::HandlerBCT(const ARGS &arg)
     Bufferized(arg);
     return ;
   }
-  std::cout << "Tile ["
-	    << arg[1] << ", "
-	    << arg[2] << "]: "
-	    << arg[3] << " "
-	    << arg[4] << " "
-	    << arg[5] << " "
-	    << arg[6] << " "
-	    << arg[7] << " "
-	    << arg[8] << " "
-	    << arg[9] << " "
-	    << std::endl;  
+
+  int	X;
+  int	Y;
+  TILE	tile;
+
+  X = _utils.StringToInt(arg[1]);
+  Y = _utils.StringToInt(arg[2]);
+  tile.push_back(_utils.StringToInt(*(arg.begin() + 3)));
+  tile.push_back(_utils.StringToInt(*(arg.begin() + 4)));
+  tile.push_back(_utils.StringToInt(*(arg.begin() + 5)));
+  tile.push_back(_utils.StringToInt(*(arg.begin() + 6)));
+  tile.push_back(_utils.StringToInt(*(arg.begin() + 7)));
+  tile.push_back(_utils.StringToInt(*(arg.begin() + 8)));
+  tile.push_back(_utils.StringToInt(*(arg.begin() + 9)));
+  graphic->setBlock(X, Y, tile);
 }
 
 void	Commands::HandlerTNA(const ARGS &arg)
