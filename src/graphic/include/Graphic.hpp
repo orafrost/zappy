@@ -5,7 +5,7 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:09:49 2017 Eric Amilhat
-// Last update Thu Jun 29 16:09:27 2017 Eric Amilhat
+// Last update Thu Jun 29 16:42:58 2017 Eric Amilhat
 //
 
 #ifndef GRAPHIC_HPP_
@@ -50,11 +50,10 @@ typedef struct s_player
 {
   int           X;
   int		Y;
-  e_dir		O;
+  e_dir		dir;
   int		L;
   int		id;
   std::string	teamName;
-  e_resources	resources[7];
 }               t_player;
 
 typedef struct	s_team
@@ -97,6 +96,7 @@ private:
   sf::Mouse		mouse;
   t_assets		assets;
   int			spriteSize;
+  int			frequency;
   int			Error(const std::string &err) const;
   void			eventManager();
   int			sumOfBlock(int x, int y) const;
@@ -107,10 +107,18 @@ public:
   Graphic();
   ~Graphic();
   void			initWindow();
-  void			setBlock(int x, int y, std::vector<int> arg);
   void		        update();
   void			printMap();
+  void			setBlock(int x, int y, std::vector<int> arg);
   void			setMapDimensions(int width, int height);
+
+  void			addTeam(std::string name);
+  void			addPlayer(int id, int x, int y, int dir, int level,
+				  std::string teamName);
+  void			setPlayerPosition(int id, int x, int y, int dir);
+  void			playerBroadcast(int id);
+  void			setLevel(int id, int level);
+  void			setFrequence(int f);
 };
 
 #endif 

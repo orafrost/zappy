@@ -5,12 +5,12 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:14:46 2017 Eric Amilhat
-// Last update Thu Jun 29 16:09:59 2017 Eric Amilhat
+// Last update Thu Jun 29 16:39:14 2017 Eric Amilhat
 //
 
 #include "Graphic.hpp"
 
-Graphic::Graphic() : mapIsSized(false), spriteSize(0)
+Graphic::Graphic() : mapIsSized(false), spriteSize(0), frequency(0)
 {
   map.width = 0;
   map.height = 0;
@@ -191,4 +191,92 @@ void                  Graphic::setBlock(int x, int y, std::vector<int> arg)
     return;
   for (int i = 0; i < 7; i++)
     map.arr[x][y].resources[i] = arg[i];
+}
+
+void			Graphic::addTeam(std::string name)
+{
+  t_team		team;
+
+  team.teamName = name;
+  teams.push_back(team);
+}
+
+void                  Graphic::addPlayer(int id, int x, int y, int dir, int level,
+				std::string teamName)
+{
+  if (dir > 3)
+    return;
+  t_player	player;
+
+  player.id = id;
+  player.X = x;
+  player.Y = y;
+  player.dir = dir;
+  player.L = level;
+  player.teamName = teamName;
+  for (std::vector<t_team>::iterator it = teams.begin();it != teams.end(); ++it)
+    {
+      if (it->first.teamName == teamName)
+	it->first.players.push_back(player);
+    }
+}
+
+void		Graphic::setPlayerPosition(int id, int x, int y, int dir)
+{
+  if (dir > 3)
+    return;  
+  if (x < map.width && y < map.height)
+    {
+      for (std::vector<t_team>::iterator it = teams.begin(); it != teams.end(); ++it)
+	{
+	  for (std::vector<t_player>::iterator it2 = it->first.players.begin();
+	       it2 != it->first.players.end(); ++it2)
+	    {
+	      if (it2->first.id == id)
+		{
+		  it2->first.X = x;
+		  it2->first.Y = y;
+		  it2->first.dir = dir;
+		  return;
+		}
+	    }	  
+	}
+    }
+}
+
+void		Graphic::playerBroadcast(int id)
+{
+  for (std::vector<t_team>::iterator it = teams.begin(); it != teams.end(); ++it)
+    {
+      for (std::vector<t_player>::iterator it2 = it->first.players.begin();
+	   it2 != it->first.players.end(); ++it2)
+	{
+	  if (it2->first.id == id)
+	    {
+	      // ANIMATE BROADCAST
+	      return;
+	    }
+	}
+    }  
+}
+
+void		Graphic::setLevel(int id, int level)
+{
+  for (std::vector<t_team>::iterator it = teams.begin(); it != teams.end(); ++it)
+    {
+      for (std::vector<t_player>::iterator it2 = it->first.players.begin();
+	   it2 != it->first.players.end(); ++it2)
+	{
+	  if (it2->first.id == id)
+	    {
+	      it2->first.L = level;
+	      return;
+	    }
+	}
+    }
+}
+
+void		Graphic::setFrequence(int f)
+{
+  frequency = f;
 }
