@@ -5,7 +5,7 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:09:49 2017 Eric Amilhat
-// Last update Thu Jun 29 16:42:58 2017 Eric Amilhat
+// Last update Thu Jun 29 17:19:02 2017 Eric Amilhat
 //
 
 #ifndef GRAPHIC_HPP_
@@ -62,9 +62,15 @@ typedef struct	s_team
   std::vector<t_player>	players;
 }		t_team;
 
+typedef struct  s_egg
+{
+  int		id;
+  int		parent_id;
+}               t_egg;
+
 typedef struct s_block
 {
-  std::vector<t_player *>	players;
+  std::vector<t_egg>		eggs;
   int				resources[7];
 }		t_block;
 
@@ -119,6 +125,11 @@ public:
   void			playerBroadcast(int id);
   void			setLevel(int id, int level);
   void			setFrequence(int f);
+  void			addEgg(int egg_id, int player_id, int x, int y);
+  void			hatchEgg(int id);
+  void			addResource(int player_id, int resourceType);
+  void			removeResource(int player_id, int resourceType);
+  int			endGame(std::string teamName);
 };
 
 #endif 

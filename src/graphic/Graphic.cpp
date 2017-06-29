@@ -5,7 +5,7 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:14:46 2017 Eric Amilhat
-// Last update Thu Jun 29 16:47:17 2017 kerma
+// Last update Thu Jun 29 17:19:31 2017 Eric Amilhat
 //
 
 #include "Graphic.hpp"
@@ -279,4 +279,78 @@ void		Graphic::setLevel(int id, int level)
 void		Graphic::setFrequence(int f)
 {
   frequency = f;
+}
+
+void                  Graphic::addEgg(int egg_id, int player_id, int x, int y)
+{
+  t_egg			egg;
+
+  egg.id = egg_id;
+  egg.parent_id = player_id;
+  map.arr[x][y].eggs.push_back(egg);
+}
+
+void                  Graphic::hatchEgg(int id)
+{
+  for (int y = 0; y < map.height; y++)
+    {
+      for (int x = 0; x < map.width;x++)
+	{
+	  for (std::vector<t_egg>::iterator it = map.arr[x][y].eggs.begin();
+	       it != map.arr[x][y].eggs.end(); ++it)
+	    {
+	      if (it->id == id)
+		{
+		  map.arr[x][y].eggs.erase(it);
+		  return;
+		}
+	    }
+	}
+    }
+}
+
+void		Graphic::addResource(int player_id, int resourceType)
+{
+  for (std::vector<t_team>::iterator it = teams.begin(); it != teams.end(); ++it)
+    {
+      for (std::vector<t_player>::iterator it2 = it->players.begin();
+	   it2 != it->players.end(); ++it2)
+	{
+	  if (it2->id == player_id)
+	    {
+	      map.arr[it2->X][it2->Y].resources[resourceType]++;
+	      return;
+	    }
+	}
+    }
+}
+
+void		Graphic::removeResource(int player_id, int resourceType)
+{
+  for (std::vector<t_team>::iterator it = teams.begin(); it != teams.end(); ++it)
+    {
+      for (std::vector<t_player>::iterator it2 = it->players.begin();
+	   it2 != it->players.end(); ++it2)
+	{
+	  if (it2->id == player_id)
+	    {
+	      if (map.arr[it2->X][it2->Y].resources[resourceType] > 0)
+		map.arr[it2->X][it2->Y].resources[resourceType]--;
+	      return;
+	    }
+	}
+    }
+}
+
+int                  Graphic::endGame(std::string teamName)
+{
+  for (std::vector<t_team>::iterator it = teams.begin();it != teams.end(); ++it)
+    {
+      if (it->teamName == teamName)
+	{
+	  // WINNER SCREEN
+	  return (0);
+	}
+    }
+  return (-1);
 }
