@@ -1,14 +1,26 @@
 //
-// main.cpp for zappy in /home/kerma/Projets/Epitech/PSU/zappy/src/ai
+// main.cpp for zappy in /home/kerma/Projets/Epitech/PSU/zappy/src/graphic
 //
 // Made by kerma
 // Login   <kerma@epitech.net>
 //
-// Started on  Wed Jun 28 16:57:00 2017 kerma
-// Last update Wed Jun 28 16:57:11 2017 kerma
+// Started on  Wed Jun 28 17:27:22 2017 kerma
+// Last update Thu Jun 29 19:48:18 2017 kerma
 //
 
-int	main()
+#include "Utils.hpp"
+#include "Socket.hpp"
+
+int		main(int ac, char **av)
 {
+  Socket	socket;
+  Utils		utils;
+  t_arg		args;
+
+  args = utils.ParsArg(ac, av);
+  socket.Connect(args.port, args.machine);
+  // while ("ever") {
+  //   socket.ServerTalk();
+  // }
   return (0);
 }
