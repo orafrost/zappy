@@ -5,7 +5,7 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:14:46 2017 Eric Amilhat
-// Last update Thu Jun 29 16:39:14 2017 Eric Amilhat
+// Last update Thu Jun 29 16:47:17 2017 kerma
 //
 
 #include "Graphic.hpp"
@@ -211,13 +211,13 @@ void                  Graphic::addPlayer(int id, int x, int y, int dir, int leve
   player.id = id;
   player.X = x;
   player.Y = y;
-  player.dir = dir;
+  player.dir = static_cast<e_dir>(dir);
   player.L = level;
   player.teamName = teamName;
   for (std::vector<t_team>::iterator it = teams.begin();it != teams.end(); ++it)
     {
-      if (it->first.teamName == teamName)
-	it->first.players.push_back(player);
+      if (it->teamName == teamName)
+	it->players.push_back(player);
     }
 }
 
@@ -229,14 +229,14 @@ void		Graphic::setPlayerPosition(int id, int x, int y, int dir)
     {
       for (std::vector<t_team>::iterator it = teams.begin(); it != teams.end(); ++it)
 	{
-	  for (std::vector<t_player>::iterator it2 = it->first.players.begin();
-	       it2 != it->first.players.end(); ++it2)
+	  for (std::vector<t_player>::iterator it2 = it->players.begin();
+	       it2 != it->players.end(); ++it2)
 	    {
-	      if (it2->first.id == id)
+	      if (it2->id == id)
 		{
-		  it2->first.X = x;
-		  it2->first.Y = y;
-		  it2->first.dir = dir;
+		  it2->X = x;
+		  it2->Y = y;
+		  it2->dir = static_cast<e_dir>(dir);
 		  return;
 		}
 	    }	  
@@ -248,10 +248,10 @@ void		Graphic::playerBroadcast(int id)
 {
   for (std::vector<t_team>::iterator it = teams.begin(); it != teams.end(); ++it)
     {
-      for (std::vector<t_player>::iterator it2 = it->first.players.begin();
-	   it2 != it->first.players.end(); ++it2)
+      for (std::vector<t_player>::iterator it2 = it->players.begin();
+	   it2 != it->players.end(); ++it2)
 	{
-	  if (it2->first.id == id)
+	  if (it2->id == id)
 	    {
 	      // ANIMATE BROADCAST
 	      return;
@@ -264,12 +264,12 @@ void		Graphic::setLevel(int id, int level)
 {
   for (std::vector<t_team>::iterator it = teams.begin(); it != teams.end(); ++it)
     {
-      for (std::vector<t_player>::iterator it2 = it->first.players.begin();
-	   it2 != it->first.players.end(); ++it2)
+      for (std::vector<t_player>::iterator it2 = it->players.begin();
+	   it2 != it->players.end(); ++it2)
 	{
-	  if (it2->first.id == id)
+	  if (it2->id == id)
 	    {
-	      it2->first.L = level;
+	      it2->L = level;
 	      return;
 	    }
 	}

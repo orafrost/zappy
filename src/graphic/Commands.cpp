@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Thu Jun 29 16:42:31 2017 kerma
+// Last update Thu Jun 29 16:48:17 2017 kerma
 //
 
 #include "Commands.hpp"
@@ -170,7 +170,7 @@ void	Commands::HandlerPNW(const ARGS &arg)
   int		dir = _utils.StringToInt(arg[4]);		
   int		level = _utils.StringToInt(arg[5]);		
 
-  _graphic->addPayer(id, X, Y, dir, level, name);
+  _graphic->addPlayer(id, X, Y, dir, level, name);
 }
 
 void	Commands::HandlerPPO(const ARGS &arg)
@@ -193,7 +193,7 @@ void	Commands::HandlerPPO(const ARGS &arg)
   int	Y = _utils.StringToInt(arg[3]);		
   int	dir = _utils.StringToInt(arg[4]);		
 
-  _graphic->setPlayerPostion(id, X, Y, dir);
+  _graphic->setPlayerPosition(id, X, Y, dir);
 }
 
 void	Commands::HandlerPLV(const ARGS &arg)
