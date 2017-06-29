@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:27:22 2017 kerma
-// Last update Thu Jun 29 15:30:59 2017 kerma
+// Last update Thu Jun 29 16:10:51 2017 Eric Amilhat
 //
 
 #include "Utils.hpp"
@@ -24,6 +24,7 @@ int		main(int ac, char **av)
   socket.SetGraphicPtr(&graph);
   while ("ever") {
     socket.ServerTalk();
+    graph.init();
     graph.update();
   }
   return (0);

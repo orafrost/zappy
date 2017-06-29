@@ -5,7 +5,7 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:09:49 2017 Eric Amilhat
-// Last update Thu Jun 29 15:28:04 2017 kerma
+// Last update Thu Jun 29 16:09:27 2017 Eric Amilhat
 //
 
 #ifndef GRAPHIC_HPP_
@@ -91,12 +91,12 @@ private:
   std::vector<sf::Texture>  textures;
   std::vector<t_team>	teams;
   t_map		        map;
-  bool			mapIsSized = false;
+  bool			mapIsSized;
   sf::RenderWindow      window;
   sf::Event		event;
   sf::Mouse		mouse;
   t_assets		assets;
-  int			spriteSize = 0;
+  int			spriteSize;
   int			Error(const std::string &err) const;
   void			eventManager();
   int			sumOfBlock(int x, int y) const;
@@ -106,6 +106,8 @@ private:
 public:
   Graphic();
   ~Graphic();
+  void			initWindow();
+  void			setBlock(int x, int y, std::vector<int> arg);
   void		        update();
   void			printMap();
   void			setMapDimensions(int width, int height);

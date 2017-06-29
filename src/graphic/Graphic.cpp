@@ -5,14 +5,15 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:14:46 2017 Eric Amilhat
-// Last update Thu Jun 29 15:27:54 2017 kerma
+// Last update Thu Jun 29 16:09:59 2017 Eric Amilhat
 //
 
 #include "Graphic.hpp"
 
-Graphic::Graphic()
+Graphic::Graphic() : mapIsSized(false), spriteSize(0)
 {
-  window.create(sf::VideoMode(WINDOW_SIZE + 500, WINDOW_SIZE), "zappy");
+  map.width = 0;
+  map.height = 0;
   assets.backgroundT.create(WINDOW_SIZE, WINDOW_SIZE);
   assets.hoverT.loadFromFile("./assets/hover.png");
   assets.multipleT.loadFromFile("./assets/pikachu.png");
@@ -98,6 +99,15 @@ void	Graphic::eventManager()
     }
 }
 
+void	Graphic::initWindow()
+{
+  if (map.width != 0 && map.height != 0 && !map.arr.empty() && mapIsSized == false)
+    {
+      window.create(sf::VideoMode(WINDOW_SIZE + 500, WINDOW_SIZE), "Zappy");
+      mapIsSized = true;
+    }
+}
+
 void	Graphic::update()
 {
   if (window.isOpen())
@@ -110,6 +120,7 @@ void	Graphic::update()
       window.display();      
     }
 }
+
 int	Graphic::sumOfBlock(int x, int y) const
 {
   int	sum = 0;
@@ -174,3 +185,10 @@ void	Graphic::setMapDimensions(int width, int height)
   this->spriteSize = WINDOW_SIZE/max;
 }
 
+void                  Graphic::setBlock(int x, int y, std::vector<int> arg)
+{
+  if (x > map.width || y > map.height)
+    return;
+  for (int i = 0; i < 7; i++)
+    map.arr[x][y].resources[i] = arg[i];
+}
