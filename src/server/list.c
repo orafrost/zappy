@@ -5,7 +5,7 @@
 ** Login   <verrier_g@epitech.eu>
 **
 ** Started on  Tue Jun 20 12:24:50 2017 Guillaume Verrier
-** Last update Thu Jun 29 14:02:57 2017 kerma
+** Last update Fri Jun 30 18:31:37 2017 kerma
 */
 
 #include "zappy.h"
@@ -29,8 +29,10 @@ static t_player	*create_player(t_zappy *zappy, int fd)
   while (i < 7)
     player->resources[i++] = 0;
   player->_dir = rand() % 3;
-  player->action.action = NONE;
   player->action.arg = NULL;
+  player->action.start = 0;
+  player->action.dure = 0.0f;
+  player->action.response = NULL;
   return (player);
 }
 

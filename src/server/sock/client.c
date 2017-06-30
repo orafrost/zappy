@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Mon Jun 26 23:47:11 2017 kerma
-** Last update Fri Jun 30 18:17:44 2017 kerma
+** Last update Fri Jun 30 18:28:40 2017 kerma
 */
 
 #include "zappy.h"
@@ -36,6 +36,7 @@ int	cmd_parser(t_zappy *zappy, t_player *player, char buff[])
     {
       if (strcmp(zappy->cmd_name[i], temp[0]) == 0)
 	{
+	  player->action.start = time(NULL);
 	  player->action.arg = temp[1];
 	  if (zappy->cmd[i](zappy, player) == ERROR)
 	    return (ERROR);
