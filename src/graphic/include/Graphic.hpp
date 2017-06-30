@@ -5,7 +5,7 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:09:49 2017 Eric Amilhat
-// Last update Thu Jun 29 17:19:02 2017 Eric Amilhat
+// Last update Fri Jun 30 15:24:33 2017 Eric Amilhat
 //
 
 #ifndef GRAPHIC_HPP_
@@ -130,6 +130,9 @@ public:
   void			addResource(int player_id, int resourceType);
   void			removeResource(int player_id, int resourceType);
   int			endGame(std::string teamName);
+  void			startIncantation(int id);
+  void			endIncantation(int x, int y);
+  void			killPlayer(int id);
 };
 
 #endif 

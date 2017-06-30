@@ -5,7 +5,7 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:14:46 2017 Eric Amilhat
-// Last update Thu Jun 29 17:33:32 2017 kerma
+// Last update Fri Jun 30 15:26:10 2017 Eric Amilhat
 //
 
 #include "Graphic.hpp"
@@ -359,4 +359,43 @@ int                  Graphic::endGame(std::string teamName)
 	}
     }
   return (-1);
+}
+
+void                  Graphic::startIncantation(int id)
+{
+  for (std::vector<t_team>::iterator it = teams.begin(); it != teams.end(); ++it)
+    {
+      for (std::vector<t_player>::iterator it2 = it->players.begin();
+	   it2 != it->players.end(); ++it2)
+	{
+	  if (it2->id == id)
+	    {
+	      // INCANTATION ANIMATION
+	      return;
+	    }
+	}
+    }
+}
+
+void                  Graphic::endIncantation(int x, int y)
+{
+  (void)x;
+  (void)y;
+  // END INCANTATION ANIMATION AT X Y
+}
+
+void		Graphic::killPlayer(int id)
+{
+  for (std::vector<t_team>::iterator it = teams.begin(); it != teams.end(); ++it)
+    {
+      for (std::vector<t_player>::iterator it2 = it->players.begin();
+	   it2 != it->players.end(); ++it2)
+	{
+	  if (it2->id == id)
+	    {
+	      it->players.erase(it2);
+	      return;
+	    }
+	}
+    }
 }
