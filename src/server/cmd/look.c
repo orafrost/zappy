@@ -5,46 +5,135 @@
 ** Login   <verrier_g@epitech.eu>
 **
 ** Started on  Mon Jun 26 14:01:52 2017 Guillaume Verrier
-** Last update Wed Jun 28 12:35:41 2017 Guillaume Verrier
+** Last update Thu Jun 29 14:22:04 2017 Guillaume Verrier
 */
 
 #include "zappy.h"
 
-void look(t_player *cur)
+void move_iteartor(int pos[2], int vx, vy)
+{
+  pos[0] = pos[0] - vy;
+  pos[1] = pos[1] + vx;
+}
+
+int get_size_look(int level)
 {
   int a;
+  int i;
+
+  a = 4;
+  i = 1;
+  while (i < level)
+  {
+    a = a + 2 * (i - 1) + 5;
+    i += 1;
+  }
+  return (a);
+}
+
+void concat_resources(t_tile *tile, char *buff)
+{
+  int b;
+  int c;
+  char  *name[7];
+
+  name[0] = "food";
+  name[1] = "linemate";
+  name[2] = "deraumere";
+  name[3] = "sibur";
+  name[4] = "mendiane";
+  name[5] = "phiras";
+  name[6] = "thystame";
+  b = 0;
+  while (b < 7)
+  {
+    c = 0;
+    while (c < tile->resources[b])
+    {
+      if (buff[0] != '[');
+        strcat(buff, " ");
+      strcat(buff, name[b]);
+      c += 1;
+    }
+    b += 1;
+  }
+}
+
+void send_look(t_tile **vis, t_player *cur, int len)
+{
+  char *buf;
+  int   a;
+  t_team *tmp;
+
+  if ((buff = malloc(1024 * len)) == NULL)
+    return ;
+  a = 0;
+  buff[0] = '[';
+  while (a < len)
+  {
+    tmp = vis[a]->player;
+    while (tmp != NULL)
+    {
+      if (buff[0] != '[');
+        strcat(buff, " ");
+      strcat(buff, "player");
+      tmp = tmp->next;
+    }
+    concat_resources(vis[a], buff);
+    a += 1;
+    if (a != len)
+      strcat(buff, ",");
+  }
+  strcat(buff, "]\n");
+  add_msg(cur->client->out, buff);
+}
+
+int look(t_zappy *game, t_player *cur)
+{
+  int a;
+  int i;
   int nb_case;
+  t_tile **vis;
   int  b;
   int  vx;
   int  vy;
+  int  len;
   int pos[2];
 
+  len = get_size_look(player->level);
+  if ((*vis = malloc(sizeof(t_tile *) * len)) == NULL)
+    return (ERROR);
   a = 0;
   nb_case = 1;
+  i = 0;
   get_vector(cur, &vx, &vy);
-  while (a <= 4)
+  while (a <= player->level)
   {
     pos[0] = cur->x + vx * a + (nb_case - 1) / 2 * vy;
     pos[1] = cur->y + vy * a + (nb_case - 1) / 2 * (vx * -1);
     b = 0;
     while (b < nb_case)
     {
-      pos[0] = pos[0] - vy;
-      pos[1] = pos[1] + vx;
+      vis[i++] = get_tile(game, pos);
+      move_iteartor(pos, vx, vy);
       b += 1;
     }
     nb_case += 2;
     a += 1;
   }
+  send_look(vis, cur, len);
+  return (0);
 }
 
-void inventory(t_zappy *game, t_player *cur)
+int inventory(t_zappy *game, t_player *cur)
 {
-  char name[2048];
+  char buff[2048];
 
-  sprintf(name, "[food %d, linemate %d, deraumere %d, sibur %d, mendiane %d, phiras %d, thystame %d]\n",
+  sprintf(buff, "[food %d, linemate %d, deraumere %d, sibur %d, mendiane %d, phiras %d, thystame %d]\n",
           cur->resources[0], cur->resources[1], cur->resources[2], cur->resources[3], cur->resources[4],
           cur->resources[5],cur->resources[6]);
+  add_msg(&cur->client->out, buff);
+  return (0);
 }
 
 double calc_angle(int vect[2], int dir[2])
@@ -84,22 +173,24 @@ int get_k(t_player *src, t_player *dest)
 void bc_team(t_teamRoot *team, t_player *src)
 {
   t_team *tmp;
+  char    buff[1024];
 
   tmp = team->players;
   while (tmp != NULL)
   {
-    get_k(src, tmp->player);
+    sprintf(buff, "message %d, %s\n", get_k(src, tmp->player), src->action.arg);
+    add_msg(&cur->client->out, buff);
     tmp = tmp->next;
   }
 }
 
-void broadcast(t_zappy *game, t_player *cur)
+int broadcast(t_zappy *game, t_player *cur)
 {
   int a;
 
-  if (cur->action.arg != NULL)
+  if (cur->action.arg == NULL)
   {
-    add_el
+    add_msg(&cur->client->out, "KO\n");
     return ;
   }
   a = 0;
@@ -108,4 +199,6 @@ void broadcast(t_zappy *game, t_player *cur)
     bc_team(game->teams[a], cur);
     a += 1;
   }
+  add_msg(&cur->client->out, "OK\n");
+  return (0);
 }
