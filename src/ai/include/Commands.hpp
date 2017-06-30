@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:41:22 2017 kerma
-// Last update Thu Jun 29 21:37:45 2017 kerma
+// Last update Fri Jun 30 16:31:43 2017 kerma
 //
 
 #ifndef COMMANDS_HPP_
@@ -42,40 +42,59 @@ class	Commands
       INCANTATION	= 13,
     };
 
-  // typedef std::vector<int>								TILE;
-  typedef std::vector<std::string>							ARGS;
-  typedef std::map<std::string, bool>							INIT;
-  typedef std::map<std::string, void (Commands::*)(const ARGS &)>			CMDS;
+  typedef std::vector<std::string>								ARGS;
+  typedef std::map<std::string, bool>								INIT;
+  typedef std::map<std::string, void (Commands::*)(const ARGS &)>				CMDS;
 
-  typedef std::vector<std::string>::const_iterator					VCIT;
-  typedef std::map<std::string, void (Commands::*)(const ARGS &)>::const_iterator	MCIT;  
+  typedef std::vector<Commands::CommandType>							LIST;
+  typedef std::map<Commands::CommandType, void (Commands::*)(const ARGS &)>			RESP;
+
+  typedef std::vector<std::string>::const_iterator						VCIT;
+  typedef std::map<std::string, void (Commands::*)(const ARGS &)>::const_iterator		MCIT;
+
+  typedef std::vector<Commands::CommandType>::const_iterator					LCIT;
+  typedef std::map<Commands::CommandType, void (Commands::*)(const ARGS &)>::const_iterator	RCIT;
 
 private:
   CMDS		_cmd;
   ARGS		_tmp;
   INIT		_init;
+  LIST		_list;
+  RESP		_resp;
   Utils		_utils;
   Socket	*_socket;
-
+  
 private:
   void		Bufferized(const ARGS &arg);
   std::string	ConcatARGS(const ARGS &arg, int i) const;
   void		HandlerWELCOME(const ARGS &arg);
-  void		HandlerMOVE(const ARGS &arg);
+
+  // void		ResponseWELCOME(const ARGS &arg);
+  // void		ResponseFORWARD(const ARGS &arg);
+  // void		ResponseRIGHT(const ARGS &arg);
+  // void		ResponseLEFT(const ARGS &arg);
+  // void		ResponseLOOK(const ARGS &arg);
+  // void		ResponseINVENTORY(const ARGS &arg);
+  // void		ResponseBROADCAST(const ARGS &arg);
+  // void		ResponseCONNECTED(const ARGS &arg);
+  // void		ResponseFORK(const ARGS &arg);
+  // void		ResponseEJECT(const ARGS &arg);
+  // void		ResponseDEATH(const ARGS &arg);
+  // void		ResponseINCANTATION(const ARGS &arg);
   
 public:
-  void	        SendFORWARD(const std::string &none)const;
-  void		SendRIGHT(const std::string &none) const;
-  void		SendLEFT(const std::string &none) const;
-  void		SendLOOK(const std::string &none) const;
-  void		SendINVENTORY(const std::string &none) const;
+  void	        SendFORWARD()const;
+  void		SendRIGHT() const;
+  void		SendLEFT() const;
+  void		SendLOOK() const;
+  void		SendINVENTORY() const;
+  void		SendCONNECTED() const;
+  void		SendFORK() const;
+  void	        SendEJECT() const;
   void		SendBROADCAST(const std::string &text) const;
-  void		SendCONNECTED(const std::string &none) const;
-  void		SendFORK(const std::string &none) const;
-  void	        SendEJECT(const std::string &none) const;
   void		SendTAKE(const std::string &object) const;
   void		SendSET(const std::string &object) const;
-  void		SendINCANTATION(const std::string &none) const;
+  void		SendINCANTATION() const;
 
 public:
   void		SetSocket(Socket *socket);

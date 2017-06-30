@@ -5,7 +5,6 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:14:46 2017 Eric Amilhat
-// Last update Fri Jun 30 17:49:17 2017 Eric Amilhat
 //
 
 #include "Graphic.hpp"
@@ -271,12 +270,9 @@ void			Graphic::addTeam(std::string name)
 void                  Graphic::addPlayer(int id, int x, int y, int dir, int level,
 				std::string teamName)
 {
-  //std::cout << "dir  = "
   if (dir > 3 || x > map.width || y > map.height)
-    {
-      std::cout << "KO" << std::endl;
-      return;
-    }
+    return;
+
   t_player	player;
 
   player.id = id;
@@ -287,11 +283,10 @@ void                  Graphic::addPlayer(int id, int x, int y, int dir, int leve
   player.teamName = teamName;
   for (std::vector<t_team>::iterator it = teams.begin();it != teams.end(); ++it)
     {
-      if (it->teamName == teamName)
-	{
-	  std::cout << "OKAY" << std::endl;
-	  it->players.push_back(player);
-	}
+      if (it->teamName == teamName) {
+	it->players.push_back(player);
+	return ;
+      }
     }
 }
 
@@ -299,22 +294,20 @@ void		Graphic::setPlayerPosition(int id, int x, int y, int dir)
 {
   if (dir > 3 || x > map.width || y > map.height)
     return;
-  if (x < map.width && y < map.height)
+
+  for (std::vector<t_team>::iterator it = teams.begin(); it != teams.end(); ++it)
     {
-      for (std::vector<t_team>::iterator it = teams.begin(); it != teams.end(); ++it)
+      for (std::vector<t_player>::iterator it2 = it->players.begin();
+	   it2 != it->players.end(); ++it2)
 	{
-	  for (std::vector<t_player>::iterator it2 = it->players.begin();
-	       it2 != it->players.end(); ++it2)
+	  if (it2->id == id)
 	    {
-	      if (it2->id == id)
-		{
-		  it2->X = x;
-		  it2->Y = y;
-		  it2->dir = static_cast<e_dir>(dir);
-		  return;
-		}
-	    }	  
-	}
+	      it2->X = x;
+	      it2->Y = y;
+	      it2->dir = static_cast<e_dir>(dir);
+ 	      return;
+	    }
+	}	  
     }
 }
 
