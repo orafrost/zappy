@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Mon Jun 26 20:39:26 2017 kerma
-** Last update Thu Jun 29 13:57:00 2017 kerma
+** Last update Fri Jun 30 18:16:11 2017 kerma
 */
 
 #ifndef STRUCT_H_
@@ -39,24 +39,6 @@ typedef enum	e_resources
     THYSTAME	= 6
   }		e_resources;
 
-typedef enum	e_action
-  {
-    NONE	= -1,
-    MOVE	= 0,
-    TURN_RIGHT	= 1,
-    TURN_LEFT	= 2,
-    LOOK	= 3,
-    INVENTORY	= 4,
-    BROADCAST	= 5,
-    NB_TEAMS	= 6,
-    FORK	= 7,
-    EJECT	= 8,
-    DEATH	= 9,
-    TAKE	= 10,
-    SET		= 11,
-    START	= 12
-  }		e_action;
-
 typedef struct		s_buffer
 {
   char			*msg;
@@ -72,7 +54,7 @@ typedef struct	s_tcp
 
 typedef struct	s_action
 {
-  e_action	action;
+  cmds		response;
   char          *arg;
   time_t	start;
   float		dure;
