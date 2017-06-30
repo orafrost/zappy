@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Fri Jun 30 13:49:28 2017 kerma
+// Last update Fri Jun 30 16:31:49 2017 kerma
 //
 
 #include "Commands.hpp"
@@ -15,6 +15,19 @@ Commands::Commands() : _socket(NULL)
   _cmd["WELCOME"] = &Commands::HandlerWELCOME;
 
   _init["WELCOME"] = false;
+
+  // _resp[WELCOME] = &Commands::ResponseWELCOME;
+  // _resp[FORWARD] = &Commands::ResponseFORWARD;
+  // _resp[RIGHT] = &Commands::ResponseRIGHT;
+  // _resp[LEFT] = &Commands::ResponseLEFT;
+  // _resp[LOOK] = &Commands::ResponseLOOK;
+  // _resp[INVENTORY] = &Commands::ResponseINVENTORY;
+  // _resp[BROADCAST] = &Commands::ResponseBROADCAST;
+  // _resp[CONNECTED] = &Commands::ResponseCONNECTED;
+  // _resp[FORK] = &Commands::ResponseFORK;
+  // _resp[EJECT] = &Commands::ResponseEJECT;
+  // _resp[DEATH] = &Commands::ResponseDEATH;
+  // _resp[INCANTATION] = &Commands::ResponseFORWARD;
 }
 
 Commands::~Commands() {}
@@ -80,50 +93,18 @@ void	Commands::HandlerWELCOME(const ARGS &arg)
   _init["WELCOME"] = true;
 }
 
-void	Commands::SendFORWARD([[gnu::unused]] const std::string &none) const
-{
-  _socket->AddCommand("Forward");
-}
+// void	Commands::Resp(const std::string &text) const
 
-void	Commands::SendRIGHT([[gnu::unused]] const std::string &none) const
-{
-  _socket->AddCommand("Right");
-}
 
-void	Commands::SendLEFT([[gnu::unused]] const std::string &none) const
-{
-  _socket->AddCommand("Left");
-}
-
-void	Commands::SendLOOK([[gnu::unused]] const std::string &none) const
-{
-  _socket->AddCommand("Look");
-}
-
-void	Commands::SendFORK([[gnu::unused]] const std::string &none) const
-{
-  _socket->AddCommand("Fork");
-}
-
-void	Commands::SendEJECT([[gnu::unused]] const std::string &none) const
-{
-  _socket->AddCommand("Eject");
-}
-
-void	Commands::SendINVENTORY([[gnu::unused]] const std::string &none) const
-{
-  _socket->AddCommand("Inventory");
-}
-
-void	Commands::SendCONNECTED([[gnu::unused]] const std::string &none) const
-{
-  _socket->AddCommand("Connected_nbr");
-}
-
-void	Commands::SendINCANTATION([[gnu::unused]] const std::string &none) const
-{
-  _socket->AddCommand("Incantation");
-}
+void	Commands::SendFORWARD() const { _socket->AddCommand("Forward"); }
+void	Commands::SendRIGHT() const { _socket->AddCommand("Right"); }
+void	Commands::SendLEFT() const { _socket->AddCommand("Left"); } 
+void	Commands::SendLOOK() const { _socket->AddCommand("Look"); }
+void	Commands::SendFORK() const { _socket->AddCommand("Fork"); }
+void	Commands::SendEJECT() const { _socket->AddCommand("Eject"); }
+void	Commands::SendINVENTORY() const { _socket->AddCommand("Inventory"); } 
+void	Commands::SendCONNECTED() const { _socket->AddCommand("Connected_nbr"); }
+void	Commands::SendINCANTATION() const { _socket->AddCommand("Incantation"); }
 
 void	Commands::SendTAKE(const std::string &object) const
 {
