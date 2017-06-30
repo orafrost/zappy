@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:41:22 2017 kerma
-// Last update Thu Jun 29 17:18:07 2017 kerma
+// Last update Fri Jun 30 15:25:22 2017 kerma
 //
 
 #ifndef COMMANDS_HPP_
@@ -51,8 +51,11 @@ private:
   void		HandlerPPO(const ARGS &arg);
   void		HandlerPLV(const ARGS &arg);
   void		HandlerPBC(const ARGS &arg);
+  void		HandlerPIC(const ARGS &arg);
+  void		HandlerPIE(const ARGS &arg);
   void		HandlerPDR(const ARGS &arg);
   void		HandlerPGT(const ARGS &arg);
+  void		HandlerPDI(const ARGS &arg);
   void		HandlerENW(const ARGS &arg);
   void		HandlerEHT(const ARGS &arg);
   void		HandlerSGT(const ARGS &arg);

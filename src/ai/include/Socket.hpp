@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:41:22 2017 kerma
-// Last update Thu Jun 29 19:46:02 2017 kerma
+// Last update Thu Jun 29 21:27:00 2017 kerma
 //
 
 #ifndef SOCKET_HPP_
@@ -29,11 +29,14 @@ class Commands;
 # define ERROR	(84) 
 
 class	Socket
-{  
+{
+  // typedef void (Commands::*)(const Commands::ARGS &arg)
   typedef std::queue<std::string>	BUFFER;
+  typedef std::queue<std::string>	RESPONSE;
   
 private:
   int			_fd;
+  int			_cmd;
   BUFFER		_out;
   fd_set		_fd_read;
   fd_set		_fd_write;
