@@ -5,7 +5,7 @@
 ** Login   <verrier_g@epitech.eu>
 **
 ** Started on  Mon Jun 26 11:41:15 2017 Guillaume Verrier
-** Last update Mon Jun 26 14:02:25 2017 Guillaume Verrier
+** Last update Thu Jun 29 14:18:29 2017 Guillaume Verrier
 */
 
 #include "zappy.h"
@@ -50,33 +50,57 @@ void get_vector(t_player *cur, int *vx, int *vy)
   }
 }
 
-void move_up(t_zappy *game, t_player *cur)
+int move_up(t_zappy *game, t_player *cur)
 {
   int vx;
   int vy;
 
+  if (cur->action.arg != NULL)
+  {
+    add_msg(cur->client->out, "KO\n");
+    return (0);
+  }
   get_vector(cur, &vx, &vy);
   move(game, player, vx, vy);
+  cut->action.reponse = resp_ok;
+  cur->acton.dure  = 7 / game->frequency;
+  return (0);
 }
 
 void turn_right(t_zappy *game, t_player *cur)
 {
   int a;
 
+  if (cur->action.arg != NULL)
+  {
+    add_msg(cur->client->out, "KO\n");
+    return (0);
+  }
   a = cur->_dir;
   a = (a + 1) % 5;
   cur->_dir = a;
+  cut->action.reponse = resp_ok;
+  cur->acton.dure  = 7 / game->frequency;
+  return (0);
 }
 
 void turn_left(t_zappy *game, t_player *cur)
 {
   int a;
 
+  if (cur->action.arg != NULL)
+  {
+    add_msg(cur->client->out, "KO\n");
+    return (0);
+  }
   a = cur->_dir;
   a = (a - 1);
   if (a == -1)
     a = 4;
   cur->_dir = a;
+  cut->action.reponse = resp_ok;
+  cur->acton.dure  = 7 / game->frequency;
+  return (0);
 }
 
 t_tile *get_tile(t_zappy *game, int pos[2])
