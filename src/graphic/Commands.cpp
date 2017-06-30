@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Fri Jun 30 15:26:14 2017 kerma
+// Last update Fri Jun 30 17:53:20 2017 kerma
 //
 
 #include "Commands.hpp"
@@ -75,16 +75,15 @@ void	Commands::CommandParser(const std::string &cmd)
   }
   while (std::getline(iss, line, '\n')) {
     std::istringstream	liss(line);
-
+    
     while (liss >> tmp)
       arg.push_back(tmp);
     if (arg.empty())
       return ;
 
     for (MCIT it = _cmd.begin(); it != _cmd.end(); ++it) {
-      if (it->first == arg.front()) {
+      if (it->first == arg.front())
 	(this->*(_cmd[arg.front()]))(arg);
-      }
     }
     arg.clear();
   }
@@ -182,7 +181,7 @@ void	Commands::HandlerPNW(const ARGS &arg)
   int		dir = _utils.StringToInt(arg[4]);		
   int		level = _utils.StringToInt(arg[5]);		
 
-  _graphic->addPlayer(id, X, Y, dir, level, name);
+  _graphic->addPlayer(id, X, Y, dir - 1, level, name);
 }
 
 void	Commands::HandlerPPO(const ARGS &arg)
@@ -204,8 +203,8 @@ void	Commands::HandlerPPO(const ARGS &arg)
   int	X = _utils.StringToInt(arg[2]);		
   int	Y = _utils.StringToInt(arg[3]);		
   int	dir = _utils.StringToInt(arg[4]);		
-
-  _graphic->setPlayerPosition(id, X, Y, dir);
+  
+  _graphic->setPlayerPosition(id, X, Y, dir - 1);
 }
 
 void	Commands::HandlerPLV(const ARGS &arg)
