@@ -5,7 +5,7 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:14:46 2017 Eric Amilhat
-// Last update Fri Jun 30 16:29:57 2017 Eric Amilhat
+// Last update Fri Jun 30 17:49:17 2017 Eric Amilhat
 //
 
 #include "Graphic.hpp"
@@ -39,6 +39,16 @@ int	Graphic::Error(const std::string &err) const
 {
   std::cerr << "Error: " << err << std::endl;
   exit(84);
+}
+
+int                   Graphic::getPerfectSquare(int sum)
+{
+  int			i = 1;
+  while ((i * i) < sum)
+    {
+      i++;
+    }
+  return (i);
 }
 
 void	Graphic::expandTile()
@@ -178,12 +188,13 @@ void	Graphic::drawMultiple(int x , int y)
 void	Graphic::drawMultipleSprites(int resource,int x , int y, int sum, int pos)
 {
   sf::RectangleShape	drawer;
-  //int			offx;
-  //int			offy = (spriteSize/sum);
+  int			sq = getPerfectSquare(sum);
+  int			offy = (spriteSize/sq) * (pos / sq);
+  int			offx = (spriteSize/sq) * (pos % sq);
 
   drawer.setTexture(&(textures[resource]));
-  drawer.setSize(sf::Vector2f(spriteSize/sum, spriteSize/sum));
-  drawer.setPosition((x * spriteSize) + ((spriteSize/sum) * pos), (y * spriteSize) );
+  drawer.setSize(sf::Vector2f(spriteSize/sq, spriteSize/sq));
+  drawer.setPosition((x * spriteSize) + offx, (y * spriteSize) + offy );
   window.draw(drawer);
 }
 
