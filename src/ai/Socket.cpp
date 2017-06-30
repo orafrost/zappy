@@ -5,12 +5,12 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Thu Jun 29 19:52:53 2017 kerma
+// Last update Thu Jun 29 21:12:34 2017 kerma
 //
 
 #include "Socket.hpp"
 
-Socket::Socket() : _fd(-1), _parser(new Commands()) {}
+Socket::Socket() : _fd(-1), _cmd(0), _parser(new Commands()) {}
 Socket::~Socket()
 {
   if (_fd != -1)

@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Thu Jun 29 17:23:06 2017 kerma
+// Last update Fri Jun 30 15:26:14 2017 kerma
 //
 
 #include "Commands.hpp"
@@ -20,8 +20,11 @@ Commands::Commands() : _socket(NULL), _graphic(NULL)
   _cmd["ppo"] = &Commands::HandlerPPO;
   _cmd["plv"] = &Commands::HandlerPLV;
   _cmd["pbc"] = &Commands::HandlerPBC;  
+  _cmd["pic"] = &Commands::HandlerPIC;  
+  _cmd["pie"] = &Commands::HandlerPIE;  
   _cmd["pdr"] = &Commands::HandlerPDR;  
   _cmd["pgt"] = &Commands::HandlerPGT;  
+  _cmd["pdi"] = &Commands::HandlerPDI;  
   _cmd["enw"] = &Commands::HandlerENW;
   _cmd["eht"] = &Commands::HandlerEHT;
   _cmd["sgt"] = &Commands::HandlerSGT;
@@ -48,8 +51,11 @@ std::string	Commands::ConcatARGS(const ARGS &arg, int i) const
 {
   std::string	line;
   
-  for (VCIT it = arg.begin() + i; it != arg.end(); ++it)
+  for (VCIT it = arg.begin() + i; it != arg.end(); ++it) {
     line += *it;
+    if (it != arg.end() - 1)
+      line += " ";
+  }
   return line;
 }
 
@@ -238,6 +244,42 @@ void	Commands::HandlerPBC(const ARGS &arg)
   _graphic->playerBroadcast(id);
 }
 
+void	Commands::HandlerPIC(const ARGS &arg)
+{
+  if (_init["WELCOME"] == false)
+    return ;
+  if (arg.size() < 2) {
+    Bufferized(arg);
+    return ;
+  }
+
+  if (_utils.isNum(arg[1]) == false)
+    return ;
+
+  int	id = _utils.StringToInt(arg[1]);		
+
+  _graphic->startIncantation(id);
+}
+
+void	Commands::HandlerPIE(const ARGS &arg)
+{
+  if (_init["WELCOME"] == false)
+    return ;
+  if (arg.size() < 3) {
+    Bufferized(arg);
+    return ;
+  }
+
+  if (_utils.isNum(arg[1]) == false)
+    return ;
+  if (_utils.isNum(arg[2]) == false)
+    return ;
+
+  int	X = _utils.StringToInt(arg[1]);		
+  int	Y = _utils.StringToInt(arg[2]);		
+
+  _graphic->endIncantation(X, Y);
+}
 
 void	Commands::HandlerPDR(const ARGS &arg)
 {
@@ -275,6 +317,23 @@ void	Commands::HandlerPGT(const ARGS &arg)
   int	ressource = _utils.StringToInt(arg[2]);		
 
   _graphic->removeResource(id, ressource);
+}
+
+void	Commands::HandlerPDI(const ARGS &arg)
+{
+  if (_init["WELCOME"] == false)
+    return ;
+  if (arg.size() != 2) {
+    Bufferized(arg);
+    return ;
+  }
+
+  if (_utils.isNum(arg[1]) == false)
+      return ;
+
+  int	id = _utils.StringToInt(arg[1]);		
+
+  _graphic->killPlayer(id);
 }
 
 void	Commands::HandlerENW(const ARGS &arg)
