@@ -5,7 +5,7 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:14:46 2017 Eric Amilhat
-// Last update Fri Jun 30 15:26:10 2017 Eric Amilhat
+// Last update Fri Jun 30 16:29:57 2017 Eric Amilhat
 //
 
 #include "Graphic.hpp"
@@ -27,7 +27,7 @@ Graphic::Graphic() : mapIsSized(false), spriteSize(0), frequency(0)
   textures[e_resources::Mendiane].loadFromFile("./assets/Mendiane.png");
   textures[e_resources::Phiras].loadFromFile("./assets/Phiras.png");
   textures[e_resources::Thystame].loadFromFile("./assets/Thystame.png");
-  textures[EMPTY].loadFromFile("./assets/Grass.png");
+  textures[EMPTY].loadFromFile("./assets/empty.png");
 }
   
 Graphic::~Graphic()
@@ -116,6 +116,7 @@ void	Graphic::update()
       window.clear();
       window.draw(assets.background);
       printMap();
+      printPlayers();
       expandTile();
       window.display();      
     }
@@ -131,6 +132,29 @@ int	Graphic::sumOfBlock(int x, int y) const
   return (sum);
 }
 
+void                  Graphic::drawPlayer(t_player const & player, sf::Color color)
+{
+  sf::RectangleShape    drawer;
+
+
+  (void)color;
+  drawer.setTexture(&(assets.multipleT));
+  drawer.setSize(sf::Vector2f(spriteSize, spriteSize));
+  drawer.setPosition(player.X * spriteSize, player.Y * spriteSize);
+  window.draw(drawer);
+}
+
+void                  Graphic::printPlayers()
+{
+  for (std::vector<t_team>::const_iterator it = teams.begin(); it != teams.end(); ++it)
+    {
+      for (std::vector<t_player>::const_iterator it2 = it->players.begin();
+	   it2 != it->players.end(); ++it2)
+	{
+	  drawPlayer(*it2, sf::Color(255, 0, 0));
+	}
+    }
+}
 
 void	Graphic::drawSprite(int resource, int x, int y)
 {
@@ -150,15 +174,34 @@ void	Graphic::drawMultiple(int x , int y)
   drawer.setPosition(x * spriteSize, y * spriteSize);
   window.draw(drawer);
 }
-			     
+
+void	Graphic::drawMultipleSprites(int resource,int x , int y, int sum, int pos)
+{
+  sf::RectangleShape	drawer;
+  //int			offx;
+  //int			offy = (spriteSize/sum);
+
+  drawer.setTexture(&(textures[resource]));
+  drawer.setSize(sf::Vector2f(spriteSize/sum, spriteSize/sum));
+  drawer.setPosition((x * spriteSize) + ((spriteSize/sum) * pos), (y * spriteSize) );
+  window.draw(drawer);
+}
+
+
+
 void	Graphic::printMap()
 {
+  int	sum;
+  int	pos;
+  int	left;
+  
   for (int y = 0; y < map.height; y++)
     {
       for (int x = 0; x < map.width;x++)
 	{
 	  drawSprite(EMPTY, x, y);
-	  if (sumOfBlock(x, y) == 1)
+	  sum = sumOfBlock(x, y);
+	  if (sum == 1)
 	    {
 	      for (int i = 0;i < 7;i++)
 		{
@@ -166,9 +209,20 @@ void	Graphic::printMap()
 		    drawSprite((e_resources)i, x, y);
 		}
 	    }
-	  else if (sumOfBlock(x, y) > 1)
+	  else if (sum > 1)
 	    {
-	      drawMultiple(x, y);
+	      pos = 0;
+	      for (int i = 0; i < 7;i++)
+		{
+		  left = map.arr[x][y].resources[i];
+		  while (left != 0)
+		    {
+		      drawMultipleSprites((e_resources)i, x, y, sum, pos);
+		      pos++;
+		      left--;
+		    }
+		}
+	      //drawMultiple(x, y);
 	    }
 	}
     }
@@ -176,6 +230,8 @@ void	Graphic::printMap()
 
 void	Graphic::setMapDimensions(int width, int height)
 {
+  if (width > 100 || height > 100)
+    Error("Map dimensions must not be over 100");
   map.width = width;
   map.height = height;
   map.arr.resize(width);
@@ -204,8 +260,12 @@ void			Graphic::addTeam(std::string name)
 void                  Graphic::addPlayer(int id, int x, int y, int dir, int level,
 				std::string teamName)
 {
+  //std::cout << "dir  = "
   if (dir > 3 || x > map.width || y > map.height)
-    return;
+    {
+      std::cout << "KO" << std::endl;
+      return;
+    }
   t_player	player;
 
   player.id = id;
@@ -217,7 +277,10 @@ void                  Graphic::addPlayer(int id, int x, int y, int dir, int leve
   for (std::vector<t_team>::iterator it = teams.begin();it != teams.end(); ++it)
     {
       if (it->teamName == teamName)
-	it->players.push_back(player);
+	{
+	  std::cout << "OKAY" << std::endl;
+	  it->players.push_back(player);
+	}
     }
 }
 
