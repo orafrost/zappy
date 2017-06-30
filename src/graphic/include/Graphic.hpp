@@ -5,7 +5,7 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:09:49 2017 Eric Amilhat
-// Last update Fri Jun 30 15:24:33 2017 Eric Amilhat
+// Last update Fri Jun 30 16:12:00 2017 Eric Amilhat
 //
 
 #ifndef GRAPHIC_HPP_
@@ -106,7 +106,10 @@ private:
   int			Error(const std::string &err) const;
   void			eventManager();
   int			sumOfBlock(int x, int y) const;
+  void			drawPlayer(t_player const & player, sf::Color color);
+  void			printPlayers();
   void			drawSprite(int ressource, int x, int y);
+  void			drawMultipleSprites(int resource, int x , int y, int sum, int pos);
   void			drawMultiple(int x, int y);
   void			expandTile();
 public:
