@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Sun Jun 25 17:24:06 2017 kerma
-** Last update Sat Jul  1 01:54:43 2017 kerma
+** Last update Sat Jul  1 14:20:15 2017 kerma
 */
 
 #include "zappy.h"
@@ -44,5 +44,6 @@ int		cmd_connect_nbr(t_zappy *game, t_player *cur)
   memset(msg, 0, 1024);
   sprintf(msg, "%d", team->max - team->nb);
   add_msg(&cur->client->out, msg);
+  cur->action.start = 0; 
   return (0);
 }

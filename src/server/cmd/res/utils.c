@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Sat Jul  1 01:51:46 2017 kerma
-** Last update Sat Jul  1 02:10:21 2017 kerma
+** Last update Sat Jul  1 16:33:24 2017 kerma
 */
 
 #include "zappy.h"
@@ -34,16 +34,37 @@ void	get_vector(t_player *cur, int *vx, int *vy)
     }
 }
 
-t_tile	*get_tile(t_zappy *game, int pos[2], int vy)
+t_tile	*get_tile(t_zappy *game, int pos[2])
 {
   if (pos[0] < 0)
     pos[0] = game->width - pos[0];
   if ((unsigned int)pos[0] >= game->width)
     pos[0] = pos[0] - game->width;
-  pos[1] += vy;
   if (pos[1] < 0)
     pos[1] = game->height - pos[1];
   if ((unsigned int)pos[1] >= game->height)
     pos[1] = pos[1] - game->height;
-  return (game->map[pos[0]] + pos[1]);
+  return (game->map[pos[1]] + pos[0]);
+}
+
+int	find_resource(char *resource)
+{
+  char	*list[7];
+  int	i;
+
+  i = 0;
+  list[0] = "food";
+  list[1] = "linemate";
+  list[2] = "deraumere";
+  list[3] = "sibur";
+  list[4] = "mendiane";
+  list[5] = "phiras";
+  list[6] = "thystame";
+  while (i < 7)
+    {
+      if (strcmp(resource, list[i]) == 0)
+	return (i);
+      i++;
+    }
+  return (WRONG_RESOURCE);
 }

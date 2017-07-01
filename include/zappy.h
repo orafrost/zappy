@@ -5,7 +5,7 @@
 ** Login   <orafrost@epitech.net>
 **
 ** Started on  Mon Jun  5 15:09:26 2017 guillame verrier
-** Last update Sat Jul  1 03:20:03 2017 kerma
+** Last update Sat Jul  1 17:01:56 2017 kerma
 */
 
 #ifndef ZAPPY_H_
@@ -64,21 +64,29 @@ t_team		*del_team(t_team *start, t_team **elem);
 int		add_player(t_team **team, t_player *player);
 t_team		*del_player(t_team *start, t_player **elem);
 
+int		cmd_set(t_zappy *game, t_player *cur);
+int		cmd_take(t_zappy *game, t_player *cur);
 int		cmd_look(t_zappy *game, t_player *cur);
 int		cmd_left(t_zappy *game, t_player *cur);
 int		cmd_right(t_zappy *game, t_player *cur);
 int		cmd_forward(t_zappy *game, t_player *cur);
 int		cmd_inventory(t_zappy *game, t_player *cur);
+int		cmd_broadcast(t_zappy *zappy, t_player *player);
 int		cmd_connect_nbr(t_zappy *zappy, t_player *player);
 
+int		res_set(t_zappy *game, t_player *cur);
+int		res_take(t_zappy *game, t_player *cur);
 int		res_look(t_zappy *game, t_player *cur);
 int		res_left(t_zappy *game, t_player *cur);
 int		res_right(t_zappy *game, t_player *cur);
 int		res_forward(t_zappy *game, t_player *cur);
 int		res_inventory(t_zappy *game, t_player *cur);
+int		res_broadcast(t_zappy *game, t_player *cur);
 
+int		send_look(t_tile **vis, t_player *cur, int len);
+int		find_resource(char *resource);
 void		get_vector(t_player *cur, int *vx, int *vy);
-t_tile		*get_tile(t_zappy *game, int pos[2], int vy);
+t_tile		*get_tile(t_zappy *game, int pos[2]);
 
 void		usage();
 int		is_num(char *str);

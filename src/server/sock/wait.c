@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 27 14:53:38 2017 kerma
-** Last update Sat Jul  1 01:28:21 2017 kerma
+** Last update Sat Jul  1 14:51:03 2017 kerma
 */
 
 #include "zappy.h"
@@ -27,7 +27,7 @@ static int	add_to_team(t_zappy *zappy, int fd, int i)
     return (ERROR);
   zappy->teams[i]->nb++;
   clean_waiting(zappy, fd);
-  add_player(&zappy->map[new->player->x][new->player->y].player, new->player);
+  add_player(&zappy->map[new->player->y][new->player->x].player, new->player);
   memset(msg1, 0, 4);
   memset(msg2, 0, 5);
   sprintf(msg1, "%d", zappy->teams[i]->max - zappy->teams[i]->nb);

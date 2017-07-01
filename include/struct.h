@@ -5,14 +5,15 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Mon Jun 26 20:39:26 2017 kerma
-** Last update Sat Jul  1 03:33:18 2017 kerma
+** Last update Sat Jul  1 17:03:59 2017 kerma
 */
 
 #ifndef STRUCT_H_
 # define STRUCT_H_
 
-# define MAX    (1024)
-# define NB_CMD	(6)
+# define MAX		(1024)
+# define NB_CMD		(9)
+# define WRONG_RESOURCE	(8)
 
 typedef struct	s_player	t_player;
 typedef struct	s_zappy		t_zappy;

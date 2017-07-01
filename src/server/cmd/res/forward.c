@@ -5,15 +5,15 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Fri Jun 30 21:56:06 2017 kerma
-** Last update Sat Jul  1 02:55:34 2017 kerma
+** Last update Sat Jul  1 14:53:23 2017 kerma
 */
 
 #include "zappy.h"
 
 static int	move(t_zappy *game, t_player *cur, int vx, int vy)
 {
-  game->map[cur->x][cur->y].player =
-    del_player(game->map[cur->x][cur->y].player, &cur);
+  game->map[cur->y][cur->x].player =
+    del_player(game->map[cur->y][cur->x].player, &cur);
   cur->x += vx;
   if (cur->x < 0)
     cur->x = game->width - 1;
@@ -24,7 +24,7 @@ static int	move(t_zappy *game, t_player *cur, int vx, int vy)
     cur->y = game->height - 1;
   if ((unsigned int)cur->y >= game->height)
     cur->y = 0;
-  if (add_player(&game->map[cur->x][cur->y].player, cur) == ERROR)
+  if (add_player(&game->map[cur->y][cur->x].player, cur) == ERROR)
     return (ERROR);
   return (0);
 }

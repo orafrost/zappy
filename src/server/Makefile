@@ -5,7 +5,7 @@
 ## Login   <kerma@epitech.net>
 ##
 ## Started on  Tue Jun 20 14:17:36 2017 kerma
-## Last update Sat Jul  1 03:22:31 2017 kerma
+## Last update Sat Jul  1 17:02:37 2017 kerma
 ##
 
 NAME	= zappy_server
@@ -30,16 +30,23 @@ SRCS	= main.c		\
 	sock/graphic.c		\
 	cmd/init/connect_nbr.c	\
 	cmd/init/inventory.c	\
+	cmd/init/broadcast.c	\
 	cmd/init/forward.c	\
 	cmd/init/right.c	\
 	cmd/init/left.c		\
 	cmd/init/look.c		\
+	cmd/init/take.c		\
+	cmd/init/set.c		\
 	cmd/res/inventory.c	\
+	cmd/res/broadcast.c	\
+	cmd/res/look_misc.c	\
 	cmd/res/forward.c	\
 	cmd/res/utils.c		\
 	cmd/res/right.c		\
 	cmd/res/left.c		\
-	cmd/res/look.c
+	cmd/res/take.c		\
+	cmd/res/look.c		\
+	cmd/res/set.c
 
 OBJS	= $(SRCS:.c=.o)
 

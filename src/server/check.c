@@ -5,15 +5,15 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Fri Jun 30 18:24:20 2017 kerma
-** Last update Sat Jul  1 03:33:49 2017 kerma
+** Last update Sat Jul  1 14:15:24 2017 kerma
 */
 
 #include "zappy.h"
 
-void 	food_consumption(t_zappy *zappy, t_team **ref)
+void		food_consumption(t_zappy *zappy, t_team **ref)
 {
-  long unsigned int		delay;
-  int				bol;
+  time_t	delay;
+  int		bol;
 
   bol = 0;
   delay = time(NULL) - (*ref)->player->time;

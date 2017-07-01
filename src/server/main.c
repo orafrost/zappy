@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 20 14:10:18 2017 kerma
-** Last update Sat Jul  1 02:22:52 2017 kerma
+** Last update Sat Jul  1 17:04:35 2017 kerma
 */
 
 #include "zappy.h"
@@ -24,7 +24,8 @@ int	init(t_zappy *zappy)
     return (puterr("An error occurred while initialising the socket."));
   return (0);
 }
-void	init_cmd_name(char *cmd[])
+
+void	init_cmds(cmds cmds[], char *cmd[])
 {
   cmd[0] = "Connect_nbr";
   cmd[1] = "Inventory";
@@ -32,16 +33,18 @@ void	init_cmd_name(char *cmd[])
   cmd[3] = "Left";
   cmd[4] = "Right";
   cmd[5] = "Look";
-}
-
-void	init_cmds(cmds cmd[])
-{
-  cmd[0] = &cmd_connect_nbr;
-  cmd[1] = &cmd_inventory;
-  cmd[2] = &cmd_forward;
-  cmd[3] = &cmd_left;
-  cmd[4] = &cmd_right;
-  cmd[5] = &cmd_look;
+  cmd[6] = "Take";
+  cmd[7] = "Set";
+  cmd[8] = "Broadcast";
+  cmds[0] = &cmd_connect_nbr;
+  cmds[1] = &cmd_inventory;
+  cmds[2] = &cmd_forward;
+  cmds[3] = &cmd_left;
+  cmds[4] = &cmd_right;
+  cmds[5] = &cmd_look;
+  cmds[6] = &cmd_take;
+  cmds[7] = &cmd_set;
+  cmds[8] = &cmd_broadcast;
 }
 
 int		main(int ac, char **av)
@@ -54,8 +57,7 @@ int		main(int ac, char **av)
   if ((ret = args(&zappy, ac, av)) == 0 &&
       (ret = init(&zappy) == 0))
     {
-      init_cmds(zappy.cmd);
-      init_cmd_name(zappy.cmd_name);
+      init_cmds(zappy.cmd, zappy.cmd_name);
       ret = main_loop(&zappy);
     }
   clean(&zappy);

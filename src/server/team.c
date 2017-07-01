@@ -5,7 +5,7 @@
 ** Login   <verrier_g@epitech.eu>
 **
 ** Started on  Tue Jun 20 12:24:50 2017 Guillaume Verrier
-** Last update Fri Jun 30 23:28:40 2017 kerma
+** Last update Sat Jul  1 16:40:49 2017 kerma
 */
 
 #include "zappy.h"
@@ -16,7 +16,7 @@ static t_player	*create_player(t_zappy *zappy, int fd)
   static int	id = 0;
   int		i;
 
-  i = 0;
+  i = 1;
   if ((player = malloc(sizeof(t_player))) == NULL)
     return (pputerr("Function \'malloc\' failed."));
   if ((player->client = init_tcp(player->client, fd)) == NULL)
@@ -26,7 +26,7 @@ static t_player	*create_player(t_zappy *zappy, int fd)
   player->id = id++;
   player->level = 1;
   player->time = time(NULL);
-  player->resources[i++] = 10;
+  player->resources[0] = 10;
   while (i < 7)
     player->resources[i++] = 0;
   player->_dir = rand() % 3;
