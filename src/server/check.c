@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Fri Jun 30 18:24:20 2017 kerma
-** Last update Sat Jul  1 14:15:24 2017 kerma
+** Last update Sat Jul  1 17:58:00 2017 kerma
 */
 
 #include "zappy.h"
@@ -34,10 +34,7 @@ static int	check_life(t_zappy *zappy, t_team **ref, int team_id)
   if ((*ref)->player->resources[FOOD] == 0)
     {
       dprintf((*ref)->player->client->fd, "dead\n");
-      zappy->teams[team_id]->nb--;
-      close((*ref)->player->client->fd);
-      zappy->teams[team_id]->players =
-	del_team(zappy->teams[team_id]->players, ref);
+      quit(zappy, ref, team_id);
       return (1);
     }
   return (0);

@@ -5,28 +5,15 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Mon Jun 26 23:47:11 2017 kerma
-** Last update Sat Jul  1 03:00:01 2017 kerma
+** Last update Sat Jul  1 18:19:10 2017 kerma
 */
 
 #include "zappy.h"
 
-int	place_end(char buff[])
+static int	cmd_parser(t_zappy *zappy, t_player *player, char buff[])
 {
-  int  a;
-
-  a = 0;
-  while (buff[a] != '\n' && buff[a] != '\0' && a < 1024)
-    a += 1;
-  if (buff[a] != '\n')
-    return (1);
-  buff[a] = '\0';
-  return (0);
-}
-
-int	cmd_parser(t_zappy *zappy, t_player *player, char buff[])
-{
-  int	i;
-  char  *temp[2];
+  int		i;
+  char		*temp[2];
   
   i = 0;
   if ((temp[0] = strtok(buff, " ")) == NULL)
@@ -52,29 +39,47 @@ int	cmd_parser(t_zappy *zappy, t_player *player, char buff[])
   return (0);
 }
 
-int		client_read(t_zappy *zappy, t_team **player, int team_id)
+static int	cmd_split(t_zappy *zappy, t_team **ref, char buff[])
+{
+  char		*temp;
+
+  if ((temp = strtok(buff, "\n")) == NULL)
+    add_msg(&(*ref)->player->client->out, "ko");
+  else
+    {
+      if (place_end(temp) == 1)
+	add_msg(&(*ref)->player->client->out, "ko");
+      else if (cmd_parser(zappy, (*ref)->player, temp) == ERROR)
+	return (ERROR);
+      while ((temp = strtok(NULL, "\n")) != NULL)
+	{
+	  if (place_end(temp) == 1)
+	    add_msg(&(*ref)->player->client->out, "ko");
+	  else if (cmd_parser(zappy, (*ref)->player, temp) == ERROR)
+	    return (ERROR);
+	}
+    }
+  return (0);
+}
+
+int		client_read(t_zappy *zappy, t_team **ref, int team_id)
 {
   char		buff[1024];
 
-  if (*player == NULL)
+  if (*ref == NULL)
     return (0);
   memset(buff, 0, 1024);
-  if ((*player)->player->client->init == 0)
+  if ((*ref)->player->client->init == 0)
     {
-      (*player)->player->client->init = 1;
+      (*ref)->player->client->init = 1;
       return (0);
     }
-  if (recv((*player)->player->client->fd, buff, 1024, 0) <= 0)
+  if (recv((*ref)->player->client->fd, buff, 1024, 0) <= 0)
     {
-      zappy->teams[team_id]->nb--;
-      close((*player)->player->client->fd);
-      zappy->teams[team_id]->players =
-	del_team(zappy->teams[team_id]->players, player);
+      quit(zappy, ref, team_id);
       return (0);
-    }
-  if (place_end(buff) == 1)
-    add_msg(&(*player)->player->client->out, "ko");
-  else if (cmd_parser(zappy, (*player)->player, buff) == ERROR)
+    }  
+  if (cmd_split(zappy, ref, buff) == ERROR)
     return (ERROR);
   return (0);
 }

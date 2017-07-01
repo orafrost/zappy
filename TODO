@@ -1,4 +1,3 @@
 TODO delete -g3 in server Makefile
-TODO delete player ptr on map when del_team
 TODO cmd : Start - Fork - Eject
-TDOD if possible, change time management
+TODO if possible, change time management

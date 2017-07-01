@@ -5,7 +5,7 @@
 ## Login   <kerma@epitech.net>
 ##
 ## Started on  Tue Jun 20 14:17:36 2017 kerma
-## Last update Sat Jul  1 17:02:37 2017 kerma
+## Last update Sat Jul  1 18:16:49 2017 kerma
 ##
 
 NAME	= zappy_server
@@ -23,6 +23,7 @@ SRCS	= main.c		\
 	init/arg2.c		\
 	sock/sock.c		\
 	sock/wait.c		\
+	sock/utils.c		\
 	sock/fd_set.c		\
 	sock/fd_isset.c		\
 	sock/buffer.c		\

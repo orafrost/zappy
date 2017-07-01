@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Mon Jun 26 20:39:26 2017 kerma
-** Last update Sat Jul  1 17:03:59 2017 kerma
+** Last update Sat Jul  1 17:59:45 2017 kerma
 */
 
 #ifndef STRUCT_H_
