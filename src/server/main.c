@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 20 14:10:18 2017 kerma
-** Last update Tue Jun 27 16:25:00 2017 kerma
+** Last update Sat Jul  1 02:22:52 2017 kerma
 */
 
 #include "zappy.h"
@@ -27,11 +27,21 @@ int	init(t_zappy *zappy)
 void	init_cmd_name(char *cmd[])
 {
   cmd[0] = "Connect_nbr";
+  cmd[1] = "Inventory";
+  cmd[2] = "Forward";
+  cmd[3] = "Left";
+  cmd[4] = "Right";
+  cmd[5] = "Look";
 }
 
 void	init_cmds(cmds cmd[])
 {
-  cmd[0] = &nb_teams;
+  cmd[0] = &cmd_connect_nbr;
+  cmd[1] = &cmd_inventory;
+  cmd[2] = &cmd_forward;
+  cmd[3] = &cmd_left;
+  cmd[4] = &cmd_right;
+  cmd[5] = &cmd_look;
 }
 
 int		main(int ac, char **av)

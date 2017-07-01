@@ -5,7 +5,7 @@
 ** Login   <verrier_g@epitech.eu>
 **
 ** Started on  Tue Jun 20 15:22:04 2017 Guillaume Verrier
-** Last update Fri Jun 30 18:20:04 2017 kerma
+** Last update Fri Jun 30 21:59:33 2017 kerma
 */
 
 #include "zappy.h"
@@ -75,7 +75,8 @@ int	main_loop(t_zappy *zappy)
 	  ret = ERROR;
 	  g_state = STOP;
 	}
-      // TODO check players action
+      if (check_players(zappy) == ERROR)
+	return (ERROR);
     }
   close_all(zappy);
   return (ret);

@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Mon Jun 26 23:47:11 2017 kerma
-** Last update Fri Jun 30 18:28:40 2017 kerma
+** Last update Sat Jul  1 03:00:01 2017 kerma
 */
 
 #include "zappy.h"
@@ -30,9 +30,13 @@ int	cmd_parser(t_zappy *zappy, t_player *player, char buff[])
   
   i = 0;
   if ((temp[0] = strtok(buff, " ")) == NULL)
-    temp[0] = strtok(NULL, "\0");
+    if ((temp[0] = strtok(NULL, "\0")) == NULL)
+      {
+	add_msg(&player->client->out, "ko");
+	return (0);
+      }
   temp[1] = strtok(NULL, "\0");
-  while (i < NB_CMD)
+  while (player->action.response == NULL && i < NB_CMD)
     {
       if (strcmp(zappy->cmd_name[i], temp[0]) == 0)
 	{
@@ -65,7 +69,7 @@ int		client_read(t_zappy *zappy, t_team **player, int team_id)
       zappy->teams[team_id]->nb--;
       close((*player)->player->client->fd);
       zappy->teams[team_id]->players =
-	del_elem(zappy->teams[team_id]->players, player);
+	del_team(zappy->teams[team_id]->players, player);
       return (0);
     }
   if (place_end(buff) == 1)

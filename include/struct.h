@@ -5,14 +5,14 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Mon Jun 26 20:39:26 2017 kerma
-** Last update Fri Jun 30 18:16:11 2017 kerma
+** Last update Sat Jul  1 03:33:18 2017 kerma
 */
 
 #ifndef STRUCT_H_
 # define STRUCT_H_
 
 # define MAX    (1024)
-# define NB_CMD	(1)
+# define NB_CMD	(6)
 
 typedef struct	s_player	t_player;
 typedef struct	s_zappy		t_zappy;
@@ -70,6 +70,7 @@ typedef struct	s_player
   t_tcp		*client;
   t_action	action;
   e_dir		_dir;
+  time_t	time;
 }		t_player;
 
 typedef struct	s_team
@@ -99,6 +100,7 @@ typedef struct	s_zappy
   int		port;
   int		nb_teams;
   int		frequency;
+  float		food_conso;
   t_teamRoot	**teams;
   t_tile	**map;
   t_tcp		*server;

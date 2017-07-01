@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Wed Jun 21 13:40:12 2017 kerma
-** Last update Wed Jun 28 14:41:04 2017 kerma
+** Last update Sat Jul  1 02:41:46 2017 kerma
 */
 
 #include "zappy.h"
@@ -13,12 +13,24 @@
 void		free_map(t_zappy *zappy)
 {
   size_t	i;
+  size_t	j;
 
   i = 0;
   while (i < zappy->height)
     {
       if (zappy->map[i] != NULL)
-	free(zappy->map[i]);
+	{
+	  j = 0;
+	  while (j < zappy->width)
+	    {
+	      while (zappy->map[i][j].player != NULL)
+		zappy->map[i][j].player =
+		  del_player(zappy->map[i][j].player,
+			     &zappy->map[i][j].player->player);
+	      j++;
+	    }
+	  free(zappy->map[i]);
+	}
       i++;
     }
   if (zappy->map != NULL)
@@ -35,7 +47,7 @@ void		free_teams(t_zappy *zappy)
       if (zappy->teams[i]->players != NULL)
       	{
 	  while (zappy->teams[i]->players != NULL)
-	    zappy->teams[i]->players = del_elem(zappy->teams[i]->players,
+	    zappy->teams[i]->players = del_team(zappy->teams[i]->players,
 						&zappy->teams[i]->players);
       	}
       if (zappy->teams[i]->name != NULL)

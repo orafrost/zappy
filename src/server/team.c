@@ -5,7 +5,7 @@
 ** Login   <verrier_g@epitech.eu>
 **
 ** Started on  Tue Jun 20 12:24:50 2017 Guillaume Verrier
-** Last update Fri Jun 30 18:31:37 2017 kerma
+** Last update Fri Jun 30 23:28:40 2017 kerma
 */
 
 #include "zappy.h"
@@ -25,6 +25,7 @@ static t_player	*create_player(t_zappy *zappy, int fd)
   player->y = rand() % zappy->height;
   player->id = id++;
   player->level = 1;
+  player->time = time(NULL);
   player->resources[i++] = 10;
   while (i < 7)
     player->resources[i++] = 0;
@@ -46,7 +47,7 @@ t_tcp	*init_tcp(t_tcp *tcp, int fd)
   return (tcp);
 }
 
-t_team		*add_player(t_zappy *zappy, t_team **team, int fd)
+t_team		*add_team(t_zappy *zappy, t_team **team, int fd)
 {
   t_team	*tmp;
   t_team	*new;
@@ -77,7 +78,7 @@ void	free_team(t_team **node)
   *node = NULL;
 }
 
-t_team		*del_elem(t_team *start, t_team **elem)
+t_team		*del_team(t_team *start, t_team **elem)
 {
   t_team	*temp;
 

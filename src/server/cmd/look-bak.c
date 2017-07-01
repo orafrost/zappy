@@ -5,7 +5,7 @@
 ** Login   <verrier_g@epitech.eu>
 **
 ** Started on  Mon Jun 26 14:01:52 2017 Guillaume Verrier
-** Last update Thu Jun 29 14:22:04 2017 Guillaume Verrier
+** Last update Sat Jul  1 01:56:16 2017 kerma
 */
 
 #include "zappy.h"
@@ -125,17 +125,6 @@ int look(t_zappy *game, t_player *cur)
   return (0);
 }
 
-int inventory(t_zappy *game, t_player *cur)
-{
-  char buff[2048];
-
-  sprintf(buff, "[food %d, linemate %d, deraumere %d, sibur %d, mendiane %d, phiras %d, thystame %d]\n",
-          cur->resources[0], cur->resources[1], cur->resources[2], cur->resources[3], cur->resources[4],
-          cur->resources[5],cur->resources[6]);
-  add_msg(&cur->client->out, buff);
-  return (0);
-}
-
 double calc_angle(int vect[2], int dir[2])
 {
   double angle;
@@ -189,16 +178,16 @@ int broadcast(t_zappy *game, t_player *cur)
   int a;
 
   if (cur->action.arg == NULL)
-  {
-    add_msg(&cur->client->out, "KO\n");
-    return ;
-  }
+    {
+      add_msg(&cur->client->out, "KO\n");
+      return ;
+    }
   a = 0;
   while (a < game->nb_teams)
-  {
-    bc_team(game->teams[a], cur);
-    a += 1;
-  }
+    {
+      bc_team(game->teams[a], cur);
+      a += 1;
+    }
   add_msg(&cur->client->out, "OK\n");
   return (0);
 }

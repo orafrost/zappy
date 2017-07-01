@@ -5,7 +5,7 @@
 ** Login   <orafrost@epitech.net>
 **
 ** Started on  Mon Jun  5 15:09:26 2017 guillame verrier
-** Last update Thu Jun 29 14:02:10 2017 kerma
+** Last update Sat Jul  1 03:20:03 2017 kerma
 */
 
 #ifndef ZAPPY_H_
@@ -23,6 +23,7 @@
 # include <netdb.h>
 # include <stdio.h>
 # include <time.h>
+# include <math.h>
 
 # include "struct.h"
 
@@ -35,7 +36,6 @@ extern int      g_state;
 void		clean(t_zappy *zappy);
 void		free_map(t_zappy *zappy);
 void		free_teams(t_zappy *zappy);
-
 void		free_buffer(t_buffer *buffer);
 void		del_msg(t_buffer **buffer);
 int		add_msg(t_buffer **buffer, char *msg);
@@ -43,32 +43,42 @@ int		add_msg(t_buffer **buffer, char *msg);
 int		graphic_read(t_zappy *zappy);
 void		graphic_write(t_zappy *zappy);  
 int		add_graphic_client(t_zappy *zappy, int fd);
-
 int		place_end(char buff[]);
 int		client_read(t_zappy *zappy, t_team **player, int team_id);
 void		client_write(t_team *player);
-
 void		clean_waiting(t_zappy *zappy, int fd);
 int		read_waitings(t_zappy *zappy, int fd);
 void		write_waitings(t_zappy *zappy, int fd);
-
 int		set_fd(t_zappy *zappy);
 int		isset_fd(t_zappy *zappy);
-
 int		add_client(t_zappy *zappy);
 int		init_server(t_tcp *tcp, int port);
+
+int		check_players(t_zappy *zappy);
 
 int		main_loop(t_zappy *game);
 
 t_tcp		*init_tcp(t_tcp *tcp, int fd);
-t_team		*add_player(t_zappy *zappy, t_team **team, int fd);
-t_team		*del_elem(t_team *start, t_team **elem);
+t_team		*add_team(t_zappy *zappy, t_team **team, int fd);
+t_team		*del_team(t_team *start, t_team **elem);
+int		add_player(t_team **team, t_player *player);
+t_team		*del_player(t_team *start, t_player **elem);
+
+int		cmd_look(t_zappy *game, t_player *cur);
+int		cmd_left(t_zappy *game, t_player *cur);
+int		cmd_right(t_zappy *game, t_player *cur);
+int		cmd_forward(t_zappy *game, t_player *cur);
+int		cmd_inventory(t_zappy *game, t_player *cur);
+int		cmd_connect_nbr(t_zappy *zappy, t_player *player);
+
+int		res_look(t_zappy *game, t_player *cur);
+int		res_left(t_zappy *game, t_player *cur);
+int		res_right(t_zappy *game, t_player *cur);
+int		res_forward(t_zappy *game, t_player *cur);
+int		res_inventory(t_zappy *game, t_player *cur);
 
 void		get_vector(t_player *cur, int *vx, int *vy);
-void		move_up(t_zappy *game, t_player *cur);
-void		turn_right(t_zappy *game, t_player *cur);
-void		turn_left(t_zappy *game, t_player *cur);
-t_tile		*get_tile(t_zappy *game, int pos[2]);
+t_tile		*get_tile(t_zappy *game, int pos[2], int vy);
 
 void		usage();
 int		is_num(char *str);
@@ -85,9 +95,5 @@ void		arg_init(t_args *args);
 int		map_init(t_zappy *zappy);
 int		default_init(t_zappy *zappy);
 t_teamRoot	*team_init(char *name);
-
-int		intlen(int nb);
-int		nb_teams(t_zappy *zappy, t_player *player);
-t_teamRoot	*find_team(t_zappy *zappy, t_player *player);
 
 #endif

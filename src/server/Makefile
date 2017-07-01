@@ -5,14 +5,16 @@
 ## Login   <kerma@epitech.net>
 ##
 ## Started on  Tue Jun 20 14:17:36 2017 kerma
-## Last update Wed Jun 28 16:05:24 2017 kerma
+## Last update Sat Jul  1 03:22:31 2017 kerma
 ##
 
 NAME	= zappy_server
 
 SRCS	= main.c		\
-	list.c			\
+	team.c			\
 	free.c			\
+	player.c		\
+	check.c			\
 	main_loop.c		\
 	init/misc.c		\
 	init/init.c		\
@@ -26,8 +28,18 @@ SRCS	= main.c		\
 	sock/buffer.c		\
 	sock/client.c		\
 	sock/graphic.c		\
-	cmd/utils.c		\
-	cmd/nb_teams.c
+	cmd/init/connect_nbr.c	\
+	cmd/init/inventory.c	\
+	cmd/init/forward.c	\
+	cmd/init/right.c	\
+	cmd/init/left.c		\
+	cmd/init/look.c		\
+	cmd/res/inventory.c	\
+	cmd/res/forward.c	\
+	cmd/res/utils.c		\
+	cmd/res/right.c		\
+	cmd/res/left.c		\
+	cmd/res/look.c
 
 OBJS	= $(SRCS:.c=.o)
 
@@ -41,7 +53,7 @@ CFLAGS	+= -W			\
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	gcc -o $(NAME) $(OBJS)
+	gcc -o $(NAME) $(OBJS) -lm
 
 clean:
 	rm -f $(OBJS)
