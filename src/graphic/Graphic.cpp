@@ -169,10 +169,6 @@ void	Graphic::eventManager()
 	  window.close();
 	  exit(0);
 	}
-      if (event.type == sf::Event::MouseMoved)
-	{
-	  //expandTile(event.mouseMove.x, event.mouseMove.y);
-	}
     }
 }
 
@@ -319,7 +315,14 @@ void    Graphic::printInfo()
       text.setPosition(WINDOW_SIZE  + 400, 250 + ((i + 1) * 35));
       text.setString(std::to_string(teams[i].players.size()));
       window.draw(text);
+
+      drawer.setTexture(&(characters[team][0]));
+      drawer.setSize(sf::Vector2f(30, 30));
+      drawer.setPosition(WINDOW_SIZE  + 60, 250 + ((i + 1) * 35);
+      window.draw(drawer);
+
     }
+
 
 }
   
