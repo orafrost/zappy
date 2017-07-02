@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Fri Jun 30 18:24:20 2017 kerma
-** Last update Sat Jul  1 17:58:00 2017 kerma
+** Last update Sun Jul  2 06:07:53 2017 kerma
 */
 
 #include "zappy.h"
@@ -44,7 +44,7 @@ static int	check_action(t_zappy *zappy, t_team *ref)
 {
   t_player	*player;
   time_t	delay;
-  
+
   player = ref->player;
   if (player->action.response != NULL)
     {
@@ -61,11 +61,35 @@ static int	check_action(t_zappy *zappy, t_team *ref)
   return (0);
 }
 
+static t_egg	*check_eggs(t_zappy *zappy)
+{
+  t_egg		*tmp;
+  time_t	delay;
+  char		buff[1024];
+
+  tmp = zappy->eggs;
+  while (tmp != NULL)
+    {
+      delay = time(NULL) - tmp->start;
+      if (tmp->start != 0 && delay >= (600 / zappy->frequency))
+	{
+	  memset(buff, 0, 1024);
+	  sprintf(buff, "eht %d", tmp->id);
+	  if (zappy->graphic != NULL)
+	    add_msg(&zappy->graphic->out, buff);
+	  add_conn(zappy, tmp->team);
+	  tmp->start = 0;
+	}
+      tmp = tmp->next;
+    }
+  return (zappy->eggs);
+}
+
 int		check_players(t_zappy *zappy)
 {
-  t_team        *tmp;
+  t_team	*tmp;
   int		ret;
-  int           i;
+  int		i;
 
   i = 0;
   while (i < zappy->nb_teams)
@@ -82,5 +106,6 @@ int		check_players(t_zappy *zappy)
 	}
       i++;
     }
+  zappy->eggs = check_eggs(zappy);
   return (0);
 }

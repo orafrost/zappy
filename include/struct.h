@@ -5,14 +5,14 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Mon Jun 26 20:39:26 2017 kerma
-** Last update Sat Jul  1 17:59:45 2017 kerma
+** Last update Sun Jul  2 03:36:06 2017 kerma
 */
 
 #ifndef STRUCT_H_
 # define STRUCT_H_
 
 # define MAX		(1024)
-# define NB_CMD		(9)
+# define NB_CMD		(12)
 # define WRONG_RESOURCE	(8)
 
 typedef struct	s_player	t_player;
@@ -88,6 +88,16 @@ typedef struct	s_teamRoot
   t_team	*players;
 }		t_teamRoot;
 
+typedef struct s_egg
+{
+  time_t	start;
+  char		*team;
+  int		id;
+  int		x;
+  int		y;
+  struct s_egg	*next;
+}		t_egg;
+
 typedef struct	s_tile
 {
   int		resources[7];
@@ -104,6 +114,7 @@ typedef struct	s_zappy
   float		food_conso;
   t_teamRoot	**teams;
   t_tile	**map;
+  t_egg		*eggs;
   t_tcp		*server;
   t_tcp		*graphic;
   t_tcp		*waiting[MAX];

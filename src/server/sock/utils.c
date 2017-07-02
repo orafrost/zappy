@@ -5,14 +5,14 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Sat Jul  1 18:15:55 2017 kerma
-** Last update Sat Jul  1 18:16:31 2017 kerma
+** Last update Sun Jul  2 05:43:32 2017 kerma
 */
 
 #include "zappy.h"
 
 int	place_end(char buff[])
 {
-  int  a;
+  int	a;
 
   a = 0;
   while (buff[a] != '\n' && buff[a] != '\0' && a < 1024)
@@ -32,4 +32,20 @@ void	quit(t_zappy *zappy, t_team **ref, int team_id)
 	       &(*ref)->player);
     zappy->teams[team_id]->players =
       del_team(zappy->teams[team_id]->players, ref);
+}
+
+void	add_conn(t_zappy *zappy, char *name)
+{
+  int	i;
+
+  i = 0;
+  while (i < zappy->nb_teams)
+    {
+      if (strcmp(zappy->teams[i]->name, name) == 0)
+	{
+	  zappy->teams[i]->max++;
+	  return ;
+	}
+      i++;
+    }
 }

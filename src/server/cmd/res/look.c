@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Fri Jun 30 21:56:06 2017 kerma
-** Last update Sat Jul  1 16:35:22 2017 kerma
+** Last update Sun Jul  2 05:54:05 2017 kerma
 */
 
 #include "zappy.h"
@@ -62,7 +62,6 @@ static t_tile	**set_vis(t_zappy *game, t_player *cur, t_tile **vis)
 
 int		res_look(t_zappy *game, t_player *cur)
 {
-  // TODO handel eggs
   t_tile	**vis;
   int		len;
 

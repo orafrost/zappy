@@ -1,5 +1,4 @@
 TODO delete -g3 in server Makefile
-TODO cmd : Start - Fork - Eject
 TODO if possible, change time management
-TODO end game conditions
-TODO send data to graphic client
+TODO add '#' to id server/graphic side
+TODO check enw id_player management on graphic class side

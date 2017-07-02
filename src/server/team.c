@@ -5,7 +5,7 @@
 ** Login   <verrier_g@epitech.eu>
 **
 ** Started on  Tue Jun 20 12:24:50 2017 Guillaume Verrier
-** Last update Sat Jul  1 17:59:42 2017 kerma
+** Last update Sun Jul  2 06:08:11 2017 kerma
 */
 
 #include "zappy.h"
@@ -20,7 +20,7 @@ static t_player	*create_player(t_zappy *zappy, int fd)
   if ((player = malloc(sizeof(t_player))) == NULL)
     return (pputerr("Function \'malloc\' failed."));
   if ((player->client = init_tcp(player->client, fd)) == NULL)
-    return (NULL);  
+    return (NULL);
   player->x = rand() % zappy->width;
   player->y = rand() % zappy->height;
   player->id = id++;
@@ -100,4 +100,3 @@ t_team		*del_team(t_team *start, t_team **elem)
     }
   return (start);
 }
-

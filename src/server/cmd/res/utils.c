@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Sat Jul  1 01:51:46 2017 kerma
-** Last update Sat Jul  1 16:33:24 2017 kerma
+** Last update Sun Jul  2 00:38:33 2017 kerma
 */
 
 #include "zappy.h"
@@ -67,4 +67,24 @@ int	find_resource(char *resource)
       i++;
     }
   return (WRONG_RESOURCE);
+}
+
+t_teamRoot	*find_team(t_zappy *zappy, t_player *player)
+{
+  t_team	*tmp;
+  int		i;
+
+  i = 0;
+  while (zappy->teams[i] != NULL)
+    {
+      tmp = zappy->teams[i]->players;
+      while (tmp != NULL)
+	{
+	  if (tmp->player == player)
+	    return (zappy->teams[i]);
+	  tmp = tmp->next;
+	}
+      i++;
+    }
+  return (NULL);
 }

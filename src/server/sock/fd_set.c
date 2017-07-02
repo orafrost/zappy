@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Wed Jun 28 15:52:30 2017 kerma
-** Last update Wed Jun 28 16:06:11 2017 kerma
+** Last update Sun Jul  2 06:06:50 2017 kerma
 */
 
 #include "zappy.h"
@@ -48,7 +48,7 @@ static int	set_fd_graphic(t_zappy *zappy)
 
 static int	set_fd_players(t_zappy *zappy)
 {
-  t_team	*tmp;  
+  t_team	*tmp;
   int		max;
   int		i;
 
@@ -67,7 +67,7 @@ static int	set_fd_players(t_zappy *zappy)
 	}
       i++;
     }
-  return (max);  
+  return (max);
 }
 
 int	set_fd(t_zappy *zappy)

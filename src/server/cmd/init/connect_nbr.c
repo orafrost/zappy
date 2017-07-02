@@ -5,30 +5,10 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Sun Jun 25 17:24:06 2017 kerma
-** Last update Sat Jul  1 14:20:15 2017 kerma
+** Last update Sun Jul  2 06:04:14 2017 kerma
 */
 
 #include "zappy.h"
-
-static t_teamRoot	*find_team(t_zappy *zappy, t_player *player)
-{
-  t_team		*tmp;
-  int			i;
-
-  i = 0;
-  while (zappy->teams[i] != NULL)
-    {
-      tmp = zappy->teams[i]->players;
-      while (tmp != NULL)
-	{
-	  if (tmp->player == player)
-	    return (zappy->teams[i]);
-	  tmp = tmp->next;
-	}
-      i++;
-    }
-  return (NULL);
-}
 
 int		cmd_connect_nbr(t_zappy *game, t_player *cur)
 {
@@ -44,6 +24,6 @@ int		cmd_connect_nbr(t_zappy *game, t_player *cur)
   memset(msg, 0, 1024);
   sprintf(msg, "%d", team->max - team->nb);
   add_msg(&cur->client->out, msg);
-  cur->action.start = 0; 
+  cur->action.start = 0;
   return (0);
 }

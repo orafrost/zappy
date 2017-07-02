@@ -5,14 +5,14 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 20 14:10:18 2017 kerma
-** Last update Sat Jul  1 17:04:35 2017 kerma
+** Last update Sun Jul  2 06:08:06 2017 kerma
 */
 
 #include "zappy.h"
 
 int     g_state = RUN;
 
-void    handler(int sig)
+void	handler(int sig)
 {
   if (sig == SIGINT)
     g_state = STOP;
@@ -36,6 +36,9 @@ void	init_cmds(cmds cmds[], char *cmd[])
   cmd[6] = "Take";
   cmd[7] = "Set";
   cmd[8] = "Broadcast";
+  cmd[9] = "Eject";
+  cmd[10] = "Fork";
+  cmd[11] = "Incantation";
   cmds[0] = &cmd_connect_nbr;
   cmds[1] = &cmd_inventory;
   cmds[2] = &cmd_forward;
@@ -45,6 +48,9 @@ void	init_cmds(cmds cmds[], char *cmd[])
   cmds[6] = &cmd_take;
   cmds[7] = &cmd_set;
   cmds[8] = &cmd_broadcast;
+  cmds[9] = &cmd_eject;
+  cmds[10] = &cmd_fork;
+  cmds[11] = &cmd_incantation;
 }
 
 int		main(int ac, char **av)
@@ -53,7 +59,7 @@ int		main(int ac, char **av)
   int		ret;
 
   srand(time(NULL));
-  signal(SIGINT, &handler);  
+  signal(SIGINT, &handler);
   if ((ret = args(&zappy, ac, av)) == 0 &&
       (ret = init(&zappy) == 0))
     {

@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Fri Jun 30 21:56:06 2017 kerma
-** Last update Sat Jul  1 17:05:56 2017 kerma
+** Last update Sun Jul  2 05:51:14 2017 kerma
 */
 
 #include "zappy.h"
@@ -43,6 +43,7 @@ static int	get_k(t_player *src, t_player *dest)
     angle = 8;
   return (angle);
 }
+
 void		bc_team(t_teamRoot *team, t_player *src)
 {
   t_team	*tmp;
@@ -65,9 +66,11 @@ void		bc_team(t_teamRoot *team, t_player *src)
 
 int	res_broadcast(t_zappy *game, t_player *cur)
 {
+  char	buff[1024];
   int	a;
 
   a = 0;
+  memset(buff, 0, 1024);
   if (cur->action.arg == NULL)
     {
       add_msg(&cur->client->out, "ko");
@@ -75,6 +78,9 @@ int	res_broadcast(t_zappy *game, t_player *cur)
     }
   while (a < game->nb_teams)
     bc_team(game->teams[a++], cur);
+  sprintf(buff, "pbc %d %s", cur->id, cur->action.arg);
+  if (game->graphic != NULL)
+    add_msg(&game->graphic->out, buff);
   add_msg(&cur->client->out, "ok");
   free(cur->action.arg);
   return (0);

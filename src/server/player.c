@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Fri Jun 30 23:25:54 2017 kerma
-** Last update Sat Jul  1 02:55:12 2017 kerma
+** Last update Sun Jul  2 05:46:18 2017 kerma
 */
 
 #include "zappy.h"
@@ -66,4 +66,3 @@ t_team		*del_player(t_team *start, t_player **elem)
     }
   return (start);
 }
-

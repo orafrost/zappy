@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Fri Jun 30 21:56:06 2017 kerma
-** Last update Sat Jul  1 14:53:23 2017 kerma
+** Last update Sun Jul  2 06:05:12 2017 kerma
 */
 
 #include "zappy.h"
@@ -31,12 +31,17 @@ static int	move(t_zappy *game, t_player *cur, int vx, int vy)
 
 int	res_forward(t_zappy *game, t_player *cur)
 {
+  char	buff[1024];
   int	vx;
   int	vy;
 
+  memset(buff, 0, 1024);
   get_vector(cur, &vx, &vy);
   if (move(game, cur, vx, vy) == ERROR)
     return (ERROR);
+  sprintf(buff, "ppo %d %d %d %d", cur->id, cur->x, cur->y, cur->_dir + 1);
+  if (game->graphic != NULL)
+    add_msg(&game->graphic->out, buff);
   add_msg(&cur->client->out, "ok");
   return (0);
 }

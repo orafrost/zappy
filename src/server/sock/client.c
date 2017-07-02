@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Mon Jun 26 23:47:11 2017 kerma
-** Last update Sat Jul  1 18:19:10 2017 kerma
+** Last update Sun Jul  2 06:06:26 2017 kerma
 */
 
 #include "zappy.h"
@@ -14,7 +14,7 @@ static int	cmd_parser(t_zappy *zappy, t_player *player, char buff[])
 {
   int		i;
   char		*temp[2];
-  
+
   i = 0;
   if ((temp[0] = strtok(buff, " ")) == NULL)
     if ((temp[0] = strtok(NULL, "\0")) == NULL)
@@ -42,29 +42,25 @@ static int	cmd_parser(t_zappy *zappy, t_player *player, char buff[])
 static int	cmd_split(t_zappy *zappy, t_team **ref, char buff[])
 {
   char		*temp;
+  int		init;
 
-  if ((temp = strtok(buff, "\n")) == NULL)
-    add_msg(&(*ref)->player->client->out, "ko");
-  else
+  init = 0;
+  temp = strtok(buff, "\n");
+  while (temp != NULL)
     {
-      if (place_end(temp) == 1)
-	add_msg(&(*ref)->player->client->out, "ko");
-      else if (cmd_parser(zappy, (*ref)->player, temp) == ERROR)
+      init = 1;
+      if (cmd_parser(zappy, (*ref)->player, temp) == ERROR)
 	return (ERROR);
-      while ((temp = strtok(NULL, "\n")) != NULL)
-	{
-	  if (place_end(temp) == 1)
-	    add_msg(&(*ref)->player->client->out, "ko");
-	  else if (cmd_parser(zappy, (*ref)->player, temp) == ERROR)
-	    return (ERROR);
-	}
+      temp = strtok(NULL, "\n");
     }
+  if (init == 0)
+    add_msg(&(*ref)->player->client->out, "ko");
   return (0);
 }
 
-int		client_read(t_zappy *zappy, t_team **ref, int team_id)
+int	client_read(t_zappy *zappy, t_team **ref, int team_id)
 {
-  char		buff[1024];
+  char	buff[1024];
 
   if (*ref == NULL)
     return (0);
@@ -76,17 +72,21 @@ int		client_read(t_zappy *zappy, t_team **ref, int team_id)
     }
   if (recv((*ref)->player->client->fd, buff, 1024, 0) <= 0)
     {
+      memset(buff, 0, 1024);
+      sprintf(buff, "pdi %d", (*ref)->player->id);
+      if (zappy->graphic != NULL)
+	add_msg(&zappy->graphic->out, buff);
       quit(zappy, ref, team_id);
       return (0);
-    }  
+    }
   if (cmd_split(zappy, ref, buff) == ERROR)
     return (ERROR);
   return (0);
 }
 
-void		client_write(t_team *player)
+void	client_write(t_team *player)
 {
-  t_tcp		*conn;
+  t_tcp	*conn;
 
   conn = player->player->client;
   if (player != NULL && conn->out != NULL)

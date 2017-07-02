@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Sat Jun 24 16:17:37 2017 kerma
-** Last update Sat Jul  1 16:37:39 2017 kerma
+** Last update Sun Jul  2 06:27:07 2017 kerma
 */
 
 #include "zappy.h"
@@ -36,8 +36,9 @@ void	waiting_init(t_zappy *zappy)
     zappy->waiting[i++] = NULL;
 }
 
-int     default_init(t_zappy *zappy)
+int	default_init(t_zappy *zappy)
 {
+  zappy->eggs = NULL;
   zappy->port = 4242;
   zappy->width = 10;
   zappy->height = 10;
@@ -49,13 +50,13 @@ int     default_init(t_zappy *zappy)
     return (puterr("Function \'malloc\' failed."));
   if ((zappy->teams = malloc(8 * (zappy->nb_teams + 1))) == NULL)
     return (puterr("Function \'malloc\' failed."));
-  if ((zappy->teams[0] = team_init("Team1")) == NULL)
+  if ((zappy->teams[0] = team_init("Team1\0")) == NULL)
     return (ERROR);
-  if ((zappy->teams[1] = team_init("Team2")) == NULL)
+  if ((zappy->teams[1] = team_init("Team2\0")) == NULL)
     return (ERROR);
-  if ((zappy->teams[2] = team_init("Team3")) == NULL)
+  if ((zappy->teams[2] = team_init("Team3\0")) == NULL)
     return (ERROR);
-  if ((zappy->teams[3] = team_init("Team4")) == NULL)
+  if ((zappy->teams[3] = team_init("Team4\0")) == NULL)
     return (ERROR);
   zappy->teams[4] = NULL;
   zappy->graphic = NULL;
@@ -81,7 +82,7 @@ int		map_init(t_zappy *zappy)
 	{
 	  k = 0;
 	  while (k < 7)
-	    zappy->map[i][j].resources[k++] = rand() % 50;
+	    zappy->map[i][j].resources[k++] = rand() % 10;
 	  zappy->map[i][j++].player = NULL;
 	}
       i++;
