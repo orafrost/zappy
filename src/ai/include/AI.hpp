@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:41:22 2017 kerma
-// Last update Sun Jul  2 17:47:00 2017 Guillaume Verrier
+// Last update Sun Jul  2 18:29:44 2017 Guillaume Verrier
 //
 
 #ifndef AI_HPP_
@@ -22,7 +22,7 @@ enum res
   FOOD = 0,
   LINEMATE = 1,
   DERAUMERE = 2,
-  SIBUT = 3,
+  SIBUR = 3,
   MENDIANE = 4,
   PHIRAS = 5,
   THYSTANE = 6
@@ -45,19 +45,14 @@ private:
 
 public:
   void		SetSender(Commands *sender);
-  int     find_elem(std::string elem):
-  void    find_food();
-  int     find_miss();
-  void    find_resources();
-  void    folow();
-  void    up();
-  bool    canUp();
-  void    nbPers();
-  void    sendVision();
-  void    ActMode();
-  void    SetMode(enum AI::AiMode);
-  bool    ActMode();
-  void		ok();
+  int     findNbElem(std::string elem);
+  int     getSomme(); //OK
+  int    resource();
+  void    clean();
+  void    forward(); // ok
+  void    up(); //OK
+  void    vision(); //OK
+  bool    wait(); //OK
   enum    AiMode
   {
     FEED = 0,

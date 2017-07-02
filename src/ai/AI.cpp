@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Sun Jul  2 17:57:05 2017 Guillaume Verrier
+// Last update Sun Jul  2 18:31:58 2017 Guillaume Verrier
 //
 
 #include "AI.hpp"
@@ -60,6 +60,7 @@ AI::AI() {
 }
 AI::~AI() {}
 
+
 void	AI::SetSender(Commands *sender) { _sender = sender; }
 
 int AI::findNbElem(std::string elem)
@@ -78,87 +79,38 @@ int AI::findNbElem(std::string elem)
   return a;
 }
 
-void   AI::find_food()
+int AI::getSomme()
 {
-  int pos = this->find_elem("food");
+  int a;
 
+  a = findNbElem("linemate");
+  a += findNbElem("deraumere");
+  a += findNbElem("sibur");
+  a += findNbElem("mendiane");
+  a += findNbElem("phiras");
+  a += findNbElem("thystane");
+  return (a);
+}
+
+void AI::forward()
+{
+  _sender->SendFORWARD();
   _wait = true;
-  if (pos != 0)
-  {
-    _sender.SendFORWARD()
-  }
-  else
-  {
-    _sender.SendTAKE("food");
-  }
-}
-
-int AI::find_miss()
-{
-  for (int a = 1; a < 7; a++)
-  {
-    if (_step[_level - 1][a] != _inventaire[a])
-      return a;
-  }
-  return -1;
-}
-
-void AI::find_resources()
-{
-  int miss;
-
-  miss = find_miss();
-  if (miss == -1)
-    return false;
-}
-
-void AI::folow()
-{
-
 }
 
 void AI::up()
 {
+  _sender->SendINCANTATION();
+  _wait = true;
 }
 
-void  AI::nbPers()
-{
-  std::istringstream st(_vision);
-  std::string chunck;
-  std::size_t found;
-  int  a = 0;
-
-  std::getline(st, chunck, ',');
-  found = 0;
-  while ((found = chunck.find("player", found))
-  {
-    a += 1;
-  }
-  return a;
-}
-
-void AI::sendVision()
+void AI::vision()
 {
   _sender->SendLOOK();
+  _wait = true;
 }
 
-bool    SetMode(enum AI::AiMode md)
+bool AI::wait()
 {
-  if (_wait == true)
-    return false;
-  _mode = md;
-  return true;
-}
-
-bool check_case()
-{
-  for (int a = 1; a < 7; a++)
-  {
-    _start[_level - 1][a]
-  }
-}
-
-void actMode()
-{
-
+  return _wait;
 }
