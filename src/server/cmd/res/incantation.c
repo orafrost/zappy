@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Fri Jun 30 21:56:06 2017 kerma
-** Last update Sun Jul  2 15:33:17 2017 kerma
+** Last update Sun Jul  2 17:01:55 2017 kerma
 */
 
 #include "zappy.h"
@@ -50,7 +50,7 @@ void	send_to_graphic(t_zappy *game, t_player *cur)
   sprintf(buff, "plv %d %d", cur->id, cur->level);
   add_msg(&game->graphic->out, buff);
   memset(buff, 0, 1024);
-  sprintf(buff, "pie %d %d", cur->x, cur->y);
+  sprintf(buff, "pie %d", cur->id);
   add_msg(&game->graphic->out, buff);
 }
 
@@ -67,8 +67,9 @@ int	res_incantation(t_zappy *game, t_player *cur)
       test_resources(game, cur, resources) == 1)
     {
       memset(buff, 0, 1024);
-      sprintf(buff, "pie %d %d", cur->x, cur->y);
-      add_msg(&game->graphic->out, buff);
+      sprintf(buff, "pie %d", cur->id);
+      if (game->graphic != NULL)
+	add_msg(&game->graphic->out, buff);
       add_msg(&cur->client->out, "ko");
       return (0);
     }
