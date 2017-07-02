@@ -1,11 +1,11 @@
 //
 // zappy_graphic.hpp for zappy in /home/eric/tek2/zappy/graphic
-// 
+//
 // Made by Eric Amilhat
 // Login   <eric.amilhat@epitech.eu>
-// 
+//
 // Started on  Tue Jun 20 14:09:49 2017 Eric Amilhat
-// Last update Sun Jul  2 16:56:12 2017 Eric Amilhat
+// Last update Sun Jul  2 21:36:01 2017 Guillaume Verrier
 //
 
 #ifndef GRAPHIC_HPP_
@@ -139,7 +139,7 @@ private:
   void			getSelectedPlayer();
   void			printEgg(int x, int y);
   void			animateElevation(int x, int y, int n);
-
+  int       getMaxLevel(int team);
 public:
   Graphic();
   ~Graphic();
@@ -166,4 +166,4 @@ public:
   void			killPlayer(int id);
 };
 
-#endif 
+#endif
