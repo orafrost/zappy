@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Sun Jul  2 07:25:25 2017 kerma
+// Last update Sun Jul  2 11:47:15 2017 kerma
 //
 
 #include "Commands.hpp"
@@ -249,17 +249,19 @@ void	Commands::HandlerPIC(const ARGS &arg)
 {
   if (_init["WELCOME"] == false)
     return ;
-  if (arg.size() < 2) {
+  if (arg.size() < 3) {
     Bufferized(arg);
     return ;
   }
 
-  if (_utils.isNum(arg[1]) == false)
+  if (_utils.isNum(arg[1]) == false ||
+      _utils.isNum(arg[2]) == false)
     return ;
 
-  int	id = _utils.StringToInt(arg[1]);		
+  int	X = _utils.StringToInt(arg[1]);		
+  int	Y = _utils.StringToInt(arg[2]);		
 
-  _graphic->startIncantation(id);
+  _graphic->startIncantation(X, Y);
 }
 
 void	Commands::HandlerPIE(const ARGS &arg)
@@ -353,11 +355,10 @@ void	Commands::HandlerENW(const ARGS &arg)
     return ;
 
   int	id_egg = _utils.StringToInt(arg[1]);		
-  int	id_player = _utils.StringToInt(arg[2]);		
   int	X = _utils.StringToInt(arg[3]);		
   int	Y = _utils.StringToInt(arg[4]);		
 
-  _graphic->addEgg(id_egg, id_player, X, Y);
+  _graphic->addEgg(id_egg, X, Y);
 }
 
 void	Commands::HandlerEHT(const ARGS &arg)
