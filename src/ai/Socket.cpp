@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Thu Jun 29 21:12:34 2017 kerma
+// Last update Sun Jul  2 11:04:47 2017 kerma
 //
 
 #include "Socket.hpp"
@@ -15,6 +15,11 @@ Socket::~Socket()
 {
   if (_fd != -1)
     close(_fd);
+}
+
+void	Socket::SetTeamName(const std::string &name)
+{
+  _parser->SetTeamName(name);
 }
 
 int	Socket::Error(const std::string &err) const
@@ -44,7 +49,7 @@ int	Socket::InitSocket(int port, const std::string &ip)
 
 int	Socket::Connect(int port, const std::string &ip)
 {
-  std::cout << "Port: " << port << std::endl;
+  std::cout << "Port:    " << port << std::endl;
   std::cout << "Address: " << ip << std::endl;
   InitSocket(port, ip);
   if (connect(_fd, (const struct sockaddr *)&_sIn, sizeof(_sIn)) == -1)
@@ -63,7 +68,7 @@ void	Socket::ReadSocket()
   char	buff[1024];
 
   memset(buff, 0, 1024);
-  if (read(_fd, buff, 1024) <= 0) {
+  if (read(_fd, buff, 1020) <= 0) {
     std::cout << "Connexion closed by server" << std::endl;
     exit(0);
   }

@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Fri Jun 30 18:24:20 2017 kerma
-** Last update Sun Jul  2 06:07:53 2017 kerma
+** Last update Sun Jul  2 12:00:53 2017 kerma
 */
 
 #include "zappy.h"
@@ -30,9 +30,15 @@ void		food_consumption(t_zappy *zappy, t_team **ref)
 
 static int	check_life(t_zappy *zappy, t_team **ref, int team_id)
 {
+  char		buff[1024];
+
   food_consumption(zappy, ref);
   if ((*ref)->player->resources[FOOD] == 0)
     {
+      memset(buff, 0, 1024);
+      sprintf(buff, "pdi %d", (*ref)->player->id);
+      if (zappy->graphic != NULL)
+	add_msg(&zappy->graphic->out, buff);
       dprintf((*ref)->player->client->fd, "dead\n");
       quit(zappy, ref, team_id);
       return (1);

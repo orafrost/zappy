@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 19:25:39 2017 kerma
-// Last update Thu Jun 29 19:33:18 2017 kerma
+// Last update Sun Jul  2 10:40:19 2017 kerma
 //
 
 #ifndef UTILS_HPP_
@@ -33,8 +33,8 @@ class	Utils
   typedef std::string::const_iterator								SIT;
 
 private:
-  OPT	_option;
-  
+  OPT		_option;
+
 private:
   void	Usage(std::ostream &os, int ret) const;
   void	SetPort(t_arg *args, const std::string &arg);
@@ -42,9 +42,9 @@ private:
   void	SetMachine(t_arg *args, const std::string &arg);
   
 public:
-  bool	isNum(const std::string &str) const;
-  int	StringToInt(const std::string &str) const;
-  t_arg	ParsArg(int ac, char **av);
+  bool		isNum(const std::string &str) const;
+  int		StringToInt(const std::string &str) const;
+  t_arg		ParsArg(int ac, char **av);
 
 public:
   Utils();
