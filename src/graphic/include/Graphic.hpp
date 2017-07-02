@@ -5,7 +5,7 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:09:49 2017 Eric Amilhat
-// Last update Fri Jun 30 17:32:12 2017 Eric Amilhat
+// Last update Sat Jul  1 18:36:36 2017 Eric Amilhat
 //
 
 #ifndef GRAPHIC_HPP_
@@ -24,7 +24,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
-#define WINDOW_SIZE 1024
+#define WINDOW_SIZE 1000
 #define EMPTY 7
 
 typedef enum    e_dir
@@ -72,6 +72,7 @@ typedef struct s_block
 {
   std::vector<t_egg>		eggs;
   int				resources[7];
+  float				n = 0;
 }		t_block;
 
 typedef struct				s_map
@@ -85,6 +86,14 @@ typedef struct		s_assets
 {
   sf::Texture	        hoverT;
   sf::Texture		multipleT;
+  sf::Texture	        logoT;
+  sf::Sprite		logo;
+  sf::Texture	        cloudT;
+  sf::Sprite		cloud;
+  float			c;
+  int			h;
+  sf::Texture	        infoBackgroundT;
+  sf::Sprite	        infoBackground;
   sf::Texture		backgroundT;
   sf::Sprite		background;
   sf::Font		font;
@@ -94,6 +103,8 @@ class Graphic
 {
 private:
   std::vector<sf::Texture>  textures;
+  std::vector<sf::Texture>  texturesLarge;
+  std::vector<std::vector<sf::Texture>>  characters;
   std::vector<t_team>	teams;
   t_map		        map;
   bool			mapIsSized;
@@ -107,12 +118,14 @@ private:
   int		        getPerfectSquare(int sum);
   void			eventManager();
   int			sumOfBlock(int x, int y) const;
-  void			drawPlayer(t_player const & player, sf::Color color);
+  void			drawPlayer(t_player const & player, int team);
   void			printPlayers();
   void			drawSprite(int ressource, int x, int y);
   void			drawMultipleSprites(int resource, int x , int y, int sum, int pos);
+  void			drawResource(int resource, int x , int y, int sum, int pos);
   void			drawMultiple(int x, int y);
   void			expandTile();
+  void		        printInfo();
 public:
   Graphic();
   ~Graphic();
