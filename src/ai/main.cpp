@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:27:22 2017 kerma
-// Last update Sun Jul  2 19:22:02 2017 Guillaume Verrier
+// Last update Sun Jul  2 21:56:38 2017 kerma
 //
 
 #include "Utils.hpp"

@@ -5,13 +5,13 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Sun Jul  2 20:48:13 2017 kerma
+// Last update Sun Jul  2 21:56:48 2017 kerma
 //
 
 #include "AI.hpp"
 
 AI::AI() {
-  _wait = false;
+  _wait = true;
   this->_inventaire[0] = 10;
   for (int a = 1; a < 7; a++)
   {
@@ -62,8 +62,21 @@ AI::AI() {
 AI::~AI() {}
 
 void	AI::SetSender(Commands *sender) { _sender = sender; }
+void	AI::SetWait() { _wait = false; }
 
-int AI::findNbElem(std::string elem)
+void AI::reset(const std::string &arg)
+{
+  static_cast<void>(arg);
+  _wait = false;
+}
+
+void AI::getVision(const std::string &arg)
+{
+  _vision = arg;
+  this->reset(arg);
+}
+
+int AI::findNbElem(std::string elem) const
 {
   std::istringstream st(_vision);
   std::string chunck;
@@ -79,7 +92,7 @@ int AI::findNbElem(std::string elem)
   return a;
 }
 
-int    AI::resource()
+int    AI::resource() const
 {
   bool	high = false;
   std::string name[7];
@@ -155,7 +168,7 @@ void AI::vision()
   _wait = true;
 }
 
-bool AI::wait()
+bool AI::wait() const
 {
   return _wait;
 }

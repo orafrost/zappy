@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Sun Jul  2 15:13:03 2017 kerma
+// Last update Sun Jul  2 21:49:26 2017 kerma
 //
 
 #include "Socket.hpp"
@@ -77,7 +77,8 @@ void	Socket::ReadSocket()
     std::cout << "Connexion closed by server" << std::endl;
     exit(0);
   }
-
+  
+  _parser->IncCount();
   std::string command(buff);
   command.pop_back();
   _parser->CommandParser(command);

@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:41:22 2017 kerma
-// Last update Sun Jul  2 20:56:31 2017 kerma
+// Last update Sun Jul  2 21:48:14 2017 kerma
 //
 
 #ifndef COMMANDS_HPP_
@@ -26,17 +26,25 @@ class	AI;
 
 class	Commands
 {
+public:
+  typedef void (Commands::*CALLBACK)(const std::string &arg);
+
 private:
+  int		_count;
   bool		_needResponse;
   AI		*_ai;
   bool		_init;
   Utils		_utils;
   Socket	*_socket;
   std::string	_team;
+  CALLBACK	_resp;
 
 private:
   void		HandlerWELCOME();
-  
+  void		reset(const std::string &);
+  void	        getVision(const std::string &);
+  int		IsResponse(const std::string &);
+
 public:
   void	        SendFORWARD();
   void		SendRIGHT() ;
@@ -52,6 +60,7 @@ public:
   void		SendINCANTATION() ;
 
 public:
+  void	        IncCount();
   void		SetTeamName(const std::string &name);
   void		SetSocket(Socket *socket);
   void		SetAI(AI *ai);
