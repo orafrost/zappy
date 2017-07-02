@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:41:22 2017 kerma
-// Last update Sun Jul  2 11:00:10 2017 kerma
+// Last update Sun Jul  2 15:12:43 2017 kerma
 //
 
 #ifndef SOCKET_HPP_
@@ -25,6 +25,7 @@
 
 # include "Commands.hpp"
 class Commands;
+class AI;
 
 # define ERROR	(84) 
 
@@ -48,6 +49,7 @@ private:
   void	WriteSocket();
 
 public:
+  void	SetAI(AI *ai);
   void	SetTeamName(const std::string &name);
   int	Connect(int port, const std::string &ip);
   void	AddCommand(const std::string &cmd);

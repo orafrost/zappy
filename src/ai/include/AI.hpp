@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:41:22 2017 kerma
-// Last update Sun Jul  2 13:00:59 2017 kerma
+// Last update Sun Jul  2 15:15:04 2017 kerma
 //
 
 #ifndef AI_HPP_
@@ -21,7 +21,8 @@ private:
 
 public:
   void		SetSender(Commands *sender);
-  
+  // TODO delete;
+  void		ok();
 public:
   AI();
   ~AI();

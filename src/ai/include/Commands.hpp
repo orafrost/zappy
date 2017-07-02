@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:41:22 2017 kerma
-// Last update Sun Jul  2 13:01:22 2017 kerma
+// Last update Sun Jul  2 15:14:24 2017 kerma
 //
 
 #ifndef COMMANDS_HPP_
@@ -26,21 +26,23 @@ class	AI;
 
 class	Commands
 {
+  typedef std::vector<std::string>							ARGS;
+  typedef void (Commands::*CALLBACK)(const ARGS &);
+  typedef std::map<std::string, bool>							INIT;
+  typedef std::map<std::string, void (Commands::*)(const ARGS &)>			CMDS;
 
-  typedef std::vector<std::string>								ARGS;
-  typedef std::map<std::string, bool>								INIT;
-  typedef std::map<std::string, void (Commands::*)(const ARGS &)>				CMDS;
-
-  typedef std::vector<std::string>::const_iterator						VCIT;
-  typedef std::map<std::string, void (Commands::*)(const ARGS &)>::const_iterator		MCIT;
+  typedef std::vector<std::string>::const_iterator					VCIT;
+  typedef std::map<std::string, void (Commands::*)(const ARGS &)>::const_iterator	MCIT;
 
 private:
+  bool		_needResponse;
   AI		*_ai;
   CMDS		_cmd;
   ARGS		_tmp;
   INIT		_init;
   Utils		_utils;
   Socket	*_socket;
+  CALLBACK	_callback;
   std::string	_team;
 
 private:
@@ -49,22 +51,24 @@ private:
   void		HandlerWELCOME(const ARGS &arg);
   
 public:
-  void	        SendFORWARD()const;
-  void		SendRIGHT() const;
-  void		SendLEFT() const;
-  void		SendLOOK() const;
-  void		SendINVENTORY() const;
-  void		SendCONNECTED() const;
-  void		SendFORK() const;
-  void	        SendEJECT() const;
-  void		SendBROADCAST(const std::string &text) const;
-  void		SendTAKE(const std::string &object) const;
-  void		SendSET(const std::string &object) const;
-  void		SendINCANTATION() const;
+  void	        SendFORWARD();
+  void		SendRIGHT() ;
+  void		SendLEFT() ;
+  void		SendLOOK() ;
+  void		SendINVENTORY() ;
+  void		SendCONNECTED() ;
+  void		SendFORK() ;
+  void	        SendEJECT() ;
+  void		SendBROADCAST(const std::string &text) ;
+  void		SendTAKE(const std::string &object) ;
+  void		SendSET(const std::string &object) ;
+  void		SendINCANTATION() ;
 
 public:
+  void		SetCallback(CALLBACK callback);
   void		SetTeamName(const std::string &name);
   void		SetSocket(Socket *socket);
+  void		SetAI(AI *ai);
   void		CommandParser(const std::string &cmd);
   
 public:

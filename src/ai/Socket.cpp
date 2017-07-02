@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Sun Jul  2 11:04:47 2017 kerma
+// Last update Sun Jul  2 15:13:03 2017 kerma
 //
 
 #include "Socket.hpp"
@@ -15,6 +15,11 @@ Socket::~Socket()
 {
   if (_fd != -1)
     close(_fd);
+}
+
+void	Socket::SetAI(AI *ai)
+{
+  _parser->SetAI(ai);
 }
 
 void	Socket::SetTeamName(const std::string &name)
