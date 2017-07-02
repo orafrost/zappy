@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 19:26:29 2017 kerma
-// Last update Wed Jun 28 19:57:45 2017 kerma
+// Last update Sun Jul  2 16:53:44 2017 kerma
 //
 
 #include "Utils.hpp"
@@ -55,4 +55,23 @@ int	Utils::ParsArg(int ac, char **av)
   if (ac > 2)
     Usage(std::cerr, ERROR);
   return port;
+}
+
+Utils::TAB	Utils::Split(const std::string &str)
+{
+  TAB		tab;
+  SIT		it;
+  SIT		c;
+  std::string	chunk;
+  
+
+  for (it = str.begin(); it != str.end(); ++it) {
+    for (c = it; *c != '\n' && c != str.end(); ++c)
+      chunk += *c;
+    tab.push_back(chunk);
+    chunk.clear();
+    if ((it = c) == str.end())
+      return tab;
+  }
+  return tab;
 }

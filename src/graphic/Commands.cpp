@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Sun Jul  2 15:31:39 2017 Eric Amilhat
+// Last update Sun Jul  2 17:55:56 2017 Eric Amilhat
 //
 
 #include "Commands.hpp"
@@ -22,7 +22,6 @@ Commands::Commands() : _socket(NULL), _graphic(NULL)
   _cmd["pbc"] = &Commands::HandlerPBC;  
   _cmd["pic"] = &Commands::HandlerPIC;  
   _cmd["pie"] = &Commands::HandlerPIE;  
-
   _cmd["pdr"] = &Commands::HandlerPDR;  
   _cmd["pgt"] = &Commands::HandlerPGT;  
   _cmd["pdi"] = &Commands::HandlerPDI;  
@@ -42,12 +41,6 @@ Commands::~Commands() {}
 void	Commands::SetSocket(Socket *socket) { _socket = socket; }
 void	Commands::SetGraphic(Graphic *graphic) { _graphic = graphic; }
 
-void	Commands::Bufferized(const ARGS &arg)
-{
-  for (VCIT it = arg.begin(); it != arg.end(); ++it)
-    _tmp.push_back(*it);
-}
-
 std::string	Commands::ConcatARGS(const ARGS &arg, int i) const
 {
   std::string	line;
@@ -62,75 +55,84 @@ std::string	Commands::ConcatARGS(const ARGS &arg, int i) const
 
 void	Commands::CommandParser(const std::string &cmd)
 {
-  std::istringstream	iss(cmd);
-  std::string		line;
-  std::string		tmp;
-  ARGS			arg;
+  std::string	elem;
+  ARGS		arg;
+  int		ret;
+  bool		clean = true;	
 
   if (_socket == NULL)
     return ;
 
-  while (!_tmp.empty()) {
-    arg.push_back(*(_tmp.begin()));
-    _tmp.erase(_tmp.begin());
+  while (!_buffer.empty()) {
+    arg.push_back(*(_buffer.begin()));
+    _buffer.erase(_buffer.begin());
   }
-  while (std::getline(iss, line, '\n')) {
-    std::istringstream	liss(line);
+
+  Utils::TAB tab = _utils.Split(cmd);
+  for (Utils::TIT it = tab.begin(); it != tab.end(); ++it) {
     
-    while (liss >> tmp)
-      arg.push_back(tmp);
+    std::istringstream	iss(*it);
+    while (iss >> elem)
+      arg.push_back(elem);
     if (arg.empty())
       return ;
-    
-    for (MCIT it = _cmd.begin(); it != _cmd.end(); ++it) {
-      if (it->first == arg.front())
-	(this->*(_cmd[arg.front()]))(arg);
-    }
-    arg.clear();
+
+    for (MCIT mit = _cmd.begin(); mit != _cmd.end(); ++mit) {
+      if (mit->first == arg.front()) {
+	if ((ret = (this->*(_cmd[arg.front()]))(arg)) == 1) {
+	  std::cout << "KO" << std::endl;
+	  clean = false;
+	  _buffer = arg;
+	} else if (ret == 0) {
+	  std::cout << "OK" << std::endl;
+	  break ;
+	}	
+      }
+    }	  
+    if (clean == true)
+      arg.clear();
   }
 }
 
-void	Commands::HandlerWELCOME(const ARGS &arg)
+int	Commands::HandlerWELCOME(const ARGS &arg)
 {
-  if (arg.size() != 1 || _init["WELCOME"] == true)
-    return ;
+  if (_init["WELCOME"] == true)
+    return 0;
+  if (arg.size() != 1)
+    return 1;
 
   _socket->AddCommand("GRAPHIC");
   _init["WELCOME"] = true;
+  return 0;
 }
 
-void	Commands::HandlerMSZ(const ARGS &arg)
+int	Commands::HandlerMSZ(const ARGS &arg)
 {
-  if (_init["WELCOME"] == false)
-    return ;
-  if (arg.size() != 3 || _init["msz"] == true) {
-    Bufferized(arg);
-    return ;
-  }
-
+  if (_init["WELCOME"] == false || _init["msz"] == true)
+    return 0;
+  if (arg.size() != 3)
+    return 1;
   if (_utils.isNum(arg[1]) == false ||
       _utils.isNum(arg[2]) == false)
-    return ;
+    return 0;
   
   int	width = _utils.StringToInt(arg[1]);
   int	height = _utils.StringToInt(arg[2]);
 
   _graphic->setMapDimensions(width, height);
   _init["msz"] = true;
+  return 0;
 }
 
-void	Commands::HandlerBCT(const ARGS &arg)
+int	Commands::HandlerBCT(const ARGS &arg)
 {
   if (_init["WELCOME"] == false)
-    return ;
-  if (arg.size() != 10) {
-    Bufferized(arg);
-    return ;
-  }
-
+    return 0;
+  if (arg.size() != 10)
+    return 1;  
   if (_utils.isNum(arg[1]) == false ||
       _utils.isNum(arg[2]) == false)
-    return ;
+    return 0;
   
   int	X = _utils.StringToInt(arg[1]);
   int	Y = _utils.StringToInt(arg[2]);
@@ -144,36 +146,33 @@ void	Commands::HandlerBCT(const ARGS &arg)
   tile.push_back(_utils.StringToInt(*(arg.begin() + 8)));
   tile.push_back(_utils.StringToInt(*(arg.begin() + 9)));
   _graphic->setBlock(X, Y, tile);
+  return 0;
 }
 
-void	Commands::HandlerTNA(const ARGS &arg)
+int	Commands::HandlerTNA(const ARGS &arg)
 {
   if (_init["WELCOME"] == false)
-    return ;
-  if (arg.size() < 2) {
-    Bufferized(arg);
-    return ;
-  }
+    return 0;
+  if (arg.size() < 2)
+    return 1;
 
   std::string name = ConcatARGS(arg, 1);
   _graphic->addTeam(name);
+  return 0;
 }
 
-void	Commands::HandlerPNW(const ARGS &arg)
+int	Commands::HandlerPNW(const ARGS &arg)
 {
   if (_init["WELCOME"] == false)
-    return ;
-  if (arg.size() < 7) {
-    Bufferized(arg);
-    return ;
-  }
-
+    return 0;
+  if (arg.size() < 7)
+    return 1;
   if (_utils.isNum(arg[1]) == false ||
       _utils.isNum(arg[2]) == false ||
       _utils.isNum(arg[3]) == false ||
       _utils.isNum(arg[4]) == false ||
       _utils.isNum(arg[5]) == false)
-    return ;
+    return 0;
   
   std::string	name = ConcatARGS(arg, 6);
   int		id = _utils.StringToInt(arg[1]);		
@@ -183,22 +182,20 @@ void	Commands::HandlerPNW(const ARGS &arg)
   int		level = _utils.StringToInt(arg[5]);		
 
   _graphic->addPlayer(id, X, Y, dir - 1, level, name);
+  return 0;
 }
 
-void	Commands::HandlerPPO(const ARGS &arg)
+int	Commands::HandlerPPO(const ARGS &arg)
 {
   if (_init["WELCOME"] == false)
-    return ;
-  if (arg.size() != 5) {
-    Bufferized(arg);
-    return ;
-  }
-
+    return 0;
+  if (arg.size() != 5)
+    return 1;
   if (_utils.isNum(arg[1]) == false ||
       _utils.isNum(arg[2]) == false ||
       _utils.isNum(arg[3]) == false ||
       _utils.isNum(arg[4]) == false)
-    return ;
+    return 0;
 
   int	id = _utils.StringToInt(arg[1]);		
   int	X = _utils.StringToInt(arg[2]);		
@@ -206,204 +203,182 @@ void	Commands::HandlerPPO(const ARGS &arg)
   int	dir = _utils.StringToInt(arg[4]);		
 
   _graphic->setPlayerPosition(id, X, Y, dir - 1);
+  return 0;
 }
 
-void	Commands::HandlerPLV(const ARGS &arg)
+int	Commands::HandlerPLV(const ARGS &arg)
 {
   if (_init["WELCOME"] == false)
-    return ;
-  if (arg.size() != 3) {
-    Bufferized(arg);
-    return ;
-  }
-
+    return 0;
+  if (arg.size() != 3)
+    return 1;
   if (_utils.isNum(arg[1]) == false ||
       _utils.isNum(arg[2]) == false)
-    return ;
+    return 0;
 
   int	id = _utils.StringToInt(arg[1]);		
   int	level = _utils.StringToInt(arg[2]);		
 
   _graphic->setLevel(id, level);
+  return 0;
 }
 
-void	Commands::HandlerPBC(const ARGS &arg)
+int	Commands::HandlerPBC(const ARGS &arg)
 {
   if (_init["WELCOME"] == false)
-    return ;
-  if (arg.size() < 3) {
-    Bufferized(arg);
-    return ;
-  }
-
+    return 0;
+  if (arg.size() < 3)
+    return 1;
   if (_utils.isNum(arg[1]) == false)
-    return ;
+    return 0;
 
   int	id = _utils.StringToInt(arg[1]);		
 
   _graphic->playerBroadcast(id);
+  return 0;
 }
 
-void	Commands::HandlerPIC(const ARGS &arg)
+int	Commands::HandlerPIC(const ARGS &arg)
 {
   if (_init["WELCOME"] == false)
-    return ;
-  if (arg.size() != 3) {
-    Bufferized(arg);
-    return ;
-  }
-
+    return 0;
+  if (arg.size() != 3)
+    return 1;
   if (_utils.isNum(arg[1]) == false ||
       _utils.isNum(arg[2]) == false)
-    return ;
+    return 0;
 
   int	X = _utils.StringToInt(arg[1]);		
   int	Y = _utils.StringToInt(arg[2]);		
 
   _graphic->startIncantation(X, Y);
+  return 0;
 }
 
-void	Commands::HandlerPIE(const ARGS &arg)
+int	Commands::HandlerPIE(const ARGS &arg)
 {
   if (_init["WELCOME"] == false)
-    return ;
-  if (arg.size() != 3) {
-    Bufferized(arg);
-    return ;
-  }
-
-  if (_utils.isNum(arg[1]) == false)
-    return ;
-  if (_utils.isNum(arg[2]) == false)
-    return ;
+    return 0;
+  if (arg.size() != 3)
+    return 1;
+  if (_utils.isNum(arg[1]) == false ||
+      _utils.isNum(arg[2]) == false)
+    return 0;
 
   int	X = _utils.StringToInt(arg[1]);		
   int	Y = _utils.StringToInt(arg[2]);		
 
   _graphic->endIncantation(X, Y);
+  return 0;
 }
 
-void	Commands::HandlerPDR(const ARGS &arg)
+int	Commands::HandlerPDR(const ARGS &arg)
 {
   if (_init["WELCOME"] == false)
-    return ;
-  if (arg.size() != 3) {
-    Bufferized(arg);
-    return ;
-  }
-
+    return 0;
+  if (arg.size() != 3)
+    return 1;
   if (_utils.isNum(arg[1]) == false ||
       _utils.isNum(arg[2]) == false)
-      return ;
+    return 0;
 
   int	id = _utils.StringToInt(arg[1]);		
   int	ressource = _utils.StringToInt(arg[2]);		
 
   _graphic->addResource(id, ressource);
+  return 0;
 }
 
-void	Commands::HandlerPGT(const ARGS &arg)
+int	Commands::HandlerPGT(const ARGS &arg)
 {
   if (_init["WELCOME"] == false)
-    return ;
-  if (arg.size() != 3) {
-    Bufferized(arg);
-    return ;
-  }
-
+    return 0;
+  if (arg.size() != 3)
+    return 1;
   if (_utils.isNum(arg[1]) == false ||
       _utils.isNum(arg[2]) == false)
-      return ;
+      return 0;
 
   int	id = _utils.StringToInt(arg[1]);		
   int	ressource = _utils.StringToInt(arg[2]);		
 
   _graphic->removeResource(id, ressource);
+  return 0;
 }
 
-void	Commands::HandlerPDI(const ARGS &arg)
+int	Commands::HandlerPDI(const ARGS &arg)
 {
   if (_init["WELCOME"] == false)
-    return ;
-  if (arg.size() != 2) {
-    Bufferized(arg);
-    return ;
-  }
-
+    return 0;
+  if (arg.size() != 2)
+    return 1;
   if (_utils.isNum(arg[1]) == false)
-      return ;
+    return 0;
 
   int	id = _utils.StringToInt(arg[1]);		
 
   _graphic->killPlayer(id);
+  return 0;
 }
 
-void	Commands::HandlerENW(const ARGS &arg)
+int	Commands::HandlerENW(const ARGS &arg)
 {
   if (_init["WELCOME"] == false)
-    return ;
-  if (arg.size() != 5) {
-    Bufferized(arg);
-    return ;
-  }
-
+    return 0;
+  if (arg.size() != 5)
+    return 1;
   if (_utils.isNum(arg[1]) == false ||
       _utils.isNum(arg[2]) == false ||
       _utils.isNum(arg[3]) == false ||
       _utils.isNum(arg[4]) == false)
-    return ;
+    return 0;
 
   int	id_egg = _utils.StringToInt(arg[1]);		
   int	X = _utils.StringToInt(arg[3]);		
   int	Y = _utils.StringToInt(arg[4]);		
 
   _graphic->addEgg(id_egg, X, Y);
+  return 0;
 }
 
-void	Commands::HandlerEHT(const ARGS &arg)
+int	Commands::HandlerEHT(const ARGS &arg)
 {
   if (_init["WELCOME"] == false)
-    return ;
-  if (arg.size() != 2) {
-    Bufferized(arg);
-    return ;
-  }
-
+    return 0;
+  if (arg.size() != 2)
+   return 1;
   if (_utils.isNum(arg[1]) == false)
-    return ;
+    return 0;
 
   int	id = _utils.StringToInt(arg[1]);		
 
   _graphic->hatchEgg(id);
+  return 0;
 }
 
-void	Commands::HandlerSGT(const ARGS &arg)
+int	Commands::HandlerSGT(const ARGS &arg)
 {
   if (_init["WELCOME"] == false)
-    return ;
-  if (arg.size() != 2 || _init["sgt"] == true) {
-    Bufferized(arg);
-    return ;
-  }
-
+    return 0;
+  if (arg.size() != 2 || _init["sgt"] == true)
+    return 1;
   if (_utils.isNum(arg[1]) == false)
-    return ;
+    return 0;
 
   int	frequence = _utils.StringToInt(arg[1]);		
 
   _graphic->setFrequence(frequence);
   _init["sgt"] = true;
+  return 0;
 }
 
-void	Commands::HandlerSEG(const ARGS &arg)
+int	Commands::HandlerSEG(const ARGS &arg)
 {
-  if (_init["WELCOME"] == false)
-    return ;
-  if (arg.size() != 2 || _init["seg"] == true) {
-    Bufferized(arg);
-    return ;
-  }
-
+  if (_init["WELCOME"] == false ||  _init["seg"] == true)
+    return 0;
+  if (arg.size() != 2)
+    return 1;
   if (_graphic->endGame(arg[1]) == 0)
     _init["seg"] = true;
+  return 0;
 }
