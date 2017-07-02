@@ -13,8 +13,13 @@ Graphic::Graphic() : mapIsSized(false), spriteSize(0), frequency(0)
 {
   map.width = 0;
   map.height = 0;
+
+  selectedPlayer.id = -1;
+  selectedPlayer.team = -1;
+
   assets.hoverT.loadFromFile("./assets/hover.png");
   assets.directionT.loadFromFile("./assets/Direction.png");
+  assets.eggT.loadFromFile("./assets/egg.png");
 
   // Background creation
 
@@ -83,7 +88,7 @@ Graphic::Graphic() : mapIsSized(false), spriteSize(0), frequency(0)
   assets.font.loadFromFile("./assets/font.ttf");
 
   textures.resize(8);
-  textures[e_resources::Food].loadFromFile("./assets/Food2.png");
+  textures[e_resources::Food].loadFromFile("./assets/Food.png");
   textures[e_resources::Linemate].loadFromFile("./assets/Linemate.png");
   textures[e_resources::Deraumere].loadFromFile("./assets/Deraumere.png");
   textures[e_resources::Sibur].loadFromFile("./assets/Sibur.png");
@@ -132,14 +137,10 @@ void	Graphic::expandTile()
 
   sf::Text		text;
   sf::RectangleShape	drawer;
-  int			left;
 
   // Text
   text.setFont(assets.font);
-  text.setCharacterSize(35);
-  text.setPosition(WINDOW_SIZE  + 30, 600);
-  text.setString("Position:\nx = " + std::to_string(x) + "  y = " + std::to_string(y));
-  window.draw(text);
+  text.setCharacterSize(30);
 
   // Hover
   drawer.setTexture(&(assets.hoverT));
@@ -154,23 +155,61 @@ void	Graphic::expandTile()
   drawer.setSize(sf::Vector2f(100, 100));
   for (int i = 0; i < 7; i++)
     {
-      left = map.arr[x][y].resources[i];
-      while (left != 0)
+      if (map.arr[x][y].resources[i] > 0)
 	{
+	  // Resource Image
 	  drawer.setTexture(&(texturesLarge[i]));
-	  drawer.setPosition(WINDOW_SIZE + (off * 100),  700 + (off2 * 100));
+	  drawer.setPosition(WINDOW_SIZE + (off * 100),  800 + (off2 * 100));
 	  window.draw(drawer);
+
+	  // Resource count text
+	  text.setColor(sf::Color(255,0,0));
+	  text.setPosition(WINDOW_SIZE + (off * 100) + 68,  800 + (off2 * 100) + 68);
+	  text.setString(std::to_string(map.arr[x][y].resources[i]));
+	  window.draw(text);
+
+	  text.setColor(sf::Color(255,255,255));
+	  text.setPosition(WINDOW_SIZE + (off * 100) + 70,  800 + (off2 * 100) + 70);
+	  text.setString(std::to_string(map.arr[x][y].resources[i]));
+	  window.draw(text);
+
 	  off++;
 	  if (off == 5)
 	    {
 	      off2++;
 	      off = 0;
 	    }
-	  left--;
 	}
     }    
 }
+
+void	Graphic::getSelectedPlayer()
+{
+  int x = mouse.getPosition(window).x / spriteSize;
+  int y = mouse.getPosition(window).y / spriteSize;
+  int	i = 0;
   
+  if (x < 0 || y < 0 || x >= map.width || y >= map.height)
+    return;
+  for (std::vector<t_team>::const_iterator it = teams.begin(); it != teams.end(); ++it)
+    {
+      for (std::vector<t_player>::const_iterator it2 = it->players.begin();
+	   it2 != it->players.end(); ++it2)
+	{
+	  if (it2->X == x && it2->Y == y)
+	    {
+	      selectedPlayer.id = it2->id;
+	      selectedPlayer.team = i;
+	      return;
+	    }
+	}
+      i++;
+    }
+  selectedPlayer.id = -1;
+  selectedPlayer.team = -1;
+ 
+}
+
 void	Graphic::eventManager()
 {
   while (window.pollEvent(event))
@@ -179,6 +218,8 @@ void	Graphic::eventManager()
 	  window.close();
 	  exit(0);
 	}
+      if (event.mouseButton.button == sf::Mouse::Left)
+	  getSelectedPlayer();
     }
 }
 
@@ -202,6 +243,7 @@ void	Graphic::update()
       printMap();
       printPlayers();
       printInfo();
+      printPlayerInfo();
       expandTile();
       window.display();      
     }
@@ -261,37 +303,43 @@ void                  Graphic::printPlayers()
     }
 }
 
-void	Graphic::drawSprite(int resource, int x, int y)
+void		Graphic::drawPlayerInfo(t_player const & player, int team)
 {
-  sf::RectangleShape	drawer;
+  sf::RectangleShape    drawer;
+  int                   level;
 
-  drawer.setTexture(&(textures[resource]));
-  drawer.setSize(sf::Vector2f(spriteSize, spriteSize));
-  drawer.setPosition(x * spriteSize, y * spriteSize);
+  level = player.L - 1;
+
+  if (level > 2)
+    level = 2;
+  if (team > 4)
+    team = team % 4;
+  drawer.setTexture(&(characters[team][level]));
+  drawer.setSize(sf::Vector2f(300, 300));
+  drawer.setPosition(WINDOW_SIZE, 450);
   window.draw(drawer);
 }
 
-void	Graphic::drawMultiple(int x , int y)
+void                  Graphic::printPlayerInfo()
 {
-  sf::RectangleShape	drawer;
-  drawer.setTexture(&(assets.multipleT));
-  drawer.setSize(sf::Vector2f(spriteSize, spriteSize));
-  drawer.setPosition(x * spriteSize, y * spriteSize);
-  window.draw(drawer);
+  int	i = 0;
+  if (selectedPlayer.id == -1)
+    return;
+  for (std::vector<t_team>::const_iterator it = teams.begin(); it != teams.end(); ++it)
+    {
+      for (std::vector<t_player>::const_iterator it2 = it->players.begin();
+	   it2 != it->players.end(); ++it2)
+	{
+	  if (i == this->selectedPlayer.team && it2->id == this->selectedPlayer.id)
+	    {
+	      drawPlayerInfo(*it2, i);
+	      return;
+	    }
+	}
+      i++;
+    }  
 }
 
-void	Graphic::drawMultipleSprites(int resource,int x , int y, int sum, int pos)
-{
-  sf::RectangleShape	drawer;
-  int			sq = getPerfectSquare(sum);
-  int			offy = (spriteSize/sq) * (pos / sq);
-  int			offx = (spriteSize/sq) * (pos % sq);
-
-  drawer.setTexture(&(textures[resource]));
-  drawer.setSize(sf::Vector2f(spriteSize/sq, spriteSize/sq));
-  drawer.setPosition((x * spriteSize) + offx, (y * spriteSize) + offy );
-  window.draw(drawer);
-}
 
 void    Graphic::drawResource(int resource, int x , int y, int sum, int pos)
 {
@@ -320,45 +368,65 @@ void    Graphic::printInfo()
   text.setCharacterSize(20);
   
   text.setColor(sf::Color(255, 90, 0));
-  text.setPosition(WINDOW_SIZE  + 30, 180);
+  text.setPosition(WINDOW_SIZE  + 25, 180);
   text.setString("Frequency : " + std::to_string(frequency));
   window.draw(text);
   
   // Teams text
-
+  /*
   text.setCharacterSize(40);
   text.setColor(sf::Color(255, 50, 0));
-  text.setPosition(WINDOW_SIZE  + 176, 246);
+  text.setPosition(WINDOW_SIZE  + 10, 216);
   text.setString("TEAMS");
   window.draw(text);
 
-  text.setCharacterSize(40);
   text.setColor(sf::Color(255, 150, 0));
-  text.setPosition(WINDOW_SIZE  + 180, 250);
+  text.setPosition(WINDOW_SIZE  + 10, 220);
   text.setString("TEAMS");
   window.draw(text);
 
+  text.setCharacterSize(15);
+  text.setColor(sf::Color(255, 150, 0));
+  text.setPosition(WINDOW_SIZE  + 330, 230);
+  text.setString("Players");
+  window.draw(text);
+
+  text.setPosition(WINDOW_SIZE  + 420, 230);
+  text.setString("Max lvl");
+  window.draw(text);
+
+  */
   text.setCharacterSize(35);
 
   for (unsigned int i = 0; i < teams.size();i++)
     {
       
       text.setColor(sf::Color(255, 200, 0));
-      text.setPosition(WINDOW_SIZE  + 60, 270 + ((i + 1) * 40));
+      text.setPosition(WINDOW_SIZE  + 60, 230 + ((i + 1) * 40));
       text.setString(teams[i].teamName);
       window.draw(text);
       
       text.setColor(sf::Color(255, 250, 0));
-      text.setPosition(WINDOW_SIZE  + 430, 270 + ((i + 1) * 40));
+      text.setPosition(WINDOW_SIZE  + 430, 230 + ((i + 1) * 40));
       text.setString(std::to_string(teams[i].players.size()));
       window.draw(text);
 
       drawer.setTexture(&(characters[i][0]));
       drawer.setSize(sf::Vector2f(38, 38));
-      drawer.setPosition(WINDOW_SIZE  + 10, 270 + ((i + 1) * 40));
+      drawer.setPosition(WINDOW_SIZE  + 10, 230 + ((i + 1) * 40));
       window.draw(drawer);
 
     }
+}
+
+void	Graphic::printEgg(int x, int y)
+{
+    sf::RectangleShape	drawer;
+
+  drawer.setTexture(&(assets.eggT));
+  drawer.setSize(sf::Vector2f(spriteSize, spriteSize));
+  drawer.setPosition(x * spriteSize, y * spriteSize);
+  window.draw(drawer);
 }
 
 void	Graphic::animateElevation(int x, int y, int n)
@@ -369,7 +437,6 @@ void	Graphic::animateElevation(int x, int y, int n)
   drawer.setSize(sf::Vector2f(spriteSize, spriteSize));
   drawer.setPosition(x * spriteSize, y * spriteSize);
   window.draw(drawer);  
-  
 }
 
 void	Graphic::printMap()
@@ -411,6 +478,8 @@ void	Graphic::printMap()
 		  left--;
 		}
 	    }
+	  if (map.arr[x][y].eggs.size() > 0)
+	    printEgg(x, y);
 	  if (map.arr[x][y].incantation)
 	    animateElevation(x, y, map.arr[x][y].n);
 	}

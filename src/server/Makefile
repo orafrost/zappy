@@ -5,7 +5,7 @@
 ## Login   <kerma@epitech.net>
 ##
 ## Started on  Tue Jun 20 14:17:36 2017 kerma
-## Last update Sun Jul  2 07:27:43 2017 kerma
+## Last update Sun Jul  2 17:01:08 2017 Eric Amilhat
 ##
 
 NAME	= zappy_server
@@ -65,7 +65,7 @@ CFLAGS	+= -W			\
 	-Wall			\
 	-Werror			\
 	-Wextra			\
-	-I../../include
+	-I../../include -g3
 
 all: $(NAME)
 

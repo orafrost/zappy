@@ -5,7 +5,7 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:09:49 2017 Eric Amilhat
-// Last update Sun Jul  2 15:10:03 2017 Eric Amilhat
+// Last update Sun Jul  2 16:56:12 2017 Eric Amilhat
 //
 
 #ifndef GRAPHIC_HPP_
@@ -86,6 +86,7 @@ typedef struct		s_assets
 {
   sf::Texture	        hoverT;
   sf::Texture		multipleT;
+  sf::Texture	        eggT;
   sf::Texture	        directionT;
   sf::Texture	        logoT;
   sf::Sprite		logo;
@@ -100,7 +101,13 @@ typedef struct		s_assets
   sf::Font		font;
 }			t_assets;
 
-class Graphic
+typedef struct                          s_playerId
+{
+  int					id;
+  int                                   team;
+}					t_playerId;
+
+  class Graphic
 {
 private:
   sf::ContextSettings settings;
@@ -117,19 +124,22 @@ private:
   t_assets		assets;
   int			spriteSize;
   int			frequency;
+  t_playerId		selectedPlayer;
   int			Error(const std::string &err) const;
   int		        getPerfectSquare(int sum);
   void			eventManager();
   int			sumOfBlock(int x, int y) const;
   void			drawPlayer(t_player const & player, int team);
   void			printPlayers();
-  void			drawSprite(int ressource, int x, int y);
-  void			drawMultipleSprites(int resource, int x , int y, int sum, int pos);
   void			drawResource(int resource, int x , int y, int sum, int pos);
-  void			drawMultiple(int x, int y);
   void			expandTile();
+  void			drawPlayerInfo(t_player const & player, int team);
+  void		        printPlayerInfo();
   void		        printInfo();
+  void			getSelectedPlayer();
+  void			printEgg(int x, int y);
   void			animateElevation(int x, int y, int n);
+
 public:
   Graphic();
   ~Graphic();
