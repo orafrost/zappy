@@ -70,7 +70,7 @@ Graphic::Graphic() : mapIsSized(false), spriteSize(0), frequency(0)
   characters[4][1].loadFromFile("./assets/Vegeta_1.png");
   characters[4][2].loadFromFile("./assets/Vegeta_2.png");
   
-  assets.multipleT.loadFromFile("./assets/goku_1.png");
+  assets.multipleT.loadFromFile("./assets/Goku_1.png");
   assets.font.loadFromFile("./assets/font.ttf");
 
   textures.resize(8);
@@ -128,7 +128,7 @@ void	Graphic::expandTile()
   // Text
   text.setFont(assets.font);
   text.setCharacterSize(35);
-  text.setPosition(WINDOW_SIZE  + 30, 200);
+  text.setPosition(WINDOW_SIZE  + 30, 450);
   text.setString("Position:\nx = " + std::to_string(x) + "  y = " + std::to_string(y));
   window.draw(text);
 
@@ -148,7 +148,7 @@ void	Graphic::expandTile()
       while (left != 0)
 	{
 	  drawer.setTexture(&(texturesLarge[i]));
-	  drawer.setPosition(WINDOW_SIZE + (off * 100),  400 + (off2 * 100));
+	  drawer.setPosition(WINDOW_SIZE + (off * 100),  600 + (off2 * 100));
 	  window.draw(drawer);
 	  off++;
 	  if (off == 5)
@@ -214,8 +214,15 @@ int	Graphic::sumOfBlock(int x, int y) const
 void                  Graphic::drawPlayer(t_player const & player, int team)
 {
   sf::RectangleShape    drawer;
+  int			level;
 
-  drawer.setTexture(&(characters[team][player.L / 2]));
+  level = player.L - 1;
+
+  if (level > 2)
+    level = 2;
+  if (team > 4)
+    team = team % 4;
+  drawer.setTexture(&(characters[team][level]));
   drawer.setSize(sf::Vector2f(spriteSize, spriteSize));
   drawer.setPosition(player.X * spriteSize, player.Y * spriteSize);
   window.draw(drawer);
@@ -281,9 +288,39 @@ void    Graphic::drawResource(int resource, int x , int y, int sum, int pos)
 
 void    Graphic::printInfo()
 {
+  sf::Text		text;
+  sf::RectangleShape	drawer;
+
   window.draw(assets.infoBackground);
   window.draw(assets.logo);
+
+  text.setFont(assets.font);
   
+  // Frequency Text
+
+  text.setCharacterSize(30);
+  
+  text.setPosition(WINDOW_SIZE  + 30, 180);
+  text.setString("Frequency : " + std::to_string(frequency));
+  window.draw(text);
+  
+  // Teams text
+
+  text.setCharacterSize(30);
+  text.setPosition(WINDOW_SIZE  + 60, 230);
+  text.setString("Teams:");
+  window.draw(text);
+  for (unsigned int i = 0; i < teams.size();i++)
+    {
+      text.setPosition(WINDOW_SIZE  + 60, 250 + ((i + 1) * 35));
+      text.setString(teams[i].teamName);
+      window.draw(text);
+      
+      text.setPosition(WINDOW_SIZE  + 400, 250 + ((i + 1) * 35));
+      text.setString(std::to_string(teams[i].players.size()));
+      window.draw(text);
+    }
+
 }
   
 void	Graphic::printMap()
@@ -439,14 +476,13 @@ void		Graphic::setFrequence(int f)
   frequency = f;
 }
 
-void                  Graphic::addEgg(int egg_id, int player_id, int x, int y)
+void                  Graphic::addEgg(int egg_id, int x, int y)
 {
   if (x > map.width || y > map.height)
     return;
   t_egg			egg;
 
   egg.id = egg_id;
-  egg.parent_id = player_id;
   map.arr[x][y].eggs.push_back(egg);
 }
 
@@ -519,27 +555,14 @@ int                  Graphic::endGame(std::string teamName)
   return (-1);
 }
 
-void                  Graphic::startIncantation(int id)
+void                  Graphic::startIncantation(int x, int y)
 {
-  for (std::vector<t_team>::iterator it = teams.begin(); it != teams.end(); ++it)
-    {
-      for (std::vector<t_player>::iterator it2 = it->players.begin();
-	   it2 != it->players.end(); ++it2)
-	{
-	  if (it2->id == id)
-	    {
-	      // INCANTATION ANIMATION
-	      return;
-	    }
-	}
-    }
+  map.arr[x][y].incantation = true;
 }
 
 void                  Graphic::endIncantation(int x, int y)
 {
-  (void)x;
-  (void)y;
-  // END INCANTATION ANIMATION AT X Y
+  map.arr[x][y].incantation = false;
 }
 
 void		Graphic::killPlayer(int id)

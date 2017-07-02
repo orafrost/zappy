@@ -5,7 +5,7 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:09:49 2017 Eric Amilhat
-// Last update Sat Jul  1 18:36:36 2017 Eric Amilhat
+// Last update Sun Jul  2 11:47:39 2017 Eric Amilhat
 //
 
 #ifndef GRAPHIC_HPP_
@@ -65,7 +65,6 @@ typedef struct	s_team
 typedef struct  s_egg
 {
   int		id;
-  int		parent_id;
 }               t_egg;
 
 typedef struct s_block
@@ -73,6 +72,7 @@ typedef struct s_block
   std::vector<t_egg>		eggs;
   int				resources[7];
   float				n = 0;
+  bool				incantation = false;
 }		t_block;
 
 typedef struct				s_map
@@ -142,12 +142,12 @@ public:
   void			playerBroadcast(int id);
   void			setLevel(int id, int level);
   void			setFrequence(int f);
-  void			addEgg(int egg_id, int player_id, int x, int y);
+  void			addEgg(int egg_id, int x, int y);
   void			hatchEgg(int id);
   void			addResource(int player_id, int resourceType);
   void			removeResource(int player_id, int resourceType);
   int			endGame(std::string teamName);
-  void			startIncantation(int id);
+  void			startIncantation(int x, int y);
   void			endIncantation(int x, int y);
   void			killPlayer(int id);
 };
