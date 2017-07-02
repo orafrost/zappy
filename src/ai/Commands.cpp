@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Fri Jun 30 18:05:06 2017 kerma
+// Last update Sun Jul  2 11:05:39 2017 kerma
 //
 
 #include "Commands.hpp"
@@ -16,23 +16,12 @@ Commands::Commands() : _socket(NULL)
 
   _init["WELCOME"] = false;
 
-  // _resp[WELCOME] = &Commands::ResponseWELCOME;
-  // _resp[FORWARD] = &Commands::ResponseFORWARD;
-  // _resp[RIGHT] = &Commands::ResponseRIGHT;
-  // _resp[LEFT] = &Commands::ResponseLEFT;
-  // _resp[LOOK] = &Commands::ResponseLOOK;
-  // _resp[INVENTORY] = &Commands::ResponseINVENTORY;
-  // _resp[BROADCAST] = &Commands::ResponseBROADCAST;
-  // _resp[CONNECTED] = &Commands::ResponseCONNECTED;
-  // _resp[FORK] = &Commands::ResponseFORK;
-  // _resp[EJECT] = &Commands::ResponseEJECT;
-  // _resp[DEATH] = &Commands::ResponseDEATH;
-  // _resp[INCANTATION] = &Commands::ResponseFORWARD;
 }
 
 Commands::~Commands() {}
 
 void	Commands::SetSocket(Socket *socket) { _socket = socket; }
+void	Commands::SetTeamName(const std::string &name) { _team = name; }
 
 void	Commands::Bufferized(const ARGS &arg)
 {
@@ -88,13 +77,9 @@ void	Commands::HandlerWELCOME(const ARGS &arg)
   if (arg.size() != 1 || _init["WELCOME"] == true)
     return ;
 
-  // TODO get TeamName from AI class
-  _socket->AddCommand("TeamName");
+  _socket->AddCommand(_team);
   _init["WELCOME"] = true;
 }
-
-// void	Commands::Resp(const std::string &text) const
-
 
 void	Commands::SendFORWARD() const { _socket->AddCommand("Forward"); }
 void	Commands::SendRIGHT() const { _socket->AddCommand("Right"); }
