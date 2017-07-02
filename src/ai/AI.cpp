@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Sun Jul  2 18:31:58 2017 Guillaume Verrier
+// Last update Sun Jul  2 18:47:56 2017 Guillaume Verrier
 //
 
 #include "AI.hpp"
@@ -90,6 +90,40 @@ int AI::getSomme()
   a += findNbElem("phiras");
   a += findNbElem("thystane");
   return (a);
+}
+
+void AI::clean()
+{
+  char *name[7];
+
+  name[0] = "linemate";
+  name[1] = "deraumere";
+  name[2] = "sibur";
+  name[3] = "mendiane";
+  name[4] = "phiras";
+  name[5] = "thystane";
+  if (findNbElem("food") > 1)
+  {
+    _sender->SendTAKE("food");
+    _wait = true;
+    return ;
+  }
+  for (int a = 0; a < 6; a++)
+  {
+      int nb = findNbElem(name[a]);
+      if (nb > _step[_level][a + 1])
+      {
+        _sender->SendTAKE(name[a]);
+        _wait = true;
+        return ;
+      }
+      if (nb < 0 && _inventaire[a + 1] > 1)
+      {
+        _sender->SendSET(name[a]);
+        _wait = true;
+        return ;
+      }
+  }
 }
 
 void AI::forward()
