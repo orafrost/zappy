@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Sun Jul  2 17:57:05 2017 Guillaume Verrier
+// Last update Sun Jul  2 19:00:44 2017 Guillaume Verrier
 //
 
 #include "AI.hpp"
@@ -58,6 +58,7 @@ AI::AI() {
   this->_step[6][5] = 2;
   this->_step[6][6] = 1;
 }
+
 AI::~AI() {}
 
 void	AI::SetSender(Commands *sender) { _sender = sender; }
@@ -71,94 +72,103 @@ int AI::findNbElem(std::string elem)
 
   a = 0;
   found = 0;
-  while ((found = chunck.find(elem, found))
-  {
-    a += 1;
-  }
+  while ((found = chunck.find(elem, found)))
+    {
+      a += 1;
+    }
   return a;
 }
 
-void   AI::find_food()
+int    AI::resource()
 {
-  int pos = this->find_elem("food");
+  bool	high = false;
+  std::string name[7];
 
+  name[0] = "linemate";
+  name[1] = "deraumere";
+  name[2] = "sibur";
+  name[3] = "mendiane";
+  name[4] = "phiras";
+  name[5] = "thystane";
+  for (int a = 0; a < 6; a++)
+    {
+      int nb = findNbElem(name[a]);
+      if (nb > _step[_level - 1][a + 1])
+	high = true;
+      else if (nb  + _inventaire[a + 1] < _step[_level - 1][a + 1])
+	return (0);
+    }
+  if (high == true)
+    return (1);
+  return (2);
+}
+
+int AI::getSomme()
+{
+  int a;
+
+  a = findNbElem("linemate");
+  a += findNbElem("deraumere");
+  a += findNbElem("sibur");
+  a += findNbElem("mendiane");
+  a += findNbElem("phiras");
+  a += findNbElem("thystane");
+  return (a);
+}
+
+void AI::clean()
+{
+  std::string name[7];
+
+  name[0] = "linemate";
+  name[1] = "deraumere";
+  name[2] = "sibur";
+  name[3] = "mendiane";
+  name[4] = "phiras";
+  name[5] = "thystane";
+  if (findNbElem("food") > 1)
+  {
+    _sender->SendTAKE("food");
+    _wait = true;
+    return ;
+  }
+  for (int a = 0; a < 6; a++)
+  {
+      int nb = findNbElem(name[a]);
+      if (nb > _step[_level][a + 1])
+      {
+        _sender->SendTAKE(name[a]);
+        _wait = true;
+        return ;
+      }
+      if (nb < 0 && _inventaire[a + 1] > 1)
+      {
+        _sender->SendSET(name[a]);
+        _wait = true;
+        return ;
+      }
+  }
+}
+
+void AI::forward()
+{
+  _sender->SendFORWARD();
   _wait = true;
-  if (pos != 0)
-  {
-    _sender.SendFORWARD()
-  }
-  else
-  {
-    _sender.SendTAKE("food");
-  }
-}
-
-int AI::find_miss()
-{
-  for (int a = 1; a < 7; a++)
-  {
-    if (_step[_level - 1][a] != _inventaire[a])
-      return a;
-  }
-  return -1;
-}
-
-void AI::find_resources()
-{
-  int miss;
-
-  miss = find_miss();
-  if (miss == -1)
-    return false;
-}
-
-void AI::folow()
-{
-
 }
 
 void AI::up()
 {
+  _sender->SendINCANTATION();
+  _wait = true;
 }
 
-void  AI::nbPers()
-{
-  std::istringstream st(_vision);
-  std::string chunck;
-  std::size_t found;
-  int  a = 0;
-
-  std::getline(st, chunck, ',');
-  found = 0;
-  while ((found = chunck.find("player", found))
-  {
-    a += 1;
-  }
-  return a;
-}
-
-void AI::sendVision()
+void AI::vision()
 {
   _sender->SendLOOK();
+  _wait = true;
 }
 
-bool    SetMode(enum AI::AiMode md)
+bool AI::wait()
 {
-  if (_wait == true)
-    return false;
-  _mode = md;
-  return true;
-}
-
-bool check_case()
-{
-  for (int a = 1; a < 7; a++)
-  {
-    _start[_level - 1][a]
-  }
-}
-
-void actMode()
-{
-
+  return _wait;
 }
