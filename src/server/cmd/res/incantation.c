@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Fri Jun 30 21:56:06 2017 kerma
-** Last update Sun Jul  2 11:54:08 2017 kerma
+** Last update Sun Jul  2 12:19:54 2017 kerma
 */
 
 #include "zappy.h"
@@ -31,11 +31,11 @@ static int	test_resources(t_zappy *game, t_player *cur, int resources[7][6])
 {
   int		i;
 
-  i = 0;
+  i = 1;
   while (i < 7)
     {
       if (game->map[cur->y][cur->x].resources[i] !=
-	  resources[cur->level - 1][i])
+	  resources[cur->level - 1][i - 1])
 	return (1);
       i++;
     }

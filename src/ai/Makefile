@@ -5,7 +5,7 @@
 ## Login   <kerma@epitech.net>
 ##
 ## Started on  Wed Jun 28 16:48:49 2017 kerma
-## Last update Thu Jun 29 19:11:04 2017 kerma
+## Last update Sun Jul  2 12:50:32 2017 kerma
 ##
 
 NAME		= zappy_ai
@@ -13,6 +13,7 @@ NAME		= zappy_ai
 OBJS		= $(SRCS:.cpp=.o)
 
 SRCS		= main.cpp	\
+		AI.cpp		\
 		Utils.cpp	\
 		Socket.cpp	\
 		Commands.cpp	\

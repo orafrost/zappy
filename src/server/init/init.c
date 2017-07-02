@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Sat Jun 24 16:17:37 2017 kerma
-** Last update Sun Jul  2 11:28:33 2017 kerma
+** Last update Sun Jul  2 12:06:35 2017 kerma
 */
 
 #include "zappy.h"
@@ -81,7 +81,7 @@ int		map_init(t_zappy *zappy)
       while (j < zappy->width)
 	{
 	  k = 0;
-	  zappy->map[i][j].resources[k++] = rand() % 5;
+	  zappy->map[i][j].resources[k++] = rand() % 3;
 	  while (k < 7)
 	    zappy->map[i][j].resources[k++] = rand() % 2;
 	  zappy->map[i][j++].player = NULL;

@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:41:22 2017 kerma
-// Last update Sun Jul  2 11:02:12 2017 kerma
+// Last update Sun Jul  2 13:01:22 2017 kerma
 //
 
 #ifndef COMMANDS_HPP_
@@ -21,8 +21,12 @@
 # include "Socket.hpp"
 class	Socket;
 
+# include "AI.hpp"
+class	AI;
+
 class	Commands
 {
+
   typedef std::vector<std::string>								ARGS;
   typedef std::map<std::string, bool>								INIT;
   typedef std::map<std::string, void (Commands::*)(const ARGS &)>				CMDS;
@@ -31,6 +35,7 @@ class	Commands
   typedef std::map<std::string, void (Commands::*)(const ARGS &)>::const_iterator		MCIT;
 
 private:
+  AI		*_ai;
   CMDS		_cmd;
   ARGS		_tmp;
   INIT		_init;
