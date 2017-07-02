@@ -1,1 +1,0 @@
-replace self.aiSockets.receive(3) to self.buffReceive()
