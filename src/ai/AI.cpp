@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Sun Jul  2 18:31:58 2017 Guillaume Verrier
+// Last update Sun Jul  2 18:54:18 2017 Eric Amilhat
 //
 
 #include "AI.hpp"
@@ -58,8 +58,8 @@ AI::AI() {
   this->_step[6][5] = 2;
   this->_step[6][6] = 1;
 }
-AI::~AI() {}
 
+AI::~AI() {}
 
 void	AI::SetSender(Commands *sender) { _sender = sender; }
 
@@ -72,11 +72,28 @@ int AI::findNbElem(std::string elem)
 
   a = 0;
   found = 0;
-  while ((found = chunck.find(elem, found))
-  {
-    a += 1;
-  }
+  while (found = chunck.find(elem, found))
+    {
+      a += 1;
+    }
   return a;
+}
+
+int    AI::resource()
+{
+  bool	high = false;
+  
+  for (int a = 0; a < 6; a++)
+    {
+      int nb = findNbElem(name[a]);
+      if (nb > _step[_level - 1][a + 1])
+	high = true;
+      else if (nb  + _inventaire[a + 1] < _step[_level - 1][a + 1])
+	return (0);
+    }
+  if (high == true)
+    return (1);
+  return (2);
 }
 
 int AI::getSomme()
