@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:41:22 2017 kerma
-// Last update Sun Jul  2 18:29:44 2017 Guillaume Verrier
+// Last update Sun Jul  2 18:59:10 2017 Guillaume Verrier
 //
 
 #ifndef AI_HPP_
@@ -26,12 +26,21 @@ enum res
   MENDIANE = 4,
   PHIRAS = 5,
   THYSTANE = 6
-}
+};
 
-typedef bool (AI::* act)();
 
 class	AI
 {
+public:
+  enum    AiMode
+  {
+    FEED = 0,
+    FOLOW = 1,
+    GET = 2,
+    UP = 3
+
+  };
+
 private:
   Commands	*_sender;
   bool      _wait;
@@ -39,7 +48,6 @@ private:
   int       _inventaire[7];
   int       _level;
   int       _step[7][7];
-  std::string vision;
   enum AiMode _mode;
 
 
@@ -53,14 +61,6 @@ public:
   void    up(); //OK
   void    vision(); //OK
   bool    wait(); //OK
-  enum    AiMode
-  {
-    FEED = 0,
-    FOLOW = 1,
-    GET = 2,
-    UP = 3
-
-  };
 public:
   AI();
   ~AI();
