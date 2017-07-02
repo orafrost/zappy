@@ -163,12 +163,12 @@ void	Graphic::expandTile()
 	  window.draw(drawer);
 
 	  // Resource count text
-	  text.setColor(sf::Color(255,0,0));
+	  text.setFillColor(sf::Color(255,0,0));
 	  text.setPosition(WINDOW_SIZE + (off * 100) + 68,  800 + (off2 * 100) + 68);
 	  text.setString(std::to_string(map.arr[x][y].resources[i]));
 	  window.draw(text);
 
-	  text.setColor(sf::Color(255,255,255));
+	  text.setFillColor(sf::Color(255,255,255));
 	  text.setPosition(WINDOW_SIZE + (off * 100) + 70,  800 + (off2 * 100) + 70);
 	  text.setString(std::to_string(map.arr[x][y].resources[i]));
 	  window.draw(text);
@@ -367,7 +367,7 @@ void    Graphic::printInfo()
 
   text.setCharacterSize(20);
   
-  text.setColor(sf::Color(255, 90, 0));
+  text.setFillColor(sf::Color(255, 90, 0));
   text.setPosition(WINDOW_SIZE  + 25, 180);
   text.setString("Frequency : " + std::to_string(frequency));
   window.draw(text);
@@ -375,18 +375,18 @@ void    Graphic::printInfo()
   // Teams text
   /*
   text.setCharacterSize(40);
-  text.setColor(sf::Color(255, 50, 0));
+  text.setFillColor(sf::Color(255, 50, 0));
   text.setPosition(WINDOW_SIZE  + 10, 216);
   text.setString("TEAMS");
   window.draw(text);
 
-  text.setColor(sf::Color(255, 150, 0));
+  text.setFillColor(sf::Color(255, 150, 0));
   text.setPosition(WINDOW_SIZE  + 10, 220);
   text.setString("TEAMS");
   window.draw(text);
 
   text.setCharacterSize(15);
-  text.setColor(sf::Color(255, 150, 0));
+  text.setFillColor(sf::Color(255, 150, 0));
   text.setPosition(WINDOW_SIZE  + 330, 230);
   text.setString("Players");
   window.draw(text);
@@ -401,12 +401,12 @@ void    Graphic::printInfo()
   for (unsigned int i = 0; i < teams.size();i++)
     {
       
-      text.setColor(sf::Color(255, 200, 0));
+      text.setFillColor(sf::Color(255, 200, 0));
       text.setPosition(WINDOW_SIZE  + 60, 230 + ((i + 1) * 40));
       text.setString(teams[i].teamName);
       window.draw(text);
       
-      text.setColor(sf::Color(255, 250, 0));
+      text.setFillColor(sf::Color(255, 250, 0));
       text.setPosition(WINDOW_SIZE  + 430, 230 + ((i + 1) * 40));
       text.setString(std::to_string(teams[i].players.size()));
       window.draw(text);

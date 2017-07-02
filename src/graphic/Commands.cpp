@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Sun Jul  2 17:55:56 2017 Eric Amilhat
+// Last update Sun Jul  2 18:12:32 2017 kerma
 //
 
 #include "Commands.hpp"
@@ -70,21 +70,19 @@ void	Commands::CommandParser(const std::string &cmd)
 
   Utils::TAB tab = _utils.Split(cmd);
   for (Utils::TIT it = tab.begin(); it != tab.end(); ++it) {
-    
+
     std::istringstream	iss(*it);
     while (iss >> elem)
       arg.push_back(elem);
     if (arg.empty())
       return ;
-
+    
     for (MCIT mit = _cmd.begin(); mit != _cmd.end(); ++mit) {
       if (mit->first == arg.front()) {
 	if ((ret = (this->*(_cmd[arg.front()]))(arg)) == 1) {
-	  std::cout << "KO" << std::endl;
 	  clean = false;
 	  _buffer = arg;
 	} else if (ret == 0) {
-	  std::cout << "OK" << std::endl;
 	  break ;
 	}	
       }
@@ -297,8 +295,8 @@ int	Commands::HandlerPGT(const ARGS &arg)
     return 1;
   if (_utils.isNum(arg[1]) == false ||
       _utils.isNum(arg[2]) == false)
-      return 0;
-
+    return 0;
+  
   int	id = _utils.StringToInt(arg[1]);		
   int	ressource = _utils.StringToInt(arg[2]);		
 
