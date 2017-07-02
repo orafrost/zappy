@@ -5,7 +5,7 @@
 ** Login   <verrier_g@epitech.eu>
 **
 ** Started on  Tue Jun 20 12:24:50 2017 Guillaume Verrier
-** Last update Thu Jun 29 14:02:57 2017 kerma
+** Last update Sun Jul  2 06:08:11 2017 kerma
 */
 
 #include "zappy.h"
@@ -16,21 +16,24 @@ static t_player	*create_player(t_zappy *zappy, int fd)
   static int	id = 0;
   int		i;
 
-  i = 0;
+  i = 1;
   if ((player = malloc(sizeof(t_player))) == NULL)
     return (pputerr("Function \'malloc\' failed."));
   if ((player->client = init_tcp(player->client, fd)) == NULL)
-    return (NULL);  
+    return (NULL);
   player->x = rand() % zappy->width;
   player->y = rand() % zappy->height;
   player->id = id++;
   player->level = 1;
-  player->resources[i++] = 10;
+  player->time = time(NULL);
+  player->resources[0] = 10;
   while (i < 7)
     player->resources[i++] = 0;
   player->_dir = rand() % 3;
-  player->action.action = NONE;
   player->action.arg = NULL;
+  player->action.start = 0;
+  player->action.dure = 0.0f;
+  player->action.response = NULL;
   return (player);
 }
 
@@ -44,7 +47,7 @@ t_tcp	*init_tcp(t_tcp *tcp, int fd)
   return (tcp);
 }
 
-t_team		*add_player(t_zappy *zappy, t_team **team, int fd)
+t_team		*add_team(t_zappy *zappy, t_team **team, int fd)
 {
   t_team	*tmp;
   t_team	*new;
@@ -75,7 +78,7 @@ void	free_team(t_team **node)
   *node = NULL;
 }
 
-t_team		*del_elem(t_team *start, t_team **elem)
+t_team		*del_team(t_team *start, t_team **elem)
 {
   t_team	*temp;
 
@@ -97,4 +100,3 @@ t_team		*del_elem(t_team *start, t_team **elem)
     }
   return (start);
 }
-

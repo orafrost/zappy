@@ -5,52 +5,10 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 27 20:46:14 2017 kerma
-** Last update Thu Jun 29 10:22:00 2017 kerma
+** Last update Sun Jul  2 07:22:36 2017 kerma
 */
 
 #include "zappy.h"
-
-void		send_map(t_zappy *zappy)
-{
-  char		msg[1024];
-  unsigned int	x;
-  unsigned int	y;
-
-  x = 0;
-  while (x < zappy->height)
-    {
-      y = 0;
-      while (y < zappy->width)
-	{
-	  memset(msg, 0, 1024);
-	  sprintf(msg, "bct %u %u %d %d %d %d %d %d", x, y,
-		  zappy->map[y][x].resources[0],
-		  zappy->map[y][x].resources[1],
-		  zappy->map[y][x].resources[2],
-		  zappy->map[y][x].resources[3],
-		  zappy->map[y][x].resources[4],
-		  zappy->map[y][x].resources[5]);
-	  add_msg(&zappy->graphic->out, msg);
-	  y++;
-	}
-      x++;
-    }
-}
-
-void	send_teams(t_zappy *zappy)
-{
-  char	msg[1024];  
-  int	i;
-
-  i = 0;
-  while (i < zappy->nb_teams)
-    {
-      memset(msg, 0, 1024);
-      sprintf(msg, "tna %s", zappy->teams[i]->name);
-      add_msg(&zappy->graphic->out, msg);   
-      i++;
-    }
-}
 
 void	send_sizes(t_zappy *zappy)
 {
@@ -80,13 +38,12 @@ int	add_graphic_client(t_zappy *zappy, int fd)
   if ((zappy->graphic = init_tcp(zappy->graphic, fd)) == NULL)
     return (ERROR);
   clean_waiting(zappy, fd);
-
   send_sizes(zappy);
   send_frequency(zappy);
   send_map(zappy);
   send_teams(zappy);
-  // send connected players
-  // send eggs
+  send_players(zappy);
+  send_eggs(zappy);
   return (0);
 }
 
@@ -101,7 +58,7 @@ void	graphic_write(t_zappy *zappy)
 
 int	graphic_read(t_zappy *zappy)
 {
-  char          buff[1024];
+  char	buff[1024];
 
   memset(buff, 0, 1024);
   if (zappy->graphic->init == 0)
@@ -118,11 +75,6 @@ int	graphic_read(t_zappy *zappy)
       return (0);
     }
   if (place_end(buff) == 1)
-    add_msg(&zappy->graphic->out, "ko");    
-  else
-    {
-      // TODO cmd parser
-      printf("GRAPHIC: %s\n", buff);
-    }
+    add_msg(&zappy->graphic->out, "ko");
   return (0);
 }

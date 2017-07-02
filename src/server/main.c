@@ -5,14 +5,14 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 20 14:10:18 2017 kerma
-** Last update Tue Jun 27 16:25:00 2017 kerma
+** Last update Sun Jul  2 06:08:06 2017 kerma
 */
 
 #include "zappy.h"
 
 int     g_state = RUN;
 
-void    handler(int sig)
+void	handler(int sig)
 {
   if (sig == SIGINT)
     g_state = STOP;
@@ -24,14 +24,33 @@ int	init(t_zappy *zappy)
     return (puterr("An error occurred while initialising the socket."));
   return (0);
 }
-void	init_cmd_name(char *cmd[])
+
+void	init_cmds(cmds cmds[], char *cmd[])
 {
   cmd[0] = "Connect_nbr";
-}
-
-void	init_cmds(cmds cmd[])
-{
-  cmd[0] = &nb_teams;
+  cmd[1] = "Inventory";
+  cmd[2] = "Forward";
+  cmd[3] = "Left";
+  cmd[4] = "Right";
+  cmd[5] = "Look";
+  cmd[6] = "Take";
+  cmd[7] = "Set";
+  cmd[8] = "Broadcast";
+  cmd[9] = "Eject";
+  cmd[10] = "Fork";
+  cmd[11] = "Incantation";
+  cmds[0] = &cmd_connect_nbr;
+  cmds[1] = &cmd_inventory;
+  cmds[2] = &cmd_forward;
+  cmds[3] = &cmd_left;
+  cmds[4] = &cmd_right;
+  cmds[5] = &cmd_look;
+  cmds[6] = &cmd_take;
+  cmds[7] = &cmd_set;
+  cmds[8] = &cmd_broadcast;
+  cmds[9] = &cmd_eject;
+  cmds[10] = &cmd_fork;
+  cmds[11] = &cmd_incantation;
 }
 
 int		main(int ac, char **av)
@@ -40,12 +59,11 @@ int		main(int ac, char **av)
   int		ret;
 
   srand(time(NULL));
-  signal(SIGINT, &handler);  
+  signal(SIGINT, &handler);
   if ((ret = args(&zappy, ac, av)) == 0 &&
       (ret = init(&zappy) == 0))
     {
-      init_cmds(zappy.cmd);
-      init_cmd_name(zappy.cmd_name);
+      init_cmds(zappy.cmd, zappy.cmd_name);
       ret = main_loop(&zappy);
     }
   clean(&zappy);

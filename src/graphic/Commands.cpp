@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Fri Jun 30 17:53:20 2017 kerma
+// Last update Sun Jul  2 07:25:25 2017 kerma
 //
 
 #include "Commands.hpp"
@@ -20,8 +20,10 @@ Commands::Commands() : _socket(NULL), _graphic(NULL)
   _cmd["ppo"] = &Commands::HandlerPPO;
   _cmd["plv"] = &Commands::HandlerPLV;
   _cmd["pbc"] = &Commands::HandlerPBC;  
-  _cmd["pic"] = &Commands::HandlerPIC;  
-  _cmd["pie"] = &Commands::HandlerPIE;  
+  // TODO delete this shit or handle this shit
+  // _cmd["pic"] = &Commands::HandlerPIC;  
+  // _cmd["pie"] = &Commands::HandlerPIE;  
+
   _cmd["pdr"] = &Commands::HandlerPDR;  
   _cmd["pgt"] = &Commands::HandlerPGT;  
   _cmd["pdi"] = &Commands::HandlerPDI;  
@@ -80,7 +82,7 @@ void	Commands::CommandParser(const std::string &cmd)
       arg.push_back(tmp);
     if (arg.empty())
       return ;
-
+    
     for (MCIT it = _cmd.begin(); it != _cmd.end(); ++it) {
       if (it->first == arg.front())
 	(this->*(_cmd[arg.front()]))(arg);
@@ -203,7 +205,7 @@ void	Commands::HandlerPPO(const ARGS &arg)
   int	X = _utils.StringToInt(arg[2]);		
   int	Y = _utils.StringToInt(arg[3]);		
   int	dir = _utils.StringToInt(arg[4]);		
-  
+
   _graphic->setPlayerPosition(id, X, Y, dir - 1);
 }
 

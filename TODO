@@ -1,0 +1,4 @@
+TODO delete -g3 in server Makefile
+TODO if possible, change time management
+TODO add '#' to id server/graphic side
+TODO check enw id_player management on graphic class side

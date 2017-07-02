@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Mon Jun 26 18:57:37 2017 kerma
-** Last update Tue Jun 27 20:53:58 2017 kerma
+** Last update Sun Jul  2 06:07:15 2017 kerma
 */
 
 #include "zappy.h"
@@ -36,8 +36,8 @@ static int		init_socket(t_tcp *tcp, struct sockaddr_in *s_in,
 
 int			add_client(t_zappy *zappy)
 {
-  struct sockaddr_in    s_in;
-  socklen_t             s_in_size;
+  struct sockaddr_in	s_in;
+  socklen_t		s_in_size;
   int			fd;
 
   s_in_size = sizeof(s_in);
@@ -59,7 +59,7 @@ int			add_client(t_zappy *zappy)
 int			init_server(t_tcp *tcp, int port)
 {
   struct sockaddr_in	s_in;
-  
+
   if (init_socket(tcp, &s_in, port) == ERROR)
     return (ERROR);
   if (bind(tcp->fd, (const struct sockaddr *)&s_in, sizeof(s_in)) == -1)

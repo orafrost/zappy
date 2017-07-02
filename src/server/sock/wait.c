@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 27 14:53:38 2017 kerma
-** Last update Thu Jun 29 14:02:34 2017 kerma
+** Last update Sun Jul  2 07:14:53 2017 kerma
 */
 
 #include "zappy.h"
@@ -22,17 +22,26 @@ static int	add_to_team(t_zappy *zappy, int fd, int i)
   t_team	*new;
   char		msg1[4];
   char		msg2[5];
+  char		buff[1024];
 
-  if ((new = add_player(zappy, &zappy->teams[i]->players, fd)) == NULL)
+  if ((new = add_team(zappy, &zappy->teams[i]->players, fd)) == NULL)
     return (ERROR);
   zappy->teams[i]->nb++;
   clean_waiting(zappy, fd);
+  use_egg(zappy, &new, i);
+  add_player(&zappy->map[new->player->y][new->player->x].player, new->player);
   memset(msg1, 0, 4);
   memset(msg2, 0, 5);
+  memset(buff, 0, 1024);
   sprintf(msg1, "%d", zappy->teams[i]->max - zappy->teams[i]->nb);
   sprintf(msg2, "%d %d", zappy->width, zappy->height);
+  sprintf(buff, "pnw %d %d %d %d %d %s", new->player->id, new->player->x,
+	  new->player->y, new->player->_dir + 1, new->player->level,
+	  zappy->teams[i]->name);
   add_msg(&new->player->client->out, msg1);
   add_msg(&new->player->client->out, msg2);
+  if (zappy->graphic != NULL)
+    add_msg(&zappy->graphic->out, buff);
   return (0);
 }
 
@@ -65,8 +74,8 @@ static int	new_player(t_zappy *zappy, char buff[], int fd)
 
 int	read_waitings(t_zappy *zappy, int fd)
 {
-  char  buff[1024];
-  
+  char	buff[1024];
+
   memset(buff, 0, 1024);
   if (recv(zappy->waiting[fd]->fd, buff, 1024, 0) <= 0)
     {
@@ -81,9 +90,9 @@ int	read_waitings(t_zappy *zappy, int fd)
   return (0);
 }
 
-void		write_waitings(t_zappy *zappy, int fd)
+void	write_waitings(t_zappy *zappy, int fd)
 {
-  t_tcp		*conn;
+  t_tcp	*conn;
 
   conn = zappy->waiting[fd];
   if (conn->out != NULL)

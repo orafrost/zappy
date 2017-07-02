@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 20 16:46:47 2017 kerma
-** Last update Mon Jun 26 19:58:35 2017 kerma
+** Last update Sun Jul  2 05:47:42 2017 kerma
 */
 
 #include "zappy.h"
@@ -23,7 +23,7 @@ static int	is_validname(char **av, int start, int current)
 
 static int	get_nb_teams(char **av, int i)
 {
-  int	nb;
+  int		nb;
 
   nb = 0;
   while (av[i] != NULL && av[i][0] != '-')
@@ -36,9 +36,9 @@ static int	get_nb_teams(char **av, int i)
 
 static int	stock_names(t_zappy *zappy, char **av, int *i)
 {
-  int	len;
-  int	ref;
-  int	k;
+  int		len;
+  int		ref;
+  int		k;
 
   k = 0;
   ref = *i + 1;

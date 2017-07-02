@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Mon Jun 26 22:13:34 2017 kerma
-** Last update Tue Jun 27 20:27:08 2017 kerma
+** Last update Sun Jul  2 05:41:49 2017 kerma
 */
 
 #include "zappy.h"
@@ -22,7 +22,7 @@ static t_buffer	*init_msg(char *msg)
   return (new);
 }
 
-void		free_buffer(t_buffer *buffer)
+void	free_buffer(t_buffer *buffer)
 {
   while (buffer != NULL)
     del_msg(&buffer);

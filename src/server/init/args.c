@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Tue Jun 20 14:30:23 2017 kerma
-** Last update Sat Jun 24 16:58:13 2017 kerma
+** Last update Fri Jun 30 20:58:51 2017 kerma
 */
 
 #include "zappy.h"
@@ -52,5 +52,6 @@ int		args(t_zappy *zappy, int ac, char **av)
       while (zappy->teams[i] != NULL)
 	zappy->teams[i++]->max = args.nb;
     }
+  zappy->food_conso = 126.0f / zappy->frequency;
   return (0);
 }

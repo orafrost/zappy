@@ -5,14 +5,15 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Mon Jun 26 20:39:26 2017 kerma
-** Last update Thu Jun 29 13:57:00 2017 kerma
+** Last update Sun Jul  2 03:36:06 2017 kerma
 */
 
 #ifndef STRUCT_H_
 # define STRUCT_H_
 
-# define MAX    (1024)
-# define NB_CMD	(1)
+# define MAX		(1024)
+# define NB_CMD		(12)
+# define WRONG_RESOURCE	(8)
 
 typedef struct	s_player	t_player;
 typedef struct	s_zappy		t_zappy;
@@ -39,24 +40,6 @@ typedef enum	e_resources
     THYSTAME	= 6
   }		e_resources;
 
-typedef enum	e_action
-  {
-    NONE	= -1,
-    MOVE	= 0,
-    TURN_RIGHT	= 1,
-    TURN_LEFT	= 2,
-    LOOK	= 3,
-    INVENTORY	= 4,
-    BROADCAST	= 5,
-    NB_TEAMS	= 6,
-    FORK	= 7,
-    EJECT	= 8,
-    DEATH	= 9,
-    TAKE	= 10,
-    SET		= 11,
-    START	= 12
-  }		e_action;
-
 typedef struct		s_buffer
 {
   char			*msg;
@@ -72,7 +55,7 @@ typedef struct	s_tcp
 
 typedef struct	s_action
 {
-  e_action	action;
+  cmds		response;
   char          *arg;
   time_t	start;
   float		dure;
@@ -88,6 +71,7 @@ typedef struct	s_player
   t_tcp		*client;
   t_action	action;
   e_dir		_dir;
+  time_t	time;
 }		t_player;
 
 typedef struct	s_team
@@ -104,6 +88,16 @@ typedef struct	s_teamRoot
   t_team	*players;
 }		t_teamRoot;
 
+typedef struct s_egg
+{
+  time_t	start;
+  char		*team;
+  int		id;
+  int		x;
+  int		y;
+  struct s_egg	*next;
+}		t_egg;
+
 typedef struct	s_tile
 {
   int		resources[7];
@@ -117,8 +111,10 @@ typedef struct	s_zappy
   int		port;
   int		nb_teams;
   int		frequency;
+  float		food_conso;
   t_teamRoot	**teams;
   t_tile	**map;
+  t_egg		*eggs;
   t_tcp		*server;
   t_tcp		*graphic;
   t_tcp		*waiting[MAX];

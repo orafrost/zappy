@@ -5,37 +5,29 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Mon Jun 26 23:47:11 2017 kerma
-** Last update Thu Jun 29 10:22:55 2017 kerma
+** Last update Sun Jul  2 06:06:26 2017 kerma
 */
 
 #include "zappy.h"
 
-int	place_end(char buff[])
+static int	cmd_parser(t_zappy *zappy, t_player *player, char buff[])
 {
-  int  a;
+  int		i;
+  char		*temp[2];
 
-  a = 0;
-  while (buff[a] != '\n' && buff[a] != '\0' && a < 1024)
-    a += 1;
-  if (buff[a] != '\n')
-    return (1);
-  buff[a] = '\0';
-  return (0);
-}
-
-int	cmd_parser(t_zappy *zappy, t_player *player, char buff[])
-{
-  int	i;
-  char  *temp[2];
-  
   i = 0;
   if ((temp[0] = strtok(buff, " ")) == NULL)
-    temp[0] = strtok(NULL, "\0");
+    if ((temp[0] = strtok(NULL, "\0")) == NULL)
+      {
+	add_msg(&player->client->out, "ko");
+	return (0);
+      }
   temp[1] = strtok(NULL, "\0");
-  while (i < NB_CMD)
+  while (player->action.response == NULL && i < NB_CMD)
     {
       if (strcmp(zappy->cmd_name[i], temp[0]) == 0)
 	{
+	  player->action.start = time(NULL);
 	  player->action.arg = temp[1];
 	  if (zappy->cmd[i](zappy, player) == ERROR)
 	    return (ERROR);
@@ -47,36 +39,54 @@ int	cmd_parser(t_zappy *zappy, t_player *player, char buff[])
   return (0);
 }
 
-int		client_read(t_zappy *zappy, t_team **player, int team_id)
+static int	cmd_split(t_zappy *zappy, t_team **ref, char buff[])
 {
-  char		buff[1024];
+  char		*temp;
+  int		init;
 
-  if (*player == NULL)
+  init = 0;
+  temp = strtok(buff, "\n");
+  while (temp != NULL)
+    {
+      init = 1;
+      if (cmd_parser(zappy, (*ref)->player, temp) == ERROR)
+	return (ERROR);
+      temp = strtok(NULL, "\n");
+    }
+  if (init == 0)
+    add_msg(&(*ref)->player->client->out, "ko");
+  return (0);
+}
+
+int	client_read(t_zappy *zappy, t_team **ref, int team_id)
+{
+  char	buff[1024];
+
+  if (*ref == NULL)
     return (0);
   memset(buff, 0, 1024);
-  if ((*player)->player->client->init == 0)
+  if ((*ref)->player->client->init == 0)
     {
-      (*player)->player->client->init = 1;
+      (*ref)->player->client->init = 1;
       return (0);
     }
-  if (recv((*player)->player->client->fd, buff, 1024, 0) <= 0)
+  if (recv((*ref)->player->client->fd, buff, 1024, 0) <= 0)
     {
-      zappy->teams[team_id]->nb--;
-      close((*player)->player->client->fd);
-      zappy->teams[team_id]->players =
-	del_elem(zappy->teams[team_id]->players, player);
+      memset(buff, 0, 1024);
+      sprintf(buff, "pdi %d", (*ref)->player->id);
+      if (zappy->graphic != NULL)
+	add_msg(&zappy->graphic->out, buff);
+      quit(zappy, ref, team_id);
       return (0);
     }
-  if (place_end(buff) == 1)
-    add_msg(&(*player)->player->client->out, "ko");
-  else if (cmd_parser(zappy, (*player)->player, buff) == ERROR)
+  if (cmd_split(zappy, ref, buff) == ERROR)
     return (ERROR);
   return (0);
 }
 
-void		client_write(t_team *player)
+void	client_write(t_team *player)
 {
-  t_tcp		*conn;
+  t_tcp	*conn;
 
   conn = player->player->client;
   if (player != NULL && conn->out != NULL)
