@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Sun Jul  2 12:20:39 2017 kerma
+// Last update Sun Jul  2 15:31:39 2017 Eric Amilhat
 //
 
 #include "Commands.hpp"
@@ -20,9 +20,8 @@ Commands::Commands() : _socket(NULL), _graphic(NULL)
   _cmd["ppo"] = &Commands::HandlerPPO;
   _cmd["plv"] = &Commands::HandlerPLV;
   _cmd["pbc"] = &Commands::HandlerPBC;  
-  // TODO delete this shit or handle this shit
-  // _cmd["pic"] = &Commands::HandlerPIC;  
-  // _cmd["pie"] = &Commands::HandlerPIE;  
+  _cmd["pic"] = &Commands::HandlerPIC;  
+  _cmd["pie"] = &Commands::HandlerPIE;  
 
   _cmd["pdr"] = &Commands::HandlerPDR;  
   _cmd["pgt"] = &Commands::HandlerPGT;  
@@ -249,7 +248,7 @@ void	Commands::HandlerPIC(const ARGS &arg)
 {
   if (_init["WELCOME"] == false)
     return ;
-  if (arg.size() < 3) {
+  if (arg.size() != 3) {
     Bufferized(arg);
     return ;
   }
@@ -268,7 +267,7 @@ void	Commands::HandlerPIE(const ARGS &arg)
 {
   if (_init["WELCOME"] == false)
     return ;
-  if (arg.size() < 3) {
+  if (arg.size() != 3) {
     Bufferized(arg);
     return ;
   }

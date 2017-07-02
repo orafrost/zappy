@@ -5,7 +5,7 @@
 // Login   <eric.amilhat@epitech.eu>
 // 
 // Started on  Tue Jun 20 14:09:49 2017 Eric Amilhat
-// Last update Sun Jul  2 11:47:39 2017 Eric Amilhat
+// Last update Sun Jul  2 15:10:03 2017 Eric Amilhat
 //
 
 #ifndef GRAPHIC_HPP_
@@ -86,6 +86,7 @@ typedef struct		s_assets
 {
   sf::Texture	        hoverT;
   sf::Texture		multipleT;
+  sf::Texture	        directionT;
   sf::Texture	        logoT;
   sf::Sprite		logo;
   sf::Texture	        cloudT;
@@ -102,6 +103,8 @@ typedef struct		s_assets
 class Graphic
 {
 private:
+  sf::ContextSettings settings;
+  std::vector<sf::Texture>  elevation;
   std::vector<sf::Texture>  textures;
   std::vector<sf::Texture>  texturesLarge;
   std::vector<std::vector<sf::Texture>>  characters;
@@ -126,6 +129,7 @@ private:
   void			drawMultiple(int x, int y);
   void			expandTile();
   void		        printInfo();
+  void			animateElevation(int x, int y, int n);
 public:
   Graphic();
   ~Graphic();
