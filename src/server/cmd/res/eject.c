@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Fri Jun 30 21:56:06 2017 kerma
-** Last update Sun Jul  2 06:04:45 2017 kerma
+** Last update Sun Jul  2 20:12:45 2017 kerma
 */
 
 #include "zappy.h"
@@ -14,12 +14,12 @@ void	move_player(t_zappy *zappy, e_dir dir, int *y, int *x)
 {
   if (dir == UP)
     {
-      if ((unsigned int)(*y += 1) <= 0)
+      if ((unsigned int)(*y -= 1) <= 0)
 	*y = zappy->height;
     }
   if (dir == DOWN)
     {
-      if ((unsigned int)(*y -= 1) >= zappy->height)
+      if ((unsigned int)(*y += 1) >= zappy->height)
 	*y = 0;
     }
   if (dir == LEFT)
@@ -34,39 +34,30 @@ void	move_player(t_zappy *zappy, e_dir dir, int *y, int *x)
     }
 }
 
-static int	get_k(t_player *cur, t_player *tmp)
+void	send_new_position(t_zappy *game, t_player *player)
 {
-  if (tmp->_dir == UP || tmp->_dir == DOWN)
-    return (tmp->_dir == UP ? cur->_dir : -cur->_dir);
-  if (tmp->_dir == LEFT)
-    {
-      if (cur->_dir == LEFT)
-	return (UP);
-      if (cur->_dir == RIGHT)
-	return (DOWN);
-      if (cur->_dir == UP)
-	return (RIGHT);
-      if (cur->_dir == DOWN)
-	return (LEFT);
-    }
-  if (tmp->_dir == RIGHT)
-    {
-      if (cur->_dir == LEFT)
-	return (DOWN);
-      if (cur->_dir == RIGHT)
-	return (UP);
-      if (cur->_dir == UP)
-	return (LEFT);
-      if (cur->_dir == DOWN)
-	return (RIGHT);
-    }
-  return (0);
+  char	buff[1024];
+
+  memset(buff, 0, 1024);
+  sprintf(buff, "ppo %d %d %d %d\n", player->id, player->x,
+	  player->y, player->_dir + 1);
+  if (game->graphic != NULL)
+    add_msg(&game->graphic->out, buff);
+}
+
+void	send_eject_msg(t_player *cur, t_player *player)
+{
+  char	buff[1024];
+
+  memset(buff, 0, 1024);
+  sprintf(buff, "eject: %d\n", get_k_eject(cur, player) + 1);
+  add_msg(&player->client->out, buff);
 }
 
 int		send_eject(t_zappy *game, t_player *cur, int *init)
 {
   t_team	*tmp;
-  char		buff[1024];
+  t_player	*player;
 
   tmp = game->map[cur->y][cur->x].player;
   while (tmp != NULL)
@@ -74,16 +65,19 @@ int		send_eject(t_zappy *game, t_player *cur, int *init)
       if (tmp->player != cur)
 	{
 	  *init = 1;
-	  memset(buff, 0, 1024);
+	  player = tmp->player;
 	  game->map[cur->y][cur->x].player =
 	    del_player(game->map[cur->y][cur->x].player, &tmp->player);
-	  move_player(game, cur->_dir, &tmp->player->y, &tmp->player->x);
-	  if (add_player(&game->map[tmp->player->y][tmp->player->x].player,
-			 tmp->player) == ERROR)
+	  tmp = NULL;
+	  move_player(game, cur->_dir, &player->y, &player->x);
+	  if (add_player(&game->map[player->y][player->x].player,
+			 player) == ERROR)
 	    return (ERROR);
-	  sprintf(buff, "eject: %d\n", get_k(cur, tmp->player) + 1);
-	  add_msg(&tmp->player->client->out, buff);
+	  send_eject_msg(cur, player);
+	  send_new_position(game, player);
 	}
+      if (tmp != NULL)
+	tmp = tmp->next;
     }
   return (0);
 }

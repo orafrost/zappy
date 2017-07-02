@@ -5,7 +5,7 @@
 ** Login   <orafrost@epitech.net>
 **
 ** Started on  Mon Jun  5 15:09:26 2017 guillame verrier
-** Last update Sun Jul  2 07:29:16 2017 kerma
+** Last update Sun Jul  2 20:03:29 2017 kerma
 */
 
 #ifndef ZAPPY_H_
@@ -93,6 +93,8 @@ int		res_forward(t_zappy *game, t_player *cur);
 int		res_inventory(t_zappy *game, t_player *cur);
 int		res_broadcast(t_zappy *game, t_player *cur);
 int		res_incantation(t_zappy *game, t_player *cur);
+
+int		get_k_eject(t_player *cur, t_player *tmp);
 
 void		send_map(t_zappy *zappy);
 void		send_teams(t_zappy *zappy);

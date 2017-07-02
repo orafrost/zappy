@@ -5,7 +5,7 @@
 ## Login   <kerma@epitech.net>
 ##
 ## Started on  Tue Jun 20 14:17:36 2017 kerma
-## Last update Sun Jul  2 17:01:08 2017 Eric Amilhat
+## Last update Sun Jul  2 20:20:37 2017 kerma
 ##
 
 NAME	= zappy_server
@@ -51,6 +51,7 @@ SRCS	= main.c			\
 	cmd/res/look_misc.c		\
 	cmd/res/forward.c		\
 	cmd/res/eject.c			\
+	cmd/res/eject_misc.c		\
 	cmd/res/utils.c			\
 	cmd/res/right.c			\
 	cmd/res/left.c			\
@@ -65,7 +66,7 @@ CFLAGS	+= -W			\
 	-Wall			\
 	-Werror			\
 	-Wextra			\
-	-I../../include -g3
+	-I../../include
 
 all: $(NAME)
 

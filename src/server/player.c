@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Fri Jun 30 23:25:54 2017 kerma
-** Last update Sun Jul  2 05:46:18 2017 kerma
+** Last update Sun Jul  2 19:31:03 2017 kerma
 */
 
 #include "zappy.h"
@@ -31,14 +31,15 @@ int		add_player(t_team **team, t_player *player)
   return (0);
 }
 
-void		free_player(t_team *start, t_player *node)
+void		free_player(t_team *start, t_player **node)
 {
   t_team	*tmp;
 
   tmp = start;
-  while (tmp->player != node)
+  while (tmp->player != *node)
     tmp = tmp->next;
   free(tmp);
+  tmp = NULL;
 }
 
 t_team		*del_player(t_team *start, t_player **elem)
@@ -52,7 +53,7 @@ t_team		*del_player(t_team *start, t_player **elem)
     {
       temp = start;
       start = start->next;
-      free_player(temp, *elem);
+      free_player(temp, elem);
       return (start);
     }
   temp = start;
@@ -62,7 +63,7 @@ t_team		*del_player(t_team *start, t_player **elem)
     {
       temp2 = temp->next;
       temp->next = temp->next->next;
-      free_player(temp2, *elem);
+      free_player(temp2, elem);
     }
   return (start);
 }
