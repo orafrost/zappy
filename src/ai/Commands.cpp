@@ -5,18 +5,12 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Sun Jul  2 15:13:49 2017 kerma
+// Last update Sun Jul  2 20:59:24 2017 kerma
 //
 
 #include "Commands.hpp"
 
-Commands::Commands() : _needResponse(false), _socket(NULL), _callback(NULL)
-{
-  _cmd["WELCOME"] = &Commands::HandlerWELCOME;
-
-  _init["WELCOME"] = false;
-}
-
+Commands::Commands() : _needResponse(false), _init(false), _socket(NULL) {}
 Commands::~Commands() {}
 
 void	Commands::SetAI(AI *ai)
@@ -27,64 +21,26 @@ void	Commands::SetAI(AI *ai)
 
 void	Commands::SetSocket(Socket *socket) { _socket = socket; }
 void	Commands::SetTeamName(const std::string &name) { _team = name; }
-void	Commands::SetCallback(CALLBACK callback) { _callback = callback; }
-
-void	Commands::Bufferized(const ARGS &arg)
-{
-  for (VCIT it = arg.begin(); it != arg.end(); ++it)
-    _tmp.push_back(*it);
-}
-
-std::string	Commands::ConcatARGS(const ARGS &arg, int i) const
-{
-  std::string	line;
-  
-  for (VCIT it = arg.begin() + i; it != arg.end(); ++it) {
-    line += *it;
-    if (it != arg.end() - 1)
-      line += " ";
-  }
-  return line;
-}
 
 void	Commands::CommandParser(const std::string &cmd)
 {
-  std::istringstream	iss(cmd);
-  std::string		line;
-  std::string		tmp;
-  ARGS			arg;
-
   if (_socket == NULL)
     return ;
 
-  while (!_tmp.empty()) {
-    arg.push_back(*(_tmp.begin()));
-    _tmp.erase(_tmp.begin());
-  }
-  while (std::getline(iss, line, '\n')) {
-    std::istringstream	liss(line);
-
-    while (liss >> tmp)
-      arg.push_back(tmp);
-    if (arg.empty())
-      return ;
-
-    for (MCIT it = _cmd.begin(); it != _cmd.end(); ++it) {
-      if (it->first == arg.front()) {
-	(this->*(_cmd[arg.front()]))(arg);
-      }
-    }
-    arg.clear();
+  Utils::TAB tab = _utils.Split(cmd);
+  for (Utils::TIT it = tab.begin(); it != tab.end(); ++it) {
+    if (*it == "WELCOME")
+      HandlerWELCOME();      
   }
 }
 
-void	Commands::HandlerWELCOME(const ARGS &arg)
+void	Commands::HandlerWELCOME()
 {
-  if (arg.size() != 1 || _init["WELCOME"] == true)
+  if (_init == true)
     return ;
 
   _socket->AddCommand(_team);
-  _init["WELCOME"] = true;
+  _init = true;
 }
 
 void	Commands::SendFORWARD() 

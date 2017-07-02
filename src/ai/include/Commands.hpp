@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:41:22 2017 kerma
-// Last update Sun Jul  2 15:14:24 2017 kerma
+// Last update Sun Jul  2 20:56:31 2017 kerma
 //
 
 #ifndef COMMANDS_HPP_
@@ -26,29 +26,16 @@ class	AI;
 
 class	Commands
 {
-  typedef std::vector<std::string>							ARGS;
-  typedef void (Commands::*CALLBACK)(const ARGS &);
-  typedef std::map<std::string, bool>							INIT;
-  typedef std::map<std::string, void (Commands::*)(const ARGS &)>			CMDS;
-
-  typedef std::vector<std::string>::const_iterator					VCIT;
-  typedef std::map<std::string, void (Commands::*)(const ARGS &)>::const_iterator	MCIT;
-
 private:
   bool		_needResponse;
   AI		*_ai;
-  CMDS		_cmd;
-  ARGS		_tmp;
-  INIT		_init;
+  bool		_init;
   Utils		_utils;
   Socket	*_socket;
-  CALLBACK	_callback;
   std::string	_team;
 
 private:
-  void		Bufferized(const ARGS &arg);
-  std::string	ConcatARGS(const ARGS &arg, int i) const;
-  void		HandlerWELCOME(const ARGS &arg);
+  void		HandlerWELCOME();
   
 public:
   void	        SendFORWARD();
@@ -65,7 +52,6 @@ public:
   void		SendINCANTATION() ;
 
 public:
-  void		SetCallback(CALLBACK callback);
   void		SetTeamName(const std::string &name);
   void		SetSocket(Socket *socket);
   void		SetAI(AI *ai);

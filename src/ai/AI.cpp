@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:40:38 2017 kerma
-// Last update Sun Jul  2 19:00:44 2017 Guillaume Verrier
+// Last update Sun Jul  2 20:48:13 2017 kerma
 //
 
 #include "AI.hpp"
@@ -101,19 +101,6 @@ int    AI::resource()
   if (high == true)
     return (1);
   return (2);
-}
-
-int AI::getSomme()
-{
-  int a;
-
-  a = findNbElem("linemate");
-  a += findNbElem("deraumere");
-  a += findNbElem("sibur");
-  a += findNbElem("mendiane");
-  a += findNbElem("phiras");
-  a += findNbElem("thystane");
-  return (a);
 }
 
 void AI::clean()

@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 19:26:29 2017 kerma
-// Last update Sun Jul  2 10:40:14 2017 kerma
+// Last update Sun Jul  2 20:43:02 2017 kerma
 //
 
 #include "Utils.hpp"
@@ -78,4 +78,23 @@ t_arg	Utils::ParsArg(int ac, char **av)
       i++;
     }
   return args;
+}
+
+Utils::TAB	Utils::Split(const std::string &str)
+{
+  TAB		tab;
+  SIT		it;
+  SIT		c;
+  std::string	chunk;
+
+
+  for (it = str.begin(); it != str.end(); ++it) {
+    for (c = it; *c != '\n' && c != str.end(); ++c)
+      chunk += *c;
+    tab.push_back(chunk);
+    chunk.clear();
+    if ((it = c) == str.end())
+      return tab;
+  }
+  return tab;
 }

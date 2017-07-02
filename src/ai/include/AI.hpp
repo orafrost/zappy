@@ -5,7 +5,7 @@
 // Login   <kerma@epitech.net>
 //
 // Started on  Wed Jun 28 17:41:22 2017 kerma
-// Last update Sun Jul  2 18:59:10 2017 Guillaume Verrier
+// Last update Sun Jul  2 20:48:25 2017 kerma
 //
 
 #ifndef AI_HPP_
@@ -54,7 +54,6 @@ private:
 public:
   void		SetSender(Commands *sender);
   int     findNbElem(std::string elem);
-  int     getSomme(); //OK
   int    resource();
   void    clean();
   void    forward(); // ok
