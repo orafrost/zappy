@@ -5,7 +5,7 @@
 ** Login   <kerma@epitech.net>
 **
 ** Started on  Fri Jun 30 21:56:06 2017 kerma
-** Last update Sun Jul  2 12:19:54 2017 kerma
+** Last update Sun Jul  2 15:33:17 2017 kerma
 */
 
 #include "zappy.h"
@@ -66,6 +66,9 @@ int	res_incantation(t_zappy *game, t_player *cur)
   if (test_players(game, cur, nb_players) == 1 ||
       test_resources(game, cur, resources) == 1)
     {
+      memset(buff, 0, 1024);
+      sprintf(buff, "pie %d %d", cur->x, cur->y);
+      add_msg(&game->graphic->out, buff);
       add_msg(&cur->client->out, "ko");
       return (0);
     }
