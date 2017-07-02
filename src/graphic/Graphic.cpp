@@ -13,20 +13,83 @@ Graphic::Graphic() : mapIsSized(false), spriteSize(0), frequency(0)
 {
   map.width = 0;
   map.height = 0;
-  assets.backgroundT.create(WINDOW_SIZE, WINDOW_SIZE);
   assets.hoverT.loadFromFile("./assets/hover.png");
-  assets.multipleT.loadFromFile("./assets/pikachu.png");
+
+  // Background creation
+
+  assets.backgroundT.loadFromFile("./assets/zappy_background.png");
   assets.background.setTexture(assets.backgroundT);
+  assets.background.setPosition(0,0);
+
+  // Cloud creation
+
+  assets.cloudT.loadFromFile("./assets/cloud2.png");
+  assets.cloud.setTexture(assets.cloudT);
+  assets.cloud.setPosition(0,0);
+  assets.c = 0;
+  assets.h = (rand() % WINDOW_SIZE) - (assets.cloudT.getSize().y / 2);
+
+  // Info background creation
+  
+  assets.infoBackgroundT.loadFromFile("./assets/info_background.png");
+  assets.infoBackground.setTexture(assets.infoBackgroundT);
+  assets.infoBackground.setPosition(WINDOW_SIZE, 00);
+
+  // ---------- LOGO creation
+  
+  assets.logoT.loadFromFile("./assets/logo.png");
+  assets.logo.setTexture(assets.logoT);
+  assets.logo.setPosition(WINDOW_SIZE + 5, 10);
+
+  // ---------- Characters creation
+
+  characters.resize(5);
+  
+  characters[0].resize(3);
+  characters[0][0].loadFromFile("./assets/Goku_0.png");
+  characters[0][1].loadFromFile("./assets/Goku_1.png");
+  characters[0][2].loadFromFile("./assets/Goku_2.png");
+
+  characters[1].resize(3);
+  characters[1][0].loadFromFile("./assets/Boo_0.png");
+  characters[1][1].loadFromFile("./assets/Boo_1.png");
+  characters[1][2].loadFromFile("./assets/Boo_2.png");
+
+  characters[2].resize(3);
+  characters[2][0].loadFromFile("./assets/Gohan_0.png");
+  characters[2][1].loadFromFile("./assets/Gohan_1.png");
+  characters[2][2].loadFromFile("./assets/Gohan_2.png");
+
+  characters[3].resize(3);
+  characters[3][0].loadFromFile("./assets/Frieza_0.png");
+  characters[3][1].loadFromFile("./assets/Frieza_1.png");
+  characters[3][2].loadFromFile("./assets/Frieza_2.png");
+
+  characters[4].resize(3);
+  characters[4][0].loadFromFile("./assets/Vegeta_0.png");
+  characters[4][1].loadFromFile("./assets/Vegeta_1.png");
+  characters[4][2].loadFromFile("./assets/Vegeta_2.png");
+  
+  assets.multipleT.loadFromFile("./assets/goku_1.png");
   assets.font.loadFromFile("./assets/font.ttf");
+
   textures.resize(8);
-  textures[e_resources::Food].loadFromFile("./assets/Food.png");
+  textures[e_resources::Food].loadFromFile("./assets/Food2.png");
   textures[e_resources::Linemate].loadFromFile("./assets/Linemate.png");
   textures[e_resources::Deraumere].loadFromFile("./assets/Deraumere.png");
   textures[e_resources::Sibur].loadFromFile("./assets/Sibur.png");
   textures[e_resources::Mendiane].loadFromFile("./assets/Mendiane.png");
   textures[e_resources::Phiras].loadFromFile("./assets/Phiras.png");
   textures[e_resources::Thystame].loadFromFile("./assets/Thystame.png");
-  textures[EMPTY].loadFromFile("./assets/empty.png");
+
+  texturesLarge.resize(8);
+  texturesLarge[e_resources::Food].loadFromFile("./assets/Food_large.png");
+  texturesLarge[e_resources::Linemate].loadFromFile("./assets/Linemate_large.png");
+  texturesLarge[e_resources::Deraumere].loadFromFile("./assets/Deraumere_large.png");
+  texturesLarge[e_resources::Sibur].loadFromFile("./assets/Sibur_large.png");
+  texturesLarge[e_resources::Mendiane].loadFromFile("./assets/Mendiane_large.png");
+  texturesLarge[e_resources::Phiras].loadFromFile("./assets/Phiras_large.png");
+  texturesLarge[e_resources::Thystame].loadFromFile("./assets/Thystame_large.png");
 }
   
 Graphic::~Graphic()
@@ -54,14 +117,19 @@ void	Graphic::expandTile()
 {
   int x = mouse.getPosition(window).x / spriteSize;
   int y = mouse.getPosition(window).y / spriteSize;
-  sf::Text text;
+
+  if (x >= map.width || y >= map.height)
+    return;
+
+  sf::Text		text;
   sf::RectangleShape	drawer;
-  
+  int			left;
+
   // Text
   text.setFont(assets.font);
   text.setCharacterSize(35);
-  text.setPosition(WINDOW_SIZE , 50);
-  text.setString("x = " + std::to_string(x) + "  y = " + std::to_string(y));
+  text.setPosition(WINDOW_SIZE  + 30, 200);
+  text.setString("Position:\nx = " + std::to_string(x) + "  y = " + std::to_string(y));
   window.draw(text);
 
   // Hover
@@ -72,27 +140,27 @@ void	Graphic::expandTile()
   window.draw(drawer);
   drawer.setFillColor(sf::Color(255, 255, 255, 255));
   
-  if (sumOfBlock(x, y) > 1)
+  int off = 0;
+  int off2 = 0;
+  for (int i = 0; i < 7; i++)
     {
-      int off = 0;
-      for (int i = 0; i < 7; i++)
+      left = map.arr[x][y].resources[i];
+      while (left != 0)
 	{
-	  if (map.arr[x][y].resources[i] != 0)
+	  drawer.setTexture(&(texturesLarge[i]));
+	  drawer.setPosition(WINDOW_SIZE + (off * 100),  400 + (off2 * 100));
+	  window.draw(drawer);
+	  off++;
+	  if (off == 5)
 	    {
-	      
-	      drawer.setTexture(&(textures[i]));
-	      drawer.setSize(sf::Vector2f(spriteSize, spriteSize));
-	      drawer.setPosition(WINDOW_SIZE + (off * spriteSize), 0);
-	      window.draw(drawer);
-	      off++;
+	      off2++;
+	      off = 0;
 	    }
-	    
+	  left--;
 	}
-      //std::cout << "here" << std::endl;
-    }
-    
+    }    
 }
-
+  
 void	Graphic::eventManager()
 {
   while (window.pollEvent(event))
@@ -123,9 +191,9 @@ void	Graphic::update()
     {
       eventManager();
       window.clear();
-      window.draw(assets.background);
       printMap();
       printPlayers();
+      printInfo();
       expandTile();
       window.display();      
     }
@@ -136,18 +204,18 @@ int	Graphic::sumOfBlock(int x, int y) const
   int	sum = 0;
   if (x >= map.width || y >= map.height || x < 0 || y < 0)
     return (0);
+  //if (map.arr[x][y].resources[0] > 0)
+  //sum++;
   for (int i = 0; i < 7;i++)
     sum += map.arr[x][y].resources[i];
   return (sum);
 }
 
-void                  Graphic::drawPlayer(t_player const & player, sf::Color color)
+void                  Graphic::drawPlayer(t_player const & player, int team)
 {
   sf::RectangleShape    drawer;
 
-
-  (void)color;
-  drawer.setTexture(&(assets.multipleT));
+  drawer.setTexture(&(characters[team][player.L / 2]));
   drawer.setSize(sf::Vector2f(spriteSize, spriteSize));
   drawer.setPosition(player.X * spriteSize, player.Y * spriteSize);
   window.draw(drawer);
@@ -155,13 +223,15 @@ void                  Graphic::drawPlayer(t_player const & player, sf::Color col
 
 void                  Graphic::printPlayers()
 {
+  int	i = 0;
   for (std::vector<t_team>::const_iterator it = teams.begin(); it != teams.end(); ++it)
     {
       for (std::vector<t_player>::const_iterator it2 = it->players.begin();
 	   it2 != it->players.end(); ++it2)
 	{
-	  drawPlayer(*it2, sf::Color(255, 0, 0));
+	  drawPlayer(*it2, i);
 	}
+      i++;
     }
 }
 
@@ -197,42 +267,63 @@ void	Graphic::drawMultipleSprites(int resource,int x , int y, int sum, int pos)
   window.draw(drawer);
 }
 
+void    Graphic::drawResource(int resource, int x , int y, int sum, int pos)
+{
+  sf::RectangleShape	drawer;
 
+  drawer.setTexture(&(textures[resource]));
+  drawer.setSize(sf::Vector2f(spriteSize, spriteSize));
+  drawer.setPosition((x * spriteSize) + spriteSize/2, (y * spriteSize) + spriteSize/2);
+  drawer.setOrigin(spriteSize/2, spriteSize/2);
+  drawer.setRotation(((360/sum) * pos) + (int)map.arr[x][y].n);
+  window.draw(drawer);
+}
 
+void    Graphic::printInfo()
+{
+  window.draw(assets.infoBackground);
+  window.draw(assets.logo);
+  
+}
+  
 void	Graphic::printMap()
 {
   int	sum;
   int	pos;
   int	left;
-  
+
+  window.draw(assets.background);
+  assets.c += 0.2f;
+  assets.cloud.setPosition((int)assets.c, assets.h);
+  window.draw(assets.cloud);
+  if (assets.c > assets.cloudT.getSize().x - WINDOW_SIZE)
+    {
+      assets.c = -3109;
+      assets.h = (rand() % WINDOW_SIZE) - (assets.cloudT.getSize().y / 2);
+    }
   for (int y = 0; y < map.height; y++)
     {
       for (int x = 0; x < map.width;x++)
 	{
-	  drawSprite(EMPTY, x, y);
 	  sum = sumOfBlock(x, y);
-	  if (sum == 1)
+	  pos = 0;
+	  map.arr[x][y].n += 0.2f;
+	  if (map.arr[x][y].n >= 360)
+	    map.arr[x][y].n = 0;
+	  /*if (map.arr[x][y].resources[0] > 0)
 	    {
-	      for (int i = 0;i < 7;i++)
-		{
-		  if (map.arr[x][y].resources[i] != 0)
-		    drawSprite((e_resources)i, x, y);
-		}
-	    }
-	  else if (sum > 1)
+	      drawResource(0, x, y, sum, pos);
+	      pos++;
+	    }*/
+	  for (int i = 0; i < 7;i++)
 	    {
-	      pos = 0;
-	      for (int i = 0; i < 7;i++)
+	      left = map.arr[x][y].resources[i];
+	      while (left != 0)
 		{
-		  left = map.arr[x][y].resources[i];
-		  while (left != 0)
-		    {
-		      drawMultipleSprites((e_resources)i, x, y, sum, pos);
-		      pos++;
-		      left--;
-		    }
+		  drawResource((e_resources)i, x, y, sum, pos);
+		  pos++;
+		  left--;
 		}
-	      //drawMultiple(x, y);
 	    }
 	}
     }
